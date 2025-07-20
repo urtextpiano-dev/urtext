@@ -132,50 +132,6 @@ export const useOSMD = (
   }>({ highlightCount: 0 });
 
 
-  // Wait for container to have valid dimensions (fixes race condition)
-  const waitForDimensions = useCallback((): Promise<void> => {
-    return new Promise<void>((resolve) => {
-      // Check if dimensions are already available
-      const rect = containerRef.current?.getBoundingClientRect();
-      if (rect && rect.width > 0 && rect.height > 0) {
-        perfLogger.debug(` Container ready: ${rect.width}x${rect.height}`);
-        resolve();
-        return;
-      }
-
-      // Use ResizeObserver to wait for valid dimensions instead of polling
-      perfLogger.debug(`⏳ Waiting for container dimensions... Current: ${rect?.width || 0}x${rect?.height || 0}`);
-      
-      let timeout: NodeJS.Timeout;
-      const observer = new ResizeObserver((entries) => {
-        for (const entry of entries) {
-          if (entry.contentRect.width > 0 && entry.contentRect.height > 0) {
-            perfLogger.debug(` Container ready via ResizeObserver: ${entry.contentRect.width}x${entry.contentRect.height}`);
-            observer.disconnect();
-            clearTimeout(timeout);
-            resolve();
-            break;
-          }
-        }
-      });
-      
-      // Observe the container
-      if (containerRef.current) {
-        observer.observe(containerRef.current);
-        
-        // Fallback timeout after 5 seconds to prevent infinite waiting
-        timeout = setTimeout(() => {
-          perfLogger.warn('Container dimension timeout - proceeding anyway');
-          observer.disconnect();
-          resolve();
-        }, 5000);
-      } else {
-        // No container to observe, resolve immediately
-        perfLogger.warn('No container to observe for dimensions');
-        resolve();
-      }
-    });
-  }, []);
 
   // Re-inject data-note-id attributes after OSMD re-renders
   const injectNoteIdAttributes = useCallback(() => {
@@ -270,7 +226,7 @@ export const useOSMD = (
 
   // Debounced zoom handler (stabilized with useMemo to prevent recreation)
   const debouncedZoomRender = useMemo(
-    () => debounce(renderWithZoom, 150),
+    () => debounce(renderWithZoom, 16),
     [renderWithZoom]
   );
 
@@ -280,8 +236,6 @@ export const useOSMD = (
     
     if (!containerRef.current || osmdRef.current) return;
 
-    // CRITICAL: Wait for actual container dimensions before proceeding
-    await waitForDimensions();
 
     try {
       setError(null);
@@ -334,7 +288,7 @@ export const useOSMD = (
       setError(error);
       perfLogger.error(' OSMD instance creation failed:', error);
     }
-  }, [waitForDimensions]);
+  }, []);
 
   // Build optimized note mapping for fast MIDI lookup (Code review:'s strategy)
   const buildNoteMapping = useCallback(() => {
@@ -898,7 +852,7 @@ export const useOSMD = (
       } catch (error) {
         perfLogger.error(' Resize render failed:', error instanceof Error ? error : new Error(String(error)));
       }
-    }, 150); // Reduced debounce for more responsive resizing
+    }, 16); // One frame delay (16ms) for instant resize at 60fps
   }, [isReady, autoShowCursor, injectNoteIdAttributes, zoomLevel]);
 
   // Setup ResizeObserver for responsive behavior

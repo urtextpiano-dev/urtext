@@ -54,7 +54,7 @@ export function PracticeSettings() {
     
     // Announce change for screen readers
     setAnnouncement(`Setting updated: ${key.replace(/([A-Z])/g, ' $1').toLowerCase()}`);
-    setTimeout(() => setAnnouncement(''), 1000);
+    setTimeout(() => setAnnouncement(''), 500);
   }, [settings, updateSettings]);
 
   // Export analytics data
@@ -68,7 +68,7 @@ export function PracticeSettings() {
       if (mockExport) {
         await mockExport(format);
         setExportStatus('success');
-        setTimeout(() => setExportStatus('idle'), 3000);
+        setTimeout(() => setExportStatus('idle'), 1500);
         return;
       }
       

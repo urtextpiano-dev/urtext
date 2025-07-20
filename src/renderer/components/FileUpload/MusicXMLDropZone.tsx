@@ -48,7 +48,7 @@ export const MusicXMLDropZone: React.FC<MusicXMLDropZoneProps> = ({
     
     if (!isValidFileType(file)) {
       setDragState('invalid');
-      setTimeout(() => setDragState('idle'), 2000);
+      setTimeout(() => setDragState('idle'), 750);
       return;
     }
     

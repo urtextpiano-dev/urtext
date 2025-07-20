@@ -75,8 +75,8 @@ export const useCursorScrollFollow = (osmd: any, isReady: boolean) => {
       };
     };
 
-    // Set up following after a brief delay to ensure cursor is ready
-    setTimeout(setupCursorFollowing, 100);
+    // Set up cursor following immediately
+    setupCursorFollowing();
 
   }, [osmd, isReady]);
 };
