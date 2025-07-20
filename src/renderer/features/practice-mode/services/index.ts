@@ -11,7 +11,7 @@ export { MusicalContextAnalyzer } from './MusicalContextAnalyzer';
 export { DynamicBreathingRoom, ConstantBreathingRoom } from './DynamicBreathingRoom';
 export { WorkerBasedContextProvider } from './WorkerBasedContextProvider';
 
-// Phase 1: Measure Repeat Services
+// Version Measure Repeat Services
 export { MeasureTimeline } from './MeasureTimeline';
 export { PracticeRepeatManager } from './PracticeRepeatManager';
 export type { IRepeatAdapter } from './PracticeRepeatManager';

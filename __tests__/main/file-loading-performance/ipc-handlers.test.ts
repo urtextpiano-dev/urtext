@@ -19,7 +19,7 @@ import { ipcMain } from 'electron';
 import { registerPerformanceHandlers } from '../../../src/main/ipc/performanceHandlers';
 import { performanceLogger } from '../../../src/main/utils/performanceLogger';
 
-describe('Phase 0: Performance IPC Handlers - Implementation Tests', () => {
+describe('Version Performance IPC Handlers - Implementation Tests', () => {
   let originalNodeEnv: string | undefined;
   
   beforeEach(() => {

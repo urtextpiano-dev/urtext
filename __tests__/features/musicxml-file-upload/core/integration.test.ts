@@ -40,7 +40,7 @@ jest.mock('unzipper');
   }
 };
 
-describe('Phase 1: Integration Tests - Complete File Upload Flow', () => {
+describe('Version Integration Tests - Complete File Upload Flow', () => {
   let ipcHandler: Function;
   
   beforeEach(() => {
@@ -102,7 +102,7 @@ describe('Phase 1: Integration Tests - Complete File Upload Flow', () => {
         expect(result.current.musicXML).toContain('<score-partwise>');
         expect(result.current.fileName).toBe('score.xml');
         expect(result.current.loadState).toBe('success');
-      }).rejects.toThrow('Phase 1: End-to-end integration not implemented yet');
+      }).rejects.toThrow('Version End-to-end integration not implemented yet');
     });
 
     test('should handle MXL file with proper async decompression', async () => {
@@ -155,7 +155,7 @@ describe('Phase 1: Integration Tests - Complete File Upload Flow', () => {
         expect(unzipper.Open.file).toHaveBeenCalledWith(path.resolve('/test/compressed.mxl'));
         expect(result.current.musicXML).toContain('MXL content');
         expect(result.current.fileName).toBe('compressed.mxl');
-      }).rejects.toThrow('Phase 1: MXL integration not implemented yet');
+      }).rejects.toThrow('Version MXL integration not implemented yet');
     });
   });
 
@@ -182,7 +182,7 @@ describe('Phase 1: Integration Tests - Complete File Upload Flow', () => {
         
         expect(result.current.loadState).toBe('error');
         expect(result.current.error).toContain('File too large');
-      }).rejects.toThrow('Phase 1: Error propagation not implemented yet');
+      }).rejects.toThrow('Version Error propagation not implemented yet');
     });
 
     test('should handle file system errors gracefully', async () => {
@@ -207,7 +207,7 @@ describe('Phase 1: Integration Tests - Complete File Upload Flow', () => {
         
         expect(result.current.loadState).toBe('error');
         expect(result.current.error).toContain('Permission denied');
-      }).rejects.toThrow('Phase 1: File system error handling not implemented yet');
+      }).rejects.toThrow('Version File system error handling not implemented yet');
     });
   });
 
@@ -249,7 +249,7 @@ describe('Phase 1: Integration Tests - Complete File Upload Flow', () => {
         const fileDate = new Date(result.current.recentFiles[0].date);
         const now = new Date();
         expect(now.getTime() - fileDate.getTime()).toBeLessThan(1000); // Within 1 second
-      }).rejects.toThrow('Phase 1: Recent files integration not implemented yet');
+      }).rejects.toThrow('Version Recent files integration not implemented yet');
     });
 
     test('should persist recent files across sessions', async () => {
@@ -290,7 +290,7 @@ describe('Phase 1: Integration Tests - Complete File Upload Flow', () => {
         
         expect(result2.current.recentFiles).toHaveLength(1);
         expect(result2.current.recentFiles[0].name).toBe('persist.xml');
-      }).rejects.toThrow('Phase 1: Persistence integration not implemented yet');
+      }).rejects.toThrow('Version Persistence integration not implemented yet');
     });
   });
 
@@ -342,7 +342,7 @@ describe('Phase 1: Integration Tests - Complete File Upload Flow', () => {
         // Should have processed all files in order
         expect(result.current.fileName).toBe('file3.xml');
         expect(fs.readFile).toHaveBeenCalledTimes(3);
-      }).rejects.toThrow('Phase 1: Queue integration not implemented yet');
+      }).rejects.toThrow('Version Queue integration not implemented yet');
     });
 
     test('should support cancellation of queued operations', async () => {
@@ -369,7 +369,7 @@ describe('Phase 1: Integration Tests - Complete File Upload Flow', () => {
         setTimeout(() => operation.cancel(), 50);
         
         await expect(operation).rejects.toThrow('Operation cancelled');
-      }).rejects.toThrow('Phase 1: Cancellation integration not implemented yet');
+      }).rejects.toThrow('Version Cancellation integration not implemented yet');
     });
   });
 
@@ -402,7 +402,7 @@ describe('Phase 1: Integration Tests - Complete File Upload Flow', () => {
         });
         
         expect(fs.readFile).toHaveBeenCalledWith(normalizedPath, 'utf-8');
-      }).rejects.toThrow('Phase 1: Cross-platform path handling not implemented yet');
+      }).rejects.toThrow('Version Cross-platform path handling not implemented yet');
     });
   });
 
@@ -439,7 +439,7 @@ describe('Phase 1: Integration Tests - Complete File Upload Flow', () => {
         
         // Verify no UI blocking
         expect(result.current.loadState).toBe('success');
-      }).rejects.toThrow('Phase 1: Performance requirements not met yet');
+      }).rejects.toThrow('Version Performance requirements not met yet');
     });
   });
 });

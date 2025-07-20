@@ -85,12 +85,12 @@ export const MeasureRangeSelector: React.FC<MeasureRangeSelectorProps> = ({
     
     const start = parseInt(value, 10);
     
-    // Handle NaN case (per Grok3)
+    // Handle NaN case (per Code review:)
     if (isNaN(start)) {
       return;
     }
     
-    // Check MAX_SAFE_INTEGER (per Grok3)
+    // Check MAX_SAFE_INTEGER (per Code review:)
     if (start > Number.MAX_SAFE_INTEGER) {
       return;
     }
@@ -112,12 +112,12 @@ export const MeasureRangeSelector: React.FC<MeasureRangeSelectorProps> = ({
     
     const end = parseInt(value, 10);
     
-    // Handle NaN case (per Grok3)
+    // Handle NaN case (per Code review:)
     if (isNaN(end)) {
       return;
     }
     
-    // Check MAX_SAFE_INTEGER (per Grok3)
+    // Check MAX_SAFE_INTEGER (per Code review:)
     if (end > Number.MAX_SAFE_INTEGER) {
       return;
     }
@@ -151,7 +151,7 @@ export const MeasureRangeSelector: React.FC<MeasureRangeSelectorProps> = ({
       return;
     }
     
-    // Ctrl+M: Toggle custom range (changed from Ctrl+R per Grok3 feedback)
+    // Ctrl+M: Toggle custom range (changed from Ctrl+R per Code review: feedback)
     if (e.ctrlKey && e.key === 'm') {
       e.preventDefault();
       toggleCustomRange();
@@ -189,7 +189,7 @@ export const MeasureRangeSelector: React.FC<MeasureRangeSelectorProps> = ({
       window.addEventListener('keydown', handleKeyDown);
     }
     
-    // Cleanup function to prevent memory leaks (per Grok3 critical feedback)
+    // Cleanup function to prevent memory leaks (per Code review: critical feedback)
     return () => {
       if (container) {
         container.removeEventListener('keydown', handleKeyDown as any);

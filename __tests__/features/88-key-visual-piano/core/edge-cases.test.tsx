@@ -8,7 +8,7 @@ import { render, screen, within } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { PianoKeyboard } from '@/renderer/components/PianoKeyboard';
 
-describe('Phase 1: Critical Edge Cases - Based on AI Validation', () => {
+describe('Version Critical Edge Cases - Based on AI Validation', () => {
   describe('Grid Gap Resilience', () => {
     test('should maintain black key positioning with grid gap', () => {
       // Test that black keys align correctly even with CSS grid-gap

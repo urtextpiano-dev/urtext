@@ -1,10 +1,6 @@
 /**
  * CRITICAL Performance Tests: MIDI Latency
  * 
- * TDD CYCLE REMINDER:
- * 1. RED: Run these tests - they should fail with "not implemented" errors
- * 2. GREEN: Optimize implementation to meet latency requirements
- * 3. REFACTOR: Further optimize while maintaining <20ms latency
  * 
  * CRITICAL REQUIREMENT: MIDI input to audio output <20ms
  */
@@ -17,7 +13,7 @@ import { renderHook, act } from '@testing-library/react';
 // import { usePracticeStore } from '@/renderer/features/practice-mode/stores/practiceStore';
 // import { MeasureTimeline } from '@/renderer/features/practice-mode/services/MeasureTimeline';
 
-// CRITICAL: Performance budget clarification (AI consensus)
+// CRITICAL: Performance budget clarification (Code review:)
 const PERFORMANCE_BUDGETS = {
   TOTAL_MIDI_LATENCY: 20,      // ms - Critical requirement (MIDI input to audio output)
   RANGE_CHECK_OVERHEAD: 1,      // ms - Additional overhead for custom range checking

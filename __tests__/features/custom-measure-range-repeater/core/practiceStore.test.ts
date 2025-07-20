@@ -1,10 +1,6 @@
 /**
- * Phase 1: Practice Store Extension Tests
+ * Version Practice Store Extension Tests
  * 
- * TDD CYCLE REMINDER:
- * 1. RED: Run these tests - they should fail with "not implemented" errors
- * 2. GREEN: Extend practiceStore following phase-1-mvp-core.md
- * 3. REFACTOR: Improve store while keeping tests green
  * 
  * PERFORMANCE TARGET: Store operations <10ms
  */
@@ -15,7 +11,7 @@ import { act, renderHook } from '@testing-library/react';
 // Import will fail initially - this drives implementation
 // import { usePracticeStore } from '@/renderer/features/practice-mode/stores/practiceStore';
 
-describe('Phase 1: Practice Store Custom Range Extension', () => {
+describe('Version Practice Store Custom Range Extension', () => {
   // Mock performance.now for timing tests
   const mockPerformance = {
     now: jest.fn(() => 1000)
@@ -55,11 +51,11 @@ describe('Phase 1: Practice Store Custom Range Extension', () => {
         expect(typeof store.setCustomRange).toBe('function');
         expect(typeof store.toggleCustomRange).toBe('function');
         expect(typeof store.clearCustomRange).toBe('function');
-      }).toThrow('Phase 1: Practice store custom range extension not implemented');
+      }).toThrow('Version Practice store custom range extension not implemented');
     });
 
-    test('should initialize with TypeScript-safe defaults (AI consensus)', () => {
-      // O3 + GPT-4.1 requirement: explicit defaults prevent undefined errors
+    test('should initialize with TypeScript-safe defaults (Code review:)', () => {
+      // Code review: + Code review:.1 requirement: explicit defaults prevent undefined errors
       expect(() => {
         const { usePracticeStore } = require('@/renderer/features/practice-mode/stores/practiceStore');
         const initialState = usePracticeStore.getState();
@@ -73,7 +69,7 @@ describe('Phase 1: Practice Store Custom Range Extension', () => {
         expect(typeof initialState.customRangeActive).toBe('boolean');
         expect(typeof initialState.customStartMeasure).toBe('number');
         expect(typeof initialState.customEndMeasure).toBe('number');
-      }).toThrow('Phase 1: Safe initialization not implemented');
+      }).toThrow('Version Safe initialization not implemented');
     });
   });
 
@@ -89,11 +85,11 @@ describe('Phase 1: Practice Store Custom Range Extension', () => {
         
         expect(result.current.customStartMeasure).toBe(3);
         expect(result.current.customEndMeasure).toBe(7);
-      }).toThrow('Phase 1: setCustomRange action not implemented');
+      }).toThrow('Version setCustomRange action not implemented');
     });
 
-    test('should reject invalid ranges with store-level validation (AI consensus)', () => {
-      // GPT-4.1 + O3 requirement: store-level validation prevents invalid state
+    test('should reject invalid ranges with store-level validation (Code review:)', () => {
+      // Code review:.1 + Code review: requirement: store-level validation prevents invalid state
       expect(() => {
         const { usePracticeStore } = require('@/renderer/features/practice-mode/stores/practiceStore');
         const { result } = renderHook(() => usePracticeStore());
@@ -123,10 +119,10 @@ describe('Phase 1: Practice Store Custom Range Extension', () => {
         );
         
         consoleSpy.mockRestore();
-      }).toThrow('Phase 1: Store-level validation not implemented');
+      }).toThrow('Version Store-level validation not implemented');
     });
 
-    // CRITICAL: Store guard against invalid range activation (AI: ChatGPT o3)
+    // CRITICAL: Store guard against invalid range activation (Code review: Code review: o3)
     test('should prevent activating invalid range programmatically', () => {
       expect(() => {
         const { usePracticeStore } = require('@/renderer/features/practice-mode/stores/practiceStore');
@@ -138,7 +134,7 @@ describe('Phase 1: Practice Store Custom Range Extension', () => {
         });
         
         expect(result.current.customRangeActive).toBe(false);
-      }).toThrow('Phase 1: Store guard for invalid range activation not implemented');
+      }).toThrow('Version Store guard for invalid range activation not implemented');
     });
 
     test('should complete within performance budget (<10ms)', () => {
@@ -154,7 +150,7 @@ describe('Phase 1: Practice Store Custom Range Extension', () => {
         
         const duration = performance.now() - startTime;
         expect(duration).toBeLessThan(10); // <10ms budget for store operations
-      }).toThrow('Phase 1: setCustomRange performance test not implemented');
+      }).toThrow('Version setCustomRange performance test not implemented');
     });
   });
 
@@ -177,7 +173,7 @@ describe('Phase 1: Practice Store Custom Range Extension', () => {
         });
         
         expect(result.current.customRangeActive).toBe(false);
-      }).toThrow('Phase 1: toggleCustomRange action not implemented');
+      }).toThrow('Version toggleCustomRange action not implemented');
     });
 
     test('should preserve range values when toggling', () => {
@@ -201,7 +197,7 @@ describe('Phase 1: Practice Store Custom Range Extension', () => {
         expect(result.current.customRangeActive).toBe(false);
         expect(result.current.customStartMeasure).toBe(5); // Should preserve
         expect(result.current.customEndMeasure).toBe(12); // Should preserve
-      }).toThrow('Phase 1: toggle state preservation not implemented');
+      }).toThrow('Version toggle state preservation not implemented');
     });
   });
 
@@ -229,7 +225,7 @@ describe('Phase 1: Practice Store Custom Range Extension', () => {
         expect(result.current.customRangeActive).toBe(false);
         expect(result.current.customStartMeasure).toBe(1);
         expect(result.current.customEndMeasure).toBe(1);
-      }).toThrow('Phase 1: clearCustomRange action not implemented');
+      }).toThrow('Version clearCustomRange action not implemented');
     });
   });
 
@@ -249,7 +245,7 @@ describe('Phase 1: Practice Store Custom Range Extension', () => {
         expect(result.all.length).toBeGreaterThan(initialRenderCount);
         expect(result.current.customStartMeasure).toBe(3);
         expect(result.current.customEndMeasure).toBe(8);
-      }).toThrow('Phase 1: Store re-render integration not implemented');
+      }).toThrow('Version Store re-render integration not implemented');
     });
 
     test('should maintain existing practice store functionality', () => {
@@ -265,7 +261,7 @@ describe('Phase 1: Practice Store Custom Range Extension', () => {
         // Existing actions should remain available
         expect(typeof store.setStatus).toBe('function');
         expect(typeof store.setCurrentStep).toBe('function');
-      }).toThrow('Phase 1: Existing store functionality preservation not verified');
+      }).toThrow('Version Existing store functionality preservation not verified');
     });
   });
 
@@ -292,7 +288,7 @@ describe('Phase 1: Practice Store Custom Range Extension', () => {
         expect(rangeActive).toBeDefined();
         expect(startMeasure).toBeDefined();
         expect(endMeasure).toBeDefined();
-      }).toThrow('Phase 1: TypeScript interface not implemented');
+      }).toThrow('Version TypeScript interface not implemented');
     });
   });
 
@@ -320,13 +316,13 @@ describe('Phase 1: Practice Store Custom Range Extension', () => {
         
         expect(consoleSpy).toHaveBeenCalled();
         consoleSpy.mockRestore();
-      }).toThrow('Phase 1: Edge case handling not implemented');
+      }).toThrow('Version Edge case handling not implemented');
     });
   });
 });
 
 // Performance verification for Phase 1
-describe('Phase 1: Store Performance Requirements', () => {
+describe('Version Store Performance Requirements', () => {
   test('should maintain Urtext Piano performance standards', () => {
     expect(() => {
       const { usePracticeStore } = require('@/renderer/features/practice-mode/stores/practiceStore');
@@ -344,6 +340,6 @@ describe('Phase 1: Store Performance Requirements', () => {
       
       // 100 operations should complete in <50ms total
       expect(duration).toBeLessThan(50);
-    }).toThrow('Phase 1: Performance requirements not met');
+    }).toThrow('Version Performance requirements not met');
   });
 });

@@ -1,5 +1,5 @@
 /**
- * Phase 2: Score Warning for Repeats Tests
+ * Version Score Warning for Repeats Tests
  * 
  * Requirements:
  * - Detect musical repeats in sheet music
@@ -23,7 +23,7 @@ import { useOSMD } from '@/renderer/hooks/useOSMD';
 jest.mock('@/renderer/features/practice-mode/stores/practiceStore');
 jest.mock('@/renderer/hooks/useOSMD');
 
-describe('Phase 2: Score Warning for Repeats', () => {
+describe('Version Score Warning for Repeats', () => {
   let mockPracticeStore: any;
   let mockOSMD: any;
   let mockOnProceed: jest.Mock;

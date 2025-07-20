@@ -33,7 +33,7 @@ jest.mock('@/renderer/utils/accessibility', () => ({
   announceToScreenReader: jest.fn()
 }));
 
-describe('Phase 3: useKeyboardShortcuts - Repeat Feature Integration Tests', () => {
+describe('Version useKeyboardShortcuts - Repeat Feature Integration Tests', () => {
   let mockToggleRepeat: jest.Mock;
   let mockAnnounceToScreenReader: jest.Mock;
   let mockUsePracticeController: jest.Mock;

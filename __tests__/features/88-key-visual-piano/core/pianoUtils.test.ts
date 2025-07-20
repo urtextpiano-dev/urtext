@@ -6,7 +6,7 @@
 import { describe, test, expect } from '@jest/globals';
 import { PianoKeyData, generatePianoKeys } from '@/renderer/utils/pianoUtils';
 
-describe('Phase 1: Piano Key Data Generation', () => {
+describe('Version Piano Key Data Generation', () => {
   describe('Core Requirements', () => {
     test('should generate exactly 88 keys', () => {
       const keys = generatePianoKeys();

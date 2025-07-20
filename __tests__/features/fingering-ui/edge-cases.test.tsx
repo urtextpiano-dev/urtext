@@ -1,5 +1,5 @@
 // Additional edge case tests based on AI validation feedback
-// These tests address critical scenarios identified by Gemini and Grok3
+// These tests address critical scenarios identified by Gemini and Code review:
 
 import { describe, test, expect, beforeEach, jest, afterEach } from '@jest/globals';
 import { render, screen, waitFor } from '@testing-library/react';
@@ -155,7 +155,7 @@ describe('Edge Cases: State Persistence and Race Conditions', () => {
     });
   });
 
-  describe('Rapid Toggle Race Conditions (Grok3 Feedback)', () => {
+  describe('Rapid Toggle Race Conditions (Code review: Feedback)', () => {
     test('should debounce rapid edit mode toggles', async () => {
       const user = userEvent.setup();
       
@@ -204,7 +204,7 @@ describe('Edge Cases: State Persistence and Race Conditions', () => {
     });
   });
 
-  describe('Memory Leak Prevention (Grok3 Feedback)', () => {
+  describe('Memory Leak Prevention (Code review: Feedback)', () => {
     test('should clean up store subscriptions on unmount', () => {
       const unsubscribe = jest.fn();
       const subscribe = jest.fn(() => unsubscribe);
@@ -233,7 +233,7 @@ describe('Edge Cases: State Persistence and Race Conditions', () => {
     });
   });
 
-  describe('Unsaved Changes Protection (Grok3 Feedback)', () => {
+  describe('Unsaved Changes Protection (Code review: Feedback)', () => {
     test('should warn user about unsaved changes when switching modes', async () => {
       const user = userEvent.setup();
       mockFingeringStore.hasUnsavedChanges = true;

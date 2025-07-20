@@ -10,7 +10,7 @@ import { MusicXMLTempoExtractor, XMLTempoEvent } from '@/main/parsers/musicXMLTe
 // import { processFile } from '@/main/workers/fileProcessor';
 import { XMLTempoEvent as XMLTempoEventType } from '@/common/types';
 
-describe('Phase 2: XML Tempo Extraction - Implementation Tests', () => {
+describe('Version XML Tempo Extraction - Implementation Tests', () => {
   const unSospiroXML = `<?xml version="1.0" encoding="UTF-8"?>
 <score-partwise>
   <part id="P1">
@@ -122,7 +122,7 @@ describe('Phase 2: XML Tempo Extraction - Implementation Tests', () => {
         // expect(tempos[0].offset).toBeUndefined(); // No offset means start of measure
         // expect(tempos[1].offset).toBe(384);
         // expect(tempos[2].offset).toBe(768);
-      }).toThrow('Phase 2: Offset parsing - not implemented yet');
+      }).toThrow('Version Offset parsing - not implemented yet');
     });
 
     test('should validate offset values are non-negative and reasonable', () => {
@@ -151,7 +151,7 @@ describe('Phase 2: XML Tempo Extraction - Implementation Tests', () => {
         
         // Huge offset should be capped at 10000
         // expect(tempos[1].offset).toBe(10000);
-      }).toThrow('Phase 2: Offset validation - not implemented yet');
+      }).toThrow('Version Offset validation - not implemented yet');
     });
   });
 
@@ -182,7 +182,7 @@ describe('Phase 2: XML Tempo Extraction - Implementation Tests', () => {
         
         // expect(duration).toBeLessThan(100); // <100ms
         // expect(tempos.length).toBeGreaterThan(0);
-      }).toThrow('Phase 2: Performance test - not implemented yet');
+      }).toThrow('Version Performance test - not implemented yet');
     });
 
     test('should limit to 1000 tempos maximum', () => {
@@ -207,7 +207,7 @@ describe('Phase 2: XML Tempo Extraction - Implementation Tests', () => {
         
         // Should cap at 1000 for safety
         // expect(tempos).toHaveLength(1000);
-      }).toThrow('Phase 2: Tempo limit - not implemented yet');
+      }).toThrow('Version Tempo limit - not implemented yet');
     });
   });
 
@@ -226,7 +226,7 @@ describe('Phase 2: XML Tempo Extraction - Implementation Tests', () => {
         // expect(result.success).toBe(true);
         // expect(result.tempoData).toBeDefined();
         // expect(result.tempoData).toHaveLength(3);
-      }).toThrow('Phase 2: Worker integration - not implemented yet');
+      }).toThrow('Version Worker integration - not implemented yet');
     });
 
     test('should add minimal overhead to file processing', () => {
@@ -241,7 +241,7 @@ describe('Phase 2: XML Tempo Extraction - Implementation Tests', () => {
         
         // Tempo extraction should add <50ms
         // expect(totalTime - baselineTime).toBeLessThan(50);
-      }).toThrow('Phase 2: Processing overhead - not implemented yet');
+      }).toThrow('Version Processing overhead - not implemented yet');
     });
 
     test('should update WorkerResult type to include tempoData', () => {
@@ -259,7 +259,7 @@ describe('Phase 2: XML Tempo Extraction - Implementation Tests', () => {
         // };
         
         // expect(result.tempoData).toBeDefined();
-      }).toThrow('Phase 2: WorkerResult type - not implemented yet');
+      }).toThrow('Version WorkerResult type - not implemented yet');
     });
   });
 
@@ -285,7 +285,7 @@ describe('Phase 2: XML Tempo Extraction - Implementation Tests', () => {
         
         // Should return empty array or partial results
         // expect(Array.isArray(tempos)).toBe(true);
-      }).toThrow('Phase 2: Malformed XML handling - not implemented yet');
+      }).toThrow('Version Malformed XML handling - not implemented yet');
     });
 
     test('should handle missing tempo attributes', () => {
@@ -309,7 +309,7 @@ describe('Phase 2: XML Tempo Extraction - Implementation Tests', () => {
         
         // Should return empty array
         // expect(tempos).toHaveLength(0);
-      }).toThrow('Phase 2: Missing tempo handling - not implemented yet');
+      }).toThrow('Version Missing tempo handling - not implemented yet');
     });
   });
 
@@ -322,7 +322,7 @@ describe('Phase 2: XML Tempo Extraction - Implementation Tests', () => {
         // expect(tempos[0].text).toBe('Andantino');
         // expect(tempos[1].text).toBe('Moderato');
         // expect(tempos[2].text).toBe('Allegro');
-      }).toThrow('Phase 2: Text extraction - not implemented yet');
+      }).toThrow('Version Text extraction - not implemented yet');
     });
 
     test('should handle various text element formats', () => {
@@ -352,7 +352,7 @@ describe('Phase 2: XML Tempo Extraction - Implementation Tests', () => {
         
         // expect(tempos[0].text).toBe('Allegro ma non troppo');
         // expect(tempos[1].text).toBe('Andante');
-      }).toThrow('Phase 2: Text format handling - not implemented yet');
+      }).toThrow('Version Text format handling - not implemented yet');
     });
   });
 
@@ -379,7 +379,7 @@ describe('Phase 2: XML Tempo Extraction - Implementation Tests', () => {
         
         // Should handle both parts
         // expect(tempos).toHaveLength(2);
-      }).toThrow('Phase 2: Array handling - not implemented yet');
+      }).toThrow('Version Array handling - not implemented yet');
     });
 
     test('should not process files larger than 1MB in streaming mode', () => {
@@ -393,7 +393,7 @@ describe('Phase 2: XML Tempo Extraction - Implementation Tests', () => {
         // In streaming mode, tempo extraction is skipped
         // const result = await processFile(largeFile);
         // expect(result.tempoData).toBeUndefined();
-      }).toThrow('Phase 2: Streaming mode constraint - not implemented yet');
+      }).toThrow('Version Streaming mode constraint - not implemented yet');
     });
   });
 });

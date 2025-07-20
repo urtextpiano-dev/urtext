@@ -19,7 +19,7 @@ try {
   // Not implemented yet - expected for TDD
 }
 
-describe('Phase 2: TempoPreview Component', () => {
+describe('Version TempoPreview Component', () => {
   const mockOnTempoOverride = jest.fn();
   
   beforeEach(() => {

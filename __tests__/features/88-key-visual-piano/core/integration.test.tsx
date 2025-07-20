@@ -11,7 +11,7 @@ import '@testing-library/jest-dom';
 // Import the actual components (not mocked for integration tests)
 import { PianoKeyboard } from '@/renderer/components/PianoKeyboard';
 
-describe('Phase 1: Integration Tests - 88-Key Visual Piano', () => {
+describe('Version Integration Tests - 88-Key Visual Piano', () => {
   describe('Full Component Integration', () => {
     test('should render complete 88-key piano', () => {
       render(<PianoKeyboard />);

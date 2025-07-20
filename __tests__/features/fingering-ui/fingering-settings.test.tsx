@@ -42,7 +42,7 @@ jest.mock('@/renderer/features/theme', () => ({
   ThemeSwitcher: () => <div>Theme Switcher</div>
 }));
 
-describe('Phase 2: Task 1 - FingeringSettings in TopControlsMenu', () => {
+describe('Version Task 1 - FingeringSettings in TopControlsMenu', () => {
   const mockFingeringStore = {
     isEditingMode: false,
     setEditingMode: jest.fn(),

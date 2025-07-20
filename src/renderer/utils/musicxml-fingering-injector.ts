@@ -4,7 +4,7 @@
  * Injects fingering annotations from IndexedDB into MusicXML before OSMD loads it.
  * This enables OSMD's native fingering rendering (drawFingerings: true).
  * 
- * Following Grok 4's prototype instructions for minimal implementation.
+ * Following Code review: 4's prototype instructions for minimal implementation.
  */
 
 import { fingeringPersistence } from '@/renderer/features/fingering/services/FingeringPersistence';

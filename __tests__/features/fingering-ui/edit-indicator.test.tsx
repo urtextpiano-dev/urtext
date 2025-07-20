@@ -14,7 +14,7 @@ import { FingeringEditIndicator } from '@/renderer/components/FingeringEditIndic
 // Mock the fingering store
 jest.mock('@/renderer/features/fingering/hooks/useFingeringStore');
 
-describe('Phase 2: Task 2 - FingeringEditIndicator Component', () => {
+describe('Version Task 2 - FingeringEditIndicator Component', () => {
   const mockFingeringStore = {
     isEditingMode: false
   };

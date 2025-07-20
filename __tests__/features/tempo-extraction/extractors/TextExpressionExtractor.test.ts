@@ -20,7 +20,7 @@ try {
   // Not implemented yet - expected for TDD
 }
 
-describe('Phase 2: TextExpressionExtractor', () => {
+describe('Version TextExpressionExtractor', () => {
   let mockAdapter: any;
   let extractor: any;
   

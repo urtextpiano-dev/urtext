@@ -1,5 +1,5 @@
 /**
- * Phase 1: MVP Core - Basic OSMD Rendering Tests
+ * Version MVP Core - Basic OSMD Rendering Tests
  * 
  * TDD Cycle Reminder:
  * 1. RED: Run these tests - they should fail
@@ -14,7 +14,7 @@ import { describe, test, expect, beforeEach, jest } from '@jest/globals';
 // import { SheetMusic } from '@/renderer/components/SheetMusic';
 // import { OpenSheetMusicDisplay } from 'opensheetmusicdisplay';
 
-describe('Phase 1: MVP Core - Basic OSMD Rendering', () => {
+describe('Version MVP Core - Basic OSMD Rendering', () => {
   beforeEach(() => {
     localStorage.clear();
     jest.clearAllMocks();
@@ -26,7 +26,7 @@ describe('Phase 1: MVP Core - Basic OSMD Rendering', () => {
         // @ts-expect-error - Will be implemented
         const pkg = require('@/package.json');
         expect(pkg.dependencies['opensheetmusicdisplay']).toBe('1.9.0');
-      }).toThrow('Phase 1: OSMD dependency not installed');
+      }).toThrow('Version OSMD dependency not installed');
     });
 
     test('should NOT have @types/vexflow installed', () => {
@@ -34,7 +34,7 @@ describe('Phase 1: MVP Core - Basic OSMD Rendering', () => {
         // @ts-expect-error - Will be implemented
         const pkg = require('@/package.json');
         expect(pkg.devDependencies?.['@types/vexflow']).toBeUndefined();
-      }).toThrow('Phase 1: Dependencies not configured');
+      }).toThrow('Version Dependencies not configured');
     });
 
     test('should have TypeScript recognize OSMD types', () => {
@@ -42,7 +42,7 @@ describe('Phase 1: MVP Core - Basic OSMD Rendering', () => {
         // @ts-expect-error - Will be implemented
         const osmd: OpenSheetMusicDisplay = new OpenSheetMusicDisplay('container');
         expect(osmd).toBeDefined();
-      }).toThrow('Phase 1: OSMD types not accessible');
+      }).toThrow('Version OSMD types not accessible');
     });
   });
 
@@ -54,7 +54,7 @@ describe('Phase 1: MVP Core - Basic OSMD Rendering', () => {
         expect(status).toBe('IDLE');
         expect(error).toBeUndefined();
         expect(imperativeApi).toBeDefined();
-      }).toThrow('Phase 1: useOSMD hook not implemented');
+      }).toThrow('Version useOSMD hook not implemented');
     });
 
     test('should configure OSMD with SVG backend', () => {
@@ -73,7 +73,7 @@ describe('Phase 1: MVP Core - Basic OSMD Rendering', () => {
             pageFormat: 'Endless'
           })
         );
-      }).toThrow('Phase 1: OSMD configuration not implemented');
+      }).toThrow('Version OSMD configuration not implemented');
     });
 
     test('should implement ResizeObserver with loop protection', () => {
@@ -89,7 +89,7 @@ describe('Phase 1: MVP Core - Basic OSMD Rendering', () => {
         
         // Should throttle to max 5 resizes/sec
         expect(imperativeApi._resizeCount).toBeLessThan(6);
-      }).toThrow('Phase 1: ResizeObserver not implemented');
+      }).toThrow('Version ResizeObserver not implemented');
     });
 
     test('should cleanup with AbortController on unmount', () => {
@@ -102,7 +102,7 @@ describe('Phase 1: MVP Core - Basic OSMD Rendering', () => {
         
         // Verify cleanup
         expect(container.innerHTML).toBe('');
-      }).toThrow('Phase 1: Cleanup not implemented');
+      }).toThrow('Version Cleanup not implemented');
     });
 
     test('should handle rapid mount/unmount cycles', () => {
@@ -117,7 +117,7 @@ describe('Phase 1: MVP Core - Basic OSMD Rendering', () => {
         
         // Should not throw errors
         expect(true).toBe(true);
-      }).toThrow('Phase 1: Lifecycle edge case not handled');
+      }).toThrow('Version Lifecycle edge case not handled');
     });
   });
 
@@ -127,7 +127,7 @@ describe('Phase 1: MVP Core - Basic OSMD Rendering', () => {
         // @ts-expect-error - Will be implemented
         const { container } = render(<SheetMusic musicXML="<score/>" />);
         expect(container.querySelector('.sheet-music-wrapper')).toBeInTheDocument();
-      }).toThrow('Phase 1: SheetMusic component not implemented');
+      }).toThrow('Version SheetMusic component not implemented');
     });
 
     test('should show loading state while OSMD initializes', () => {
@@ -135,7 +135,7 @@ describe('Phase 1: MVP Core - Basic OSMD Rendering', () => {
         // @ts-expect-error - Will be implemented
         const { getByText } = render(<SheetMusic musicXML="<score/>" />);
         expect(getByText('Loading sheet music...')).toBeInTheDocument();
-      }).toThrow('Phase 1: Loading state not implemented');
+      }).toThrow('Version Loading state not implemented');
     });
 
     test('should display error state when OSMD fails', () => {
@@ -145,7 +145,7 @@ describe('Phase 1: MVP Core - Basic OSMD Rendering', () => {
         waitFor(() => {
           expect(getByText('Failed to load sheet music')).toBeInTheDocument();
         });
-      }).toThrow('Phase 1: Error state not implemented');
+      }).toThrow('Version Error state not implemented');
     });
 
     test('should have proper ARIA attributes', () => {
@@ -156,7 +156,7 @@ describe('Phase 1: MVP Core - Basic OSMD Rendering', () => {
         
         expect(sheetContainer).toHaveAttribute('aria-label', 'Sheet music display');
         expect(sheetContainer).toHaveAttribute('role', 'img');
-      }).toThrow('Phase 1: Accessibility not implemented');
+      }).toThrow('Version Accessibility not implemented');
     });
   });
 
@@ -172,7 +172,7 @@ describe('Phase 1: MVP Core - Basic OSMD Rendering', () => {
           width: '100%',
           overflow: 'hidden'
         });
-      }).toThrow('Phase 1: Styles not implemented');
+      }).toThrow('Version Styles not implemented');
     });
 
     test('should handle mobile viewport', () => {
@@ -185,7 +185,7 @@ describe('Phase 1: MVP Core - Basic OSMD Rendering', () => {
         expect(sheetContainer).toHaveStyle({
           minHeight: '300px'
         });
-      }).toThrow('Phase 1: Responsive styles not implemented');
+      }).toThrow('Version Responsive styles not implemented');
     });
   });
 
@@ -197,7 +197,7 @@ describe('Phase 1: MVP Core - Basic OSMD Rendering', () => {
         
         expect(container.querySelector('.sheet-music-section')).toBeInTheDocument();
         expect(container.querySelector('.piano-section')).toBeInTheDocument();
-      }).toThrow('Phase 1: App integration not implemented');
+      }).toThrow('Version App integration not implemented');
     });
 
     test('should render sample MusicXML', () => {
@@ -207,7 +207,7 @@ describe('Phase 1: MVP Core - Basic OSMD Rendering', () => {
         const svgElements = container.querySelectorAll('svg');
         
         expect(svgElements.length).toBeGreaterThan(0);
-      }).toThrow('Phase 1: Sample score not rendered');
+      }).toThrow('Version Sample score not rendered');
     });
   });
 
@@ -222,7 +222,7 @@ describe('Phase 1: MVP Core - Basic OSMD Rendering', () => {
         
         const renderTime = performance.now() - startTime;
         expect(renderTime).toBeLessThan(300);
-      }).rejects.toThrow('Phase 1: Performance not optimized');
+      }).rejects.toThrow('Version Performance not optimized');
     });
 
     test('should not leak memory on unmount', () => {
@@ -240,7 +240,7 @@ describe('Phase 1: MVP Core - Basic OSMD Rendering', () => {
         const memoryGrowth = finalMemory - initialMemory;
         
         expect(memoryGrowth).toBeLessThan(5 * 1024 * 1024); // <5MB growth
-      }).toThrow('Phase 1: Memory leak prevention not implemented');
+      }).toThrow('Version Memory leak prevention not implemented');
     });
 
     test('should handle large score rendering', async () => {
@@ -251,7 +251,7 @@ describe('Phase 1: MVP Core - Basic OSMD Rendering', () => {
         
         const rendered = await findByTestId('osmd-rendered');
         expect(rendered).toBeInTheDocument();
-      }).rejects.toThrow('Phase 1: Large score handling not implemented');
+      }).rejects.toThrow('Version Large score handling not implemented');
     });
   });
 
@@ -261,7 +261,7 @@ describe('Phase 1: MVP Core - Basic OSMD Rendering', () => {
         // @ts-expect-error - Will be implemented
         const { container } = render(<SheetMusic />);
         expect(container.textContent).toContain('Load a music score to begin');
-      }).toThrow('Phase 1: Missing XML handling not implemented');
+      }).toThrow('Version Missing XML handling not implemented');
     });
 
     test('should handle React StrictMode double-mount', () => {
@@ -283,7 +283,7 @@ describe('Phase 1: MVP Core - Basic OSMD Rendering', () => {
         
         // Should handle double-mount gracefully
         expect(mountCount).toBe(2);
-      }).toThrow('Phase 1: StrictMode compatibility not implemented');
+      }).toThrow('Version StrictMode compatibility not implemented');
     });
 
     test('should verify SVG backend is active', () => {
@@ -295,7 +295,7 @@ describe('Phase 1: MVP Core - Basic OSMD Rendering', () => {
           const svgElements = container.querySelectorAll('svg');
           expect(svgElements.length).toBeGreaterThan(0);
         });
-      }).toThrow('Phase 1: SVG backend verification not implemented');
+      }).toThrow('Version SVG backend verification not implemented');
     });
   });
 });

@@ -11,7 +11,7 @@
  * - Comprehensive test coverage
  * - <20ms MIDI latency maintained
  * 
- * Architecture: ChatGPT O3's design with Gemini Pro's implementation pattern
+ * Architecture: Code review: Code review:'s design with Gemini Pro's implementation pattern
  */
 
 import { useCallback, useEffect, useReducer, useMemo, useRef } from 'react';
@@ -92,7 +92,7 @@ import { PracticeRepeatManager } from '../services/PracticeRepeatManager';
 import { MeasureTimeline } from '../services/MeasureTimeline';
 
 // ============================================================================
-// STATE MACHINE TYPES (ChatGPT O3's refined design)
+// STATE MACHINE TYPES (Code review: Code review:'s refined design)
 // ============================================================================
 
 export type PracticeStatus = 
@@ -1629,7 +1629,7 @@ export function usePracticeControllerV2() {
   const debouncedStartMeasure = useDebounce(customStartMeasure, 300);
   const debouncedEndMeasure = useDebounce(customEndMeasure, 300);
   
-  // Track active seek operation (Grok3 feedback on concurrent operations)
+  // Track active seek operation (Code review: feedback on concurrent operations)
   const activeSeekRef = useRef<boolean>(false);
   
   // FIXED: Preserve wasActiveBeforeSeek across multiple effect runs

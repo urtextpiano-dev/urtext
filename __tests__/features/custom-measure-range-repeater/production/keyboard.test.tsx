@@ -1,10 +1,6 @@
 /**
- * Phase 3: Keyboard Shortcuts Tests
+ * Version Keyboard Shortcuts Tests
  * 
- * TDD CYCLE REMINDER:
- * 1. RED: Run these tests - they should fail with "not implemented" errors
- * 2. GREEN: Implement keyboard shortcuts following phase-3-app-integration.md
- * 3. REFACTOR: Improve shortcuts while keeping tests green
  * 
  * Keyboard shortcuts should enhance but not replace mouse/touch interaction
  */
@@ -33,7 +29,7 @@ jest.mock('@/renderer/features/practice-mode/stores/practiceStore', () => ({
   usePracticeStore: () => mockPracticeStore
 }));
 
-describe('Phase 3: Keyboard Shortcuts', () => {
+describe('Version Keyboard Shortcuts', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     mockPracticeStore.customRangeActive = false;
@@ -60,7 +56,7 @@ describe('Phase 3: Keyboard Shortcuts', () => {
         });
         
         expect(mockPracticeStore.toggleCustomRange).toHaveBeenCalled();
-      }).toThrow('Phase 3: Global shortcut Ctrl+R not implemented');
+      }).toThrow('Version Global shortcut Ctrl+R not implemented');
     });
 
     test('should not trigger shortcuts when typing in input fields', async () => {
@@ -82,7 +78,7 @@ describe('Phase 3: Keyboard Shortcuts', () => {
         });
         
         expect(mockPracticeStore.toggleCustomRange).not.toHaveBeenCalled();
-      }).toThrow('Phase 3: Input field shortcut prevention not implemented');
+      }).toThrow('Version Input field shortcut prevention not implemented');
     });
 
     test('should respect platform-specific modifiers', () => {
@@ -105,7 +101,7 @@ describe('Phase 3: Keyboard Shortcuts', () => {
         });
         
         expect(mockPracticeStore.toggleCustomRange).toHaveBeenCalled();
-      }).toThrow('Phase 3: Platform-specific shortcuts not implemented');
+      }).toThrow('Version Platform-specific shortcuts not implemented');
     });
   });
 
@@ -125,7 +121,7 @@ describe('Phase 3: Keyboard Shortcuts', () => {
         
         expect(mockPracticeStore.setCustomRange).toHaveBeenCalledWith(1, 3);
         expect(mockPracticeStore.toggleCustomRange).toHaveBeenCalled();
-      }).toThrow('Phase 3: Quick range shortcuts not implemented');
+      }).toThrow('Version Quick range shortcuts not implemented');
     });
 
     test('should handle Alt+0 for full score range', async () => {
@@ -142,7 +138,7 @@ describe('Phase 3: Keyboard Shortcuts', () => {
         });
         
         expect(mockPracticeStore.setCustomRange).toHaveBeenCalledWith(1, 50);
-      }).toThrow('Phase 3: Full range shortcut not implemented');
+      }).toThrow('Version Full range shortcut not implemented');
     });
 
     test('should limit quick range to available measures', async () => {
@@ -160,7 +156,7 @@ describe('Phase 3: Keyboard Shortcuts', () => {
         
         // Should set to max available
         expect(mockPracticeStore.setCustomRange).toHaveBeenCalledWith(1, 5);
-      }).toThrow('Phase 3: Range limiting not implemented');
+      }).toThrow('Version Range limiting not implemented');
     });
   });
 
@@ -194,7 +190,7 @@ describe('Phase 3: Keyboard Shortcuts', () => {
         });
         
         expect(mockPracticeStore.setCustomRange).toHaveBeenCalledWith(4, 9);
-      }).toThrow('Phase 3: Range navigation shortcuts not implemented');
+      }).toThrow('Version Range navigation shortcuts not implemented');
     });
 
     test('should expand/contract range with Ctrl+Alt+Arrow keys', async () => {
@@ -226,7 +222,7 @@ describe('Phase 3: Keyboard Shortcuts', () => {
         });
         
         expect(mockPracticeStore.setCustomRange).toHaveBeenCalledWith(5, 9);
-      }).toThrow('Phase 3: Range expansion shortcuts not implemented');
+      }).toThrow('Version Range expansion shortcuts not implemented');
     });
 
     test('should respect boundaries when navigating', async () => {
@@ -249,7 +245,7 @@ describe('Phase 3: Keyboard Shortcuts', () => {
         
         // Should not move
         expect(mockPracticeStore.setCustomRange).not.toHaveBeenCalled();
-      }).toThrow('Phase 3: Boundary checking not implemented');
+      }).toThrow('Version Boundary checking not implemented');
     });
   });
 
@@ -264,7 +260,7 @@ describe('Phase 3: Keyboard Shortcuts', () => {
         fireEvent.keyDown(document, { key: 's', code: 'KeyS' });
         
         expect(screen.getByLabelText('Start measure')).toHaveFocus();
-      }).toThrow('Phase 3: Focus shortcut S not implemented');
+      }).toThrow('Version Focus shortcut S not implemented');
     });
 
     test('should focus end input with E key when selector visible', async () => {
@@ -277,7 +273,7 @@ describe('Phase 3: Keyboard Shortcuts', () => {
         fireEvent.keyDown(document, { key: 'e', code: 'KeyE' });
         
         expect(screen.getByLabelText('End measure')).toHaveFocus();
-      }).toThrow('Phase 3: Focus shortcut E not implemented');
+      }).toThrow('Version Focus shortcut E not implemented');
     });
 
     test('should toggle with spacebar when button focused', async () => {
@@ -294,7 +290,7 @@ describe('Phase 3: Keyboard Shortcuts', () => {
         await user.keyboard(' ');
         
         expect(mockPracticeStore.toggleCustomRange).toHaveBeenCalled();
-      }).toThrow('Phase 3: Spacebar toggle not implemented');
+      }).toThrow('Version Spacebar toggle not implemented');
     });
   });
 
@@ -313,7 +309,7 @@ describe('Phase 3: Keyboard Shortcuts', () => {
         
         const tooltip = await screen.findByRole('tooltip');
         expect(tooltip).toHaveTextContent('Ctrl+R');
-      }).toThrow('Phase 3: Shortcut tooltips not implemented');
+      }).toThrow('Version Shortcut tooltips not implemented');
     });
 
     test('should display shortcut help with ?', async () => {
@@ -331,7 +327,7 @@ describe('Phase 3: Keyboard Shortcuts', () => {
         expect(helpDialog).toHaveTextContent('Toggle custom range');
         expect(helpDialog).toHaveTextContent('Alt+1-9');
         expect(helpDialog).toHaveTextContent('Quick range selection');
-      }).toThrow('Phase 3: Shortcut help dialog not implemented');
+      }).toThrow('Version Shortcut help dialog not implemented');
     });
   });
 
@@ -358,7 +354,7 @@ describe('Phase 3: Keyboard Shortcuts', () => {
         document.dispatchEvent(event);
         
         expect(preventDefaultSpy).toHaveBeenCalled();
-      }).toThrow('Phase 3: Browser shortcut conflict prevention not implemented');
+      }).toThrow('Version Browser shortcut conflict prevention not implemented');
     });
 
     test('should not conflict with Urtext Piano shortcuts', () => {
@@ -379,7 +375,7 @@ describe('Phase 3: Keyboard Shortcuts', () => {
         // Should not register conflicting shortcuts
         expect(shortcuts.result.current.shortcuts).not.toHaveProperty('Ctrl+P');
         expect(shortcuts.result.current.shortcuts).not.toHaveProperty('Ctrl+S');
-      }).toThrow('Phase 3: Urtext Piano shortcut conflict check not implemented');
+      }).toThrow('Version Urtext Piano shortcut conflict check not implemented');
     });
   });
 
@@ -400,7 +396,7 @@ describe('Phase 3: Keyboard Shortcuts', () => {
         
         // Should still work
         expect(mockPracticeStore.toggleCustomRange).toHaveBeenCalled();
-      }).toThrow('Phase 3: Screen reader compatibility not implemented');
+      }).toThrow('Version Screen reader compatibility not implemented');
     });
 
     test('should announce shortcut actions', async () => {
@@ -425,7 +421,7 @@ describe('Phase 3: Keyboard Shortcuts', () => {
         // Should announce action
         const announcer = screen.getByRole('status');
         expect(announcer).toHaveTextContent('Custom range toggled');
-      }).toThrow('Phase 3: Shortcut announcements not implemented');
+      }).toThrow('Version Shortcut announcements not implemented');
     });
   });
 
@@ -452,7 +448,7 @@ describe('Phase 3: Keyboard Shortcuts', () => {
         
         // Should handle without lag
         expect(duration).toBeLessThan(100); // <100ms for 50 operations
-      }).toThrow('Phase 3: Rapid shortcut handling not optimized');
+      }).toThrow('Version Rapid shortcut handling not optimized');
     });
   });
 });

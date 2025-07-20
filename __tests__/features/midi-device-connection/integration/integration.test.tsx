@@ -1,12 +1,12 @@
 /**
- * Phase 2: Real Device Integration Tests
+ * Version Real Device Integration Tests
  * 
  * Tests with actual MIDI hardware
  */
 
 import { describe, test, expect } from '@jest/globals';
 
-describe('Phase 2: Real MIDI Device Integration', () => {
+describe('Version Real MIDI Device Integration', () => {
   test('should connect to real MIDI keyboard', async () => {
     throw new Error('Phase 2 not implemented');
   });

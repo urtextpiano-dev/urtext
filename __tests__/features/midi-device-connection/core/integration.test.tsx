@@ -1,5 +1,5 @@
 /**
- * Phase 1: MIDI + SheetMusic Integration Tests
+ * Version MIDI + SheetMusic Integration Tests
  * 
  * TDD Cycle:
  * 1. RED: Tests fail - integration not implemented
@@ -35,7 +35,7 @@ jest.mock('@/renderer/hooks/useOSMD', () => ({
 
 jest.mock('@/renderer/hooks/useMidi');
 
-describe('Phase 1: MIDI + SheetMusic Integration', () => {
+describe('Version MIDI + SheetMusic Integration', () => {
   let mockUseMidi: jest.MockedFunction<typeof useMidi>;
   let mockHighlightNote: jest.Mock;
   let mockUnhighlightNote: jest.Mock;

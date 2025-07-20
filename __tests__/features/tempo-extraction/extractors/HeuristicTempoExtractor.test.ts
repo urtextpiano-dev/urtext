@@ -20,7 +20,7 @@ try {
   // Not implemented yet - expected for TDD
 }
 
-describe('Phase 2: HeuristicTempoExtractor', () => {
+describe('Version HeuristicTempoExtractor', () => {
   let mockAdapter: any;
   
   beforeEach(() => {

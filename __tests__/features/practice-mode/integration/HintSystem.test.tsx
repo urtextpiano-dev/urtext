@@ -1,5 +1,5 @@
 /**
- * Phase 2: Tiered Hint System Tests
+ * Version Tiered Hint System Tests
  * 
  * Requirements:
  * - Progressive hints after incorrect attempts
@@ -58,7 +58,7 @@ const mockAudioContextInstance = {
 
 global.AudioContext = jest.fn().mockImplementation(() => mockAudioContextInstance);
 
-describe('Phase 2: Tiered Hint System', () => {
+describe('Version Tiered Hint System', () => {
   let mockStore: any;
   let mockAudioContext: any;
 

@@ -1,10 +1,6 @@
 /**
- * Phase 2: Safety & Error Recovery Tests
+ * Version Safety & Error Recovery Tests
  * 
- * TDD CYCLE REMINDER:
- * 1. RED: Run these tests - they should fail with "not implemented" errors
- * 2. GREEN: Implement safety measures following phase-2-practice-integration.md
- * 3. REFACTOR: Improve error handling while keeping tests green
  * 
  * CRITICAL: Must never break existing practice flow
  */
@@ -44,7 +40,7 @@ jest.mock('@/renderer/features/practice-mode/stores/practiceStore', () => ({
   usePracticeStore: mockPracticeStore
 }));
 
-describe('Phase 2: Safety & Error Recovery', () => {
+describe('Version Safety & Error Recovery', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     mockMeasureTimeline.getMeasureCount.mockReturnValue(20);
@@ -60,7 +56,7 @@ describe('Phase 2: Safety & Error Recovery', () => {
         const supported = isCustomRangeSupported();
         
         expect(supported).toBe(true);
-      }).toThrow('Phase 2: Range support check not implemented');
+      }).toThrow('Version Range support check not implemented');
     });
 
     test('should return false when MeasureTimeline not built', () => {
@@ -72,7 +68,7 @@ describe('Phase 2: Safety & Error Recovery', () => {
         const supported = isCustomRangeSupported();
         
         expect(supported).toBe(false);
-      }).toThrow('Phase 2: Timeline availability check not implemented');
+      }).toThrow('Version Timeline availability check not implemented');
     });
 
     test('should handle MeasureTimeline errors gracefully', () => {
@@ -86,7 +82,7 @@ describe('Phase 2: Safety & Error Recovery', () => {
         const supported = isCustomRangeSupported();
         
         expect(supported).toBe(false);
-      }).toThrow('Phase 2: Timeline error handling not implemented');
+      }).toThrow('Version Timeline error handling not implemented');
     });
   });
 
@@ -100,7 +96,7 @@ describe('Phase 2: Safety & Error Recovery', () => {
         
         expect(validRange).toBe(true);
         expect(invalidRange).toBe(false);
-      }).toThrow('Phase 2: Score bounds validation not implemented');
+      }).toThrow('Version Score bounds validation not implemented');
     });
 
     test('should auto-clear invalid range for current score', () => {
@@ -120,7 +116,7 @@ describe('Phase 2: Safety & Error Recovery', () => {
         validateRangeForScore(15, 20);
         
         expect(clearCustomRange).toHaveBeenCalled();
-      }).toThrow('Phase 2: Auto-clear invalid range not implemented');
+      }).toThrow('Version Auto-clear invalid range not implemented');
     });
 
     test('should handle score changes that invalidate range', () => {
@@ -134,7 +130,7 @@ describe('Phase 2: Safety & Error Recovery', () => {
         // Score changes to 10 measures
         mockMeasureTimeline.getMeasureCount.mockReturnValue(10);
         expect(validateRangeForScore(15, 20)).toBe(false);
-      }).toThrow('Phase 2: Score change handling not implemented');
+      }).toThrow('Version Score change handling not implemented');
     });
   });
 
@@ -152,7 +148,7 @@ describe('Phase 2: Safety & Error Recovery', () => {
         cleanupOnPracticeStop();
         
         expect(clearCustomRange).toHaveBeenCalled();
-      }).toThrow('Phase 2: Practice stop cleanup not implemented');
+      }).toThrow('Version Practice stop cleanup not implemented');
     });
 
     test('should not clear range if already inactive', () => {
@@ -168,7 +164,7 @@ describe('Phase 2: Safety & Error Recovery', () => {
         cleanupOnPracticeStop();
         
         expect(clearCustomRange).not.toHaveBeenCalled();
-      }).toThrow('Phase 2: Inactive range cleanup logic not implemented');
+      }).toThrow('Version Inactive range cleanup logic not implemented');
     });
   });
 
@@ -190,7 +186,7 @@ describe('Phase 2: Safety & Error Recovery', () => {
         expect(stopPractice).not.toHaveBeenCalled(); // Should continue practice
         
         consoleSpy.mockRestore();
-      }).toThrow('Phase 2: Error recovery not implemented');
+      }).toThrow('Version Error recovery not implemented');
     });
 
     test('should recover from seek failures', () => {
@@ -209,7 +205,7 @@ describe('Phase 2: Safety & Error Recovery', () => {
         expect(stopPractice).toHaveBeenCalled();
         
         consoleSpy.mockRestore();
-      }).toThrow('Phase 2: Seek failure recovery not implemented');
+      }).toThrow('Version Seek failure recovery not implemented');
     });
 
     test('should handle catastrophic errors by stopping practice', () => {
@@ -229,7 +225,7 @@ describe('Phase 2: Safety & Error Recovery', () => {
         expect(stopPractice).toHaveBeenCalled();
         
         consoleSpy.mockRestore();
-      }).toThrow('Phase 2: Catastrophic error handling not implemented');
+      }).toThrow('Version Catastrophic error handling not implemented');
     });
   });
 
@@ -243,7 +239,7 @@ describe('Phase 2: Safety & Error Recovery', () => {
         
         // Invalid transition during custom range
         expect(validateStateTransition('looping', 'stopped')).toBe(false);
-      }).toThrow('Phase 2: State transition validation not implemented');
+      }).toThrow('Version State transition validation not implemented');
     });
 
     test('should ensure cursor state consistency', () => {
@@ -263,7 +259,7 @@ describe('Phase 2: Safety & Error Recovery', () => {
         
         expect(validateCursorState(validCursor)).toBe(true);
         expect(validateCursorState(invalidCursor)).toBe(false);
-      }).toThrow('Phase 2: Cursor state validation not implemented');
+      }).toThrow('Version Cursor state validation not implemented');
     });
   });
 
@@ -287,7 +283,7 @@ describe('Phase 2: Safety & Error Recovery', () => {
         expect(clearCustomRange).toHaveBeenCalled();
         
         consoleSpy.mockRestore();
-      }).toThrow('Phase 2: Repeated failure handling not implemented');
+      }).toThrow('Version Repeated failure handling not implemented');
     });
 
     test('should reset failure count on success', () => {
@@ -306,7 +302,7 @@ describe('Phase 2: Safety & Error Recovery', () => {
         handleRepeatedFailures('seek-failure');
         
         expect(clearCustomRange).not.toHaveBeenCalled();
-      }).toThrow('Phase 2: Failure count reset not implemented');
+      }).toThrow('Version Failure count reset not implemented');
     });
   });
 
@@ -326,7 +322,7 @@ describe('Phase 2: Safety & Error Recovery', () => {
         // Cleanup should remove listeners
         cleanup();
         expect(removeEventListener).toHaveBeenCalled();
-      }).toThrow('Phase 2: Event listener cleanup not implemented');
+      }).toThrow('Version Event listener cleanup not implemented');
     });
 
     test('should prevent memory leaks during repeated looping', () => {
@@ -345,7 +341,7 @@ describe('Phase 2: Safety & Error Recovery', () => {
         
         // Should not leak significant memory
         expect(memoryIncrease).toBeLessThan(1024 * 1024); // <1MB increase
-      }).toThrow('Phase 2: Memory leak prevention not implemented');
+      }).toThrow('Version Memory leak prevention not implemented');
     });
   });
 
@@ -361,7 +357,7 @@ describe('Phase 2: Safety & Error Recovery', () => {
         
         // May conflict with musical repeats
         expect(isCompatibleWithFeature('musical-repeats')).toBe(false);
-      }).toThrow('Phase 2: Feature compatibility check not implemented');
+      }).toThrow('Version Feature compatibility check not implemented');
     });
   });
 });

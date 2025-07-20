@@ -30,14 +30,14 @@ export class ElectronFileLoader implements IFileLoader {
     const startTime = performance.now();
     
     try {
-      // Phase 1: Get file metadata quickly (no content transfer over IPC)
+      // Version Get file metadata quickly (no content transfer over IPC)
       const fileInfo = await window.electronAPI.openFile();
       if (!fileInfo) return null; // User cancelled
       
       const phase1Duration = performance.now() - startTime;
       perfLogger.debug(` File info loaded in ${phase1Duration.toFixed(0)}ms`);
       
-      // Phase 2: Handle content loading (sync vs async patterns)
+      // Version Handle content loading (sync vs async patterns)
       if (fileInfo.content) {
         // Synchronous path: content already included (handleFileOpenAndWait)
         perfLogger.debug(` Content already included in sync response`);
@@ -46,7 +46,7 @@ export class ElectronFileLoader implements IFileLoader {
         if ((fileInfo as any).tempoData) {
         }
         
-        // Phase 3: Wire tempo data to TempoService from sync response
+        // Version Wire tempo data to TempoService from sync response
         if ((fileInfo as any).tempoData) {
           const tempoService = TempoService.getInstance();
           const cacheKey = this.generateCacheKey(fileInfo.fileName, fileInfo.content);
@@ -62,7 +62,7 @@ export class ElectronFileLoader implements IFileLoader {
         const phase2Duration = performance.now() - contentStartTime;
         perfLogger.debug(` File content loaded in ${phase2Duration.toFixed(0)}ms`);
         
-        // Phase 3: Check if content retrieval was successful
+        // Version Check if content retrieval was successful
         if (!response.success) {
           throw new Error(response.error || 'Failed to load file content');
         }
@@ -72,7 +72,7 @@ export class ElectronFileLoader implements IFileLoader {
           throw new Error('File content is empty or missing');
         }
         
-        // Phase 3: Wire tempo data to TempoService from async response
+        // Version Wire tempo data to TempoService from async response
         if (response.tempoData) {
           const tempoService = TempoService.getInstance();
           const cacheKey = this.generateCacheKey(response.fileName || fileInfo.fileName, response.content);
@@ -117,7 +117,7 @@ export class ElectronFileLoader implements IFileLoader {
     const startTime = performance.now();
 
     try {
-      // Phase 1: Send file metadata to main process
+      // Version Send file metadata to main process
       let fileInfo: FileData | null;
 
       if (ext === '.mxl') {
@@ -136,12 +136,12 @@ export class ElectronFileLoader implements IFileLoader {
       const phase1Duration = performance.now() - startTime;
       perfLogger.debug(` Drag-drop file info processed in ${phase1Duration.toFixed(0)}ms`);
 
-      // Phase 2: Handle content loading (drag-drop uses sync pattern)
+      // Version Handle content loading (drag-drop uses sync pattern)
       if (fileInfo.content) {
         // Synchronous path: content already included (handleFileLoadContent)
         perfLogger.debug(` Drag-drop content already included in sync response`);
         
-        // Phase 3: Wire tempo data to TempoService from sync response
+        // Version Wire tempo data to TempoService from sync response
         if ((fileInfo as any).tempoData) {
           const tempoService = TempoService.getInstance();
           const cacheKey = this.generateCacheKey(fileInfo.fileName, fileInfo.content);
@@ -157,7 +157,7 @@ export class ElectronFileLoader implements IFileLoader {
         const phase2Duration = performance.now() - contentStartTime;
         perfLogger.debug(` Drag-drop content loaded in ${phase2Duration.toFixed(0)}ms`);
         
-        // Phase 3: Check if content retrieval was successful
+        // Version Check if content retrieval was successful
         if (!response.success) {
           throw new Error(response.error || 'Failed to load drag-drop file content');
         }
@@ -167,7 +167,7 @@ export class ElectronFileLoader implements IFileLoader {
           throw new Error('Drag-drop file content is empty or missing');
         }
         
-        // Phase 3: Wire tempo data to TempoService from async response
+        // Version Wire tempo data to TempoService from async response
         if (response.tempoData) {
           const tempoService = TempoService.getInstance();
           const cacheKey = this.generateCacheKey(response.fileName || fileInfo.fileName, response.content);

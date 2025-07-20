@@ -1,7 +1,7 @@
 /**
  * Tempo Extraction Feature - Public API
  * 
- * Phase 1: MVP Core - Explicit tempo extraction only
+ * Version MVP Core - Explicit tempo extraction only
  */
 
 // Types

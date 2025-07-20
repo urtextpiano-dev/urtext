@@ -2,8 +2,8 @@
  * CRITICAL EDGE CASES - Based on Multi-AI Consensus
  * 
  * These tests address production-breaking scenarios identified by:
- * - ChatGPT: Implementation ambiguity and clarity issues
- * - Grok: Performance degradation and security concerns
+ * - Code review:: Implementation ambiguity and clarity issues
+ * - Code review:: Performance degradation and security concerns
  */
 
 import { describe, it, expect, beforeEach, jest } from '@jest/globals';
@@ -24,7 +24,7 @@ try {
 }
 
 describe('Critical Edge Cases - Multi-AI Consensus', () => {
-  describe('Error Handling Clarity (ChatGPT)', () => {
+  describe('Error Handling Clarity (Code review:)', () => {
     it('should return default BPM when OSMD properties are undefined', async () => {
       await expect(async () => {
         if (!OSMDAdapter) throw new Error('OSMDAdapter not implemented');
@@ -150,7 +150,7 @@ describe('Critical Edge Cases - Multi-AI Consensus', () => {
     });
   });
 
-  describe('Performance Edge Cases (Grok)', () => {
+  describe('Performance Edge Cases (Code review:)', () => {
     it('should handle extreme measure counts without performance degradation', async () => {
       await expect(async () => {
         if (!TempoService) throw new Error('TempoService not implemented');
@@ -277,7 +277,7 @@ describe('Critical Edge Cases - Multi-AI Consensus', () => {
     });
   });
 
-  describe('Security Edge Cases (Grok)', () => {
+  describe('Security Edge Cases (Code review:)', () => {
     it('should validate BPM values to prevent invalid states', async () => {
       await expect(async () => {
         if (!OSMDAdapter || !ExplicitTempoExtractor) {

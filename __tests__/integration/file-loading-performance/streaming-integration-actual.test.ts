@@ -33,7 +33,7 @@ jest.mock('module', () => {
   };
 });
 
-describe('Phase 2: Streaming Integration - Actual Implementation Tests', () => {
+describe('Version Streaming Integration - Actual Implementation Tests', () => {
   let workerManager: WorkerManager;
   
   beforeEach(() => {

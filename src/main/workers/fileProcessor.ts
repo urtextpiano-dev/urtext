@@ -37,7 +37,7 @@ interface WorkerResult {
   fileName?: string;
   fileSize?: number;
   error?: string;
-  tempoData?: XMLTempoEvent[]; // Phase 2: Direct XML Tempo Extraction
+  tempoData?: XMLTempoEvent[]; // Version Direct XML Tempo Extraction
   performance?: {
     readTime: number;
     parseTime: number;
@@ -115,7 +115,7 @@ async function processFile(): Promise<void> {
     validateXMLContent(content);
     performanceLogger.mark('validate-end');
     
-    // Phase 2: Direct XML Tempo Extraction (after validation, before result)
+    // Version Direct XML Tempo Extraction (after validation, before result)
     let tempoData: XMLTempoEvent[] | undefined;
     
     if (['.xml', '.musicxml'].includes(ext)) {

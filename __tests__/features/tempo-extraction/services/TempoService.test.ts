@@ -24,7 +24,7 @@ try {
   // Not implemented yet - expected for TDD
 }
 
-describe('Phase 1: TempoService - Orchestration and Caching', () => {
+describe('Version TempoService - Orchestration and Caching', () => {
   let mockOSMD: any;
   let service: any;
 

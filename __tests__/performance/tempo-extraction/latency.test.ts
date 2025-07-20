@@ -72,7 +72,7 @@ describe('Tempo Extraction - Performance & Latency Tests', () => {
     });
   });
 
-  describe('Phase 1: Enhanced OSMD Extraction Performance', () => {
+  describe('Version Enhanced OSMD Extraction Performance', () => {
     test('should extract multiple tempos from measure in under 1ms', () => {
       expect(() => {
         const mockMeasure = {
@@ -118,7 +118,7 @@ describe('Tempo Extraction - Performance & Latency Tests', () => {
     });
   });
 
-  describe('Phase 2: XML Parsing Performance', () => {
+  describe('Version XML Parsing Performance', () => {
     test('should add less than 50ms to worker file processing', () => {
       expect(() => {
         const unSospiroXML = `<?xml version="1.0"?>
@@ -179,7 +179,7 @@ describe('Tempo Extraction - Performance & Latency Tests', () => {
     });
   });
 
-  describe('Phase 3: Integration Performance', () => {
+  describe('Version Integration Performance', () => {
     test('should prioritize sources with minimal overhead', () => {
       expect(() => {
         // const tempoService = new TempoService();

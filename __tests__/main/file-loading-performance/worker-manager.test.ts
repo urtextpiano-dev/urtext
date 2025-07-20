@@ -15,7 +15,7 @@ import * as os from 'os';
 jest.mock('worker_threads');
 jest.mock('os');
 
-describe('Phase 1: Worker Manager - Implementation Tests', () => {
+describe('Version Worker Manager - Implementation Tests', () => {
   let mockWorkerManager: any;
   let mockWorker: any;
   
@@ -50,7 +50,7 @@ describe('Phase 1: Worker Manager - Implementation Tests', () => {
       expect(() => {
         const manager = new WorkerManager();
         expect(manager).toBeInstanceOf(EventEmitter);
-      }).toThrow('Phase 1: WorkerManager not implemented yet');
+      }).toThrow('Version WorkerManager not implemented yet');
     });
 
     test('should calculate dynamic worker limits based on CPU count', () => {
@@ -69,7 +69,7 @@ describe('Phase 1: Worker Manager - Implementation Tests', () => {
           const manager = new WorkerManager();
           expect(manager.getMaxWorkers()).toBe(expected);
         });
-      }).toThrow('Phase 1: Dynamic worker limits not implemented yet');
+      }).toThrow('Version Dynamic worker limits not implemented yet');
     });
 
     test('should have progressive timeout configuration', () => {
@@ -81,7 +81,7 @@ describe('Phase 1: Worker Manager - Implementation Tests', () => {
         expect(manager.getTimeoutForFileSize(500 * 1024)).toBe(10000);    // <1MB = 10s
         expect(manager.getTimeoutForFileSize(2 * MB)).toBe(30000);        // 1-5MB = 30s
         expect(manager.getTimeoutForFileSize(10 * MB)).toBe(60000);       // >5MB = 60s
-      }).toThrow('Phase 1: Progressive timeouts not implemented yet');
+      }).toThrow('Version Progressive timeouts not implemented yet');
     });
   });
 
@@ -98,7 +98,7 @@ describe('Phase 1: Worker Manager - Implementation Tests', () => {
           expect.stringContaining('fileProcessor.js'),
           { workerData: { filePath, jobId } }
         );
-      }).rejects.toThrow('Phase 1: Worker processing not implemented yet');
+      }).rejects.toThrow('Version Worker processing not implemented yet');
     });
 
     test('should track active jobs', async () => {
@@ -118,7 +118,7 @@ describe('Phase 1: Worker Manager - Implementation Tests', () => {
         
         await promise1;
         expect(manager.getActiveJobCount()).toBe(1);
-      }).rejects.toThrow('Phase 1: Job tracking not implemented yet');
+      }).rejects.toThrow('Version Job tracking not implemented yet');
     });
 
     test('should enforce worker limit', async () => {
@@ -135,7 +135,7 @@ describe('Phase 1: Worker Manager - Implementation Tests', () => {
         await expect(
           manager.processFile('/test/file5.xml', 'job-5')
         ).rejects.toThrow('Too many concurrent file operations');
-      }).rejects.toThrow('Phase 1: Worker limit enforcement not implemented yet');
+      }).rejects.toThrow('Version Worker limit enforcement not implemented yet');
     });
   });
 
@@ -159,7 +159,7 @@ describe('Phase 1: Worker Manager - Implementation Tests', () => {
           expect.any(Function),
           10000 // 10s for small files
         );
-      }).rejects.toThrow('Phase 1: File size-based timeouts not implemented yet');
+      }).rejects.toThrow('Version File size-based timeouts not implemented yet');
     });
 
     test('should terminate worker on timeout', async () => {
@@ -182,7 +182,7 @@ describe('Phase 1: Worker Manager - Implementation Tests', () => {
         });
         
         expect(mockWorker.terminate).toHaveBeenCalled();
-      }).rejects.toThrow('Phase 1: Timeout handling not implemented yet');
+      }).rejects.toThrow('Version Timeout handling not implemented yet');
     });
 
     test('should clear timeout on successful completion', async () => {
@@ -201,7 +201,7 @@ describe('Phase 1: Worker Manager - Implementation Tests', () => {
         await promise;
         
         expect(clearTimeoutSpy).toHaveBeenCalled();
-      }).rejects.toThrow('Phase 1: Timeout cleanup not implemented yet');
+      }).rejects.toThrow('Version Timeout cleanup not implemented yet');
     });
   });
 
@@ -230,7 +230,7 @@ describe('Phase 1: Worker Manager - Implementation Tests', () => {
         await promise;
         
         expect(completeHandler).toHaveBeenCalledWith(result);
-      }).rejects.toThrow('Phase 1: Success event handling not implemented yet');
+      }).rejects.toThrow('Version Success event handling not implemented yet');
     });
 
     test('should emit job-error on worker error', async () => {
@@ -253,7 +253,7 @@ describe('Phase 1: Worker Manager - Implementation Tests', () => {
           jobId: 'job-1',
           error: 'Worker crashed'
         });
-      }).rejects.toThrow('Phase 1: Error event handling not implemented yet');
+      }).rejects.toThrow('Version Error event handling not implemented yet');
     });
 
     test('should handle worker exit with non-zero code', async () => {
@@ -274,7 +274,7 @@ describe('Phase 1: Worker Manager - Implementation Tests', () => {
           jobId: 'job-1',
           error: 'Worker exited with code 1'
         });
-      }).rejects.toThrow('Phase 1: Exit code handling not implemented yet');
+      }).rejects.toThrow('Version Exit code handling not implemented yet');
     });
   });
 
@@ -295,7 +295,7 @@ describe('Phase 1: Worker Manager - Implementation Tests', () => {
         
         expect(manager.getActiveJobCount()).toBe(0);
         expect(manager.hasJob('job-1')).toBe(false);
-      }).rejects.toThrow('Phase 1: Job cleanup not implemented yet');
+      }).rejects.toThrow('Version Job cleanup not implemented yet');
     });
 
     test('should prevent memory leaks with proper cleanup', async () => {
@@ -318,7 +318,7 @@ describe('Phase 1: Worker Manager - Implementation Tests', () => {
         // All jobs should be cleaned up
         expect(manager.getActiveJobCount()).toBe(0);
         expect(clearTimeoutSpy).toHaveBeenCalledTimes(100);
-      }).rejects.toThrow('Phase 1: Memory leak prevention not implemented yet');
+      }).rejects.toThrow('Version Memory leak prevention not implemented yet');
     });
 
     test('should shutdown all workers gracefully', async () => {
@@ -335,7 +335,7 @@ describe('Phase 1: Worker Manager - Implementation Tests', () => {
         
         expect(mockWorker.terminate).toHaveBeenCalledTimes(2);
         expect(manager.getActiveJobCount()).toBe(0);
-      }).rejects.toThrow('Phase 1: Shutdown functionality not implemented yet');
+      }).rejects.toThrow('Version Shutdown functionality not implemented yet');
     });
   });
 
@@ -359,7 +359,7 @@ describe('Phase 1: Worker Manager - Implementation Tests', () => {
         await expect(promise2).resolves.not.toThrow();
         
         expect(manager.getActiveJobCount()).toBe(0);
-      }).rejects.toThrow('Phase 1: Job isolation not implemented yet');
+      }).rejects.toThrow('Version Job isolation not implemented yet');
     });
   });
 
@@ -374,7 +374,7 @@ describe('Phase 1: Worker Manager - Implementation Tests', () => {
         // Should be same instance
         const { workerManager: manager2 } = require('../../../src/main/services/workerManager');
         expect(workerManager).toBe(manager2);
-      }).toThrow('Phase 1: Singleton export not implemented yet');
+      }).toThrow('Version Singleton export not implemented yet');
     });
   });
 

@@ -1,10 +1,6 @@
 /**
- * Phase 3: Accessibility (A11y) Compliance Tests
+ * Version Accessibility (A11y) Compliance Tests
  * 
- * TDD CYCLE REMINDER:
- * 1. RED: Run these tests - they should fail with "not implemented" errors
- * 2. GREEN: Implement accessibility features following phase-3-app-integration.md
- * 3. REFACTOR: Improve a11y while keeping tests green
  * 
  * WCAG 2.1 Level AA Compliance Required
  */
@@ -22,7 +18,7 @@ expect.extend(toHaveNoViolations);
 // import { MeasureRangeSelector } from '@/renderer/features/practice-mode/components/MeasureRangeSelector';
 // import { TopControlsMenu } from '@/renderer/components/TopControlsMenu/TopControlsMenu';
 
-describe('Phase 3: Accessibility Compliance', () => {
+describe('Version Accessibility Compliance', () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
@@ -37,7 +33,7 @@ describe('Phase 3: Accessibility Compliance', () => {
         const results = await axe(container);
         
         expect(results).toHaveNoViolations();
-      }).toThrow('Phase 3: MeasureRangeSelector accessibility not implemented');
+      }).toThrow('Version MeasureRangeSelector accessibility not implemented');
     });
 
     test('should have no violations when integrated in TopControlsMenu', async () => {
@@ -49,7 +45,7 @@ describe('Phase 3: Accessibility Compliance', () => {
         const results = await axe(container);
         
         expect(results).toHaveNoViolations();
-      }).toThrow('Phase 3: TopControlsMenu accessibility not implemented');
+      }).toThrow('Version TopControlsMenu accessibility not implemented');
     });
 
     test('should maintain accessibility in error states', async () => {
@@ -67,7 +63,7 @@ describe('Phase 3: Accessibility Compliance', () => {
         const results = await axe(container);
         
         expect(results).toHaveNoViolations();
-      }).toThrow('Phase 3: Error state accessibility not implemented');
+      }).toThrow('Version Error state accessibility not implemented');
     });
   });
 
@@ -92,7 +88,7 @@ describe('Phase 3: Accessibility Compliance', () => {
         // Shift+Tab backwards
         await user.keyboard('{Shift>}{Tab}{/Shift}');
         expect(screen.getByLabelText('End measure')).toHaveFocus();
-      }).toThrow('Phase 3: Keyboard navigation not implemented');
+      }).toThrow('Version Keyboard navigation not implemented');
     });
 
     test('should handle arrow keys in number inputs', async () => {
@@ -116,7 +112,7 @@ describe('Phase 3: Accessibility Compliance', () => {
         // Should respect min/max bounds
         await user.keyboard('{ArrowDown}');
         expect(startInput).toHaveValue(1); // Can't go below 1
-      }).toThrow('Phase 3: Arrow key handling not implemented');
+      }).toThrow('Version Arrow key handling not implemented');
     });
 
     test('should support Enter/Space on toggle button', async () => {
@@ -137,7 +133,7 @@ describe('Phase 3: Accessibility Compliance', () => {
         // Space should also activate
         await user.keyboard(' ');
         expect(toggleButton).toHaveTextContent('Enable Range');
-      }).toThrow('Phase 3: Keyboard activation not implemented');
+      }).toThrow('Version Keyboard activation not implemented');
     });
   });
 
@@ -162,7 +158,7 @@ describe('Phase 3: Accessibility Compliance', () => {
         const toggleButton = screen.getByRole('button');
         expect(toggleButton).toHaveAttribute('aria-pressed', 'false');
         expect(toggleButton).toHaveAttribute('aria-label', 'Enable custom measure range');
-      }).toThrow('Phase 3: ARIA labels not implemented');
+      }).toThrow('Version ARIA labels not implemented');
     });
 
     test('should announce value changes', async () => {
@@ -183,7 +179,7 @@ describe('Phase 3: Accessibility Compliance', () => {
         
         // Should announce the change
         expect(liveRegion).toHaveTextContent('Start measure changed to 5');
-      }).toThrow('Phase 3: Live region announcements not implemented');
+      }).toThrow('Version Live region announcements not implemented');
     });
 
     test('should announce errors clearly', async () => {
@@ -205,7 +201,7 @@ describe('Phase 3: Accessibility Compliance', () => {
         // Input should reference error
         expect(endInput).toHaveAttribute('aria-invalid', 'true');
         expect(endInput).toHaveAttribute('aria-errormessage');
-      }).toThrow('Phase 3: Error announcements not implemented');
+      }).toThrow('Version Error announcements not implemented');
     });
   });
 
@@ -226,10 +222,10 @@ describe('Phase 3: Accessibility Compliance', () => {
         
         // Focus indicator should meet contrast requirements
         expect(styles.outlineColor).toBeTruthy();
-      }).toThrow('Phase 3: Focus indicators not implemented');
+      }).toThrow('Version Focus indicators not implemented');
     });
 
-    // CRITICAL: Prevent focus loss (AI: ChatGPT 4.1)
+    // CRITICAL: Prevent focus loss (Code review: Code review: 4.1)
     test('should prevent focus from being lost to disabled elements', async () => {
       expect(() => {
         const { MeasureRangeSelector } = require('@/renderer/features/practice-mode/components/MeasureRangeSelector');
@@ -254,10 +250,10 @@ describe('Phase 3: Accessibility Compliance', () => {
         // Reverse tab should also skip disabled button
         await user.keyboard('{Shift>}{Tab}{/Shift}');
         expect(endInput).toHaveFocus();
-      }).toThrow('Phase 3: Focus loss prevention not implemented');
+      }).toThrow('Version Focus loss prevention not implemented');
     });
 
-    // CRITICAL: Focus order preservation (AI: Gemini pro)
+    // CRITICAL: Focus order preservation (Code review: Gemini pro)
     test('should maintain logical focus order in all states', async () => {
       expect(() => {
         const { MeasureRangeSelector } = require('@/renderer/features/practice-mode/components/MeasureRangeSelector');
@@ -291,7 +287,7 @@ describe('Phase 3: Accessibility Compliance', () => {
         
         await user.tab();
         expect(screen.getByRole('button', { name: /disable range/i })).toHaveFocus();
-      }).toThrow('Phase 3: Focus order preservation not implemented');
+      }).toThrow('Version Focus order preservation not implemented');
     });
 
     test('should trap focus in warning dialog', async () => {
@@ -322,7 +318,7 @@ describe('Phase 3: Accessibility Compliance', () => {
         await user.tab();
         // Should cycle back to first button
         expect(screen.getByRole('button', { name: /continue/i })).toHaveFocus();
-      }).toThrow('Phase 3: Focus trap not implemented');
+      }).toThrow('Version Focus trap not implemented');
     });
 
     test('should restore focus after dialog closes', async () => {
@@ -347,7 +343,7 @@ describe('Phase 3: Accessibility Compliance', () => {
         await waitFor(() => {
           expect(toggleButton).toHaveFocus();
         });
-      }).toThrow('Phase 3: Focus restoration not implemented');
+      }).toThrow('Version Focus restoration not implemented');
     });
   });
 
@@ -376,7 +372,7 @@ describe('Phase 3: Accessibility Compliance', () => {
         
         // Error color should meet contrast requirements
         expect(errorStyles.color).toBe('rgb(220, 38, 38)'); // Accessible red
-      }).toThrow('Phase 3: Color contrast not implemented');
+      }).toThrow('Version Color contrast not implemented');
     });
 
     test('should not rely on color alone for information', () => {
@@ -393,7 +389,7 @@ describe('Phase 3: Accessibility Compliance', () => {
         expect(startInput).toHaveAttribute('aria-invalid', 'true');
         expect(startInput).toHaveClass('error'); // Visual indicator
         expect(screen.getByRole('alert')).toBeInTheDocument(); // Text indicator
-      }).toThrow('Phase 3: Multi-modal error indication not implemented');
+      }).toThrow('Version Multi-modal error indication not implemented');
     });
   });
 
@@ -421,7 +417,7 @@ describe('Phase 3: Accessibility Compliance', () => {
         
         // Reset
         document.documentElement.style.fontSize = '';
-      }).toThrow('Phase 3: Zoom support not implemented');
+      }).toThrow('Version Zoom support not implemented');
     });
   });
 
@@ -446,7 +442,7 @@ describe('Phase 3: Accessibility Compliance', () => {
           const styles = window.getComputedStyle(element);
           expect(styles.animationDuration).toBe('0s');
         });
-      }).toThrow('Phase 3: Reduced motion support not implemented');
+      }).toThrow('Version Reduced motion support not implemented');
     });
   });
 
@@ -469,7 +465,7 @@ describe('Phase 3: Accessibility Compliance', () => {
           startInput.getAttribute('aria-describedby')!
         );
         expect(description).toHaveTextContent(/between 1 and 20/i);
-      }).toThrow('Phase 3: Validation instructions not implemented');
+      }).toThrow('Version Validation instructions not implemented');
     });
   });
 });

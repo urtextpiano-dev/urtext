@@ -6,7 +6,7 @@
 import { describe, test, expect } from '@jest/globals';
 import { generatePianoKeys } from '@/renderer/utils/pianoUtils';
 
-describe('Phase 2: Landmark Key Identification', () => {
+describe('Version Landmark Key Identification', () => {
   describe('Core Requirements', () => {
     test('should mark all C notes as landmarks', () => {
       const keys = generatePianoKeys();

@@ -19,7 +19,7 @@ jest.mock('jzz', () => ({
   })
 }));
 
-describe('Phase 1: MIDI Latency with Worker Threads - Integration Tests', () => {
+describe('Version MIDI Latency with Worker Threads - Integration Tests', () => {
   let midiService: any;
   let workerManager: any;
   let latencyMeasurements: number[] = [];
@@ -80,7 +80,7 @@ describe('Phase 1: MIDI Latency with Worker Threads - Integration Tests', () => 
         expect(avgLatency).toBeLessThan(20);
         expect(p95Latency).toBeLessThan(25); // Allow slight spikes
         expect(maxLatency).toBeLessThan(30); // Hard limit on spikes
-      }).rejects.toThrow('Phase 1: MIDI latency monitoring not implemented yet');
+      }).rejects.toThrow('Version MIDI latency monitoring not implemented yet');
     });
 
     test('should maintain <20ms latency during concurrent file loads', async () => {
@@ -120,7 +120,7 @@ describe('Phase 1: MIDI Latency with Worker Threads - Integration Tests', () => 
         
         // Check for dropped events
         expect(latencyMeasurements.length).toBeGreaterThan(150); // Most events processed
-      }).rejects.toThrow('Phase 1: Concurrent load latency not implemented yet');
+      }).rejects.toThrow('Version Concurrent load latency not implemented yet');
     });
 
     test('should handle MIDI bursts during file processing', async () => {
@@ -162,7 +162,7 @@ describe('Phase 1: MIDI Latency with Worker Threads - Integration Tests', () => 
         expect(Math.max(...chordLatencies)).toBeLessThan(20);
         
         await loadPromise;
-      }).rejects.toThrow('Phase 1: MIDI burst handling not implemented yet');
+      }).rejects.toThrow('Version MIDI burst handling not implemented yet');
     });
   });
 
@@ -210,7 +210,7 @@ describe('Phase 1: MIDI Latency with Worker Threads - Integration Tests', () => 
         expect(avgRenderTime).toBeLessThan(16.67); // 60fps average
         expect(maxRenderTime).toBeLessThan(33.33); // Max 1 dropped frame
         expect(droppedFrames).toBeLessThan(5); // Less than 5 dropped frames
-      }).rejects.toThrow('Phase 1: OSMD performance monitoring not implemented yet');
+      }).rejects.toThrow('Version OSMD performance monitoring not implemented yet');
     });
 
     test('should not block main thread during worker operations', async () => {
@@ -255,7 +255,7 @@ describe('Phase 1: MIDI Latency with Worker Threads - Integration Tests', () => 
         }
         
         expect(mainThreadBlocked).toBe(false);
-      }).rejects.toThrow('Phase 1: Main thread blocking prevention not implemented yet');
+      }).rejects.toThrow('Version Main thread blocking prevention not implemented yet');
     });
   });
 
@@ -292,7 +292,7 @@ describe('Phase 1: MIDI Latency with Worker Threads - Integration Tests', () => 
         
         expect(maxMemoryIncrease).toBeLessThan(200); // Max 200MB increase
         expect(avgMemoryIncrease).toBeLessThan(100); // Avg 100MB increase
-      }).rejects.toThrow('Phase 1: Memory monitoring not implemented yet');
+      }).rejects.toThrow('Version Memory monitoring not implemented yet');
     });
   });
 
@@ -328,7 +328,7 @@ describe('Phase 1: MIDI Latency with Worker Threads - Integration Tests', () => 
         
         // Verify worker pool recovered
         expect(workerManager.getActiveJobCount()).toBe(0);
-      }).rejects.toThrow('Phase 1: Error recovery performance not implemented yet');
+      }).rejects.toThrow('Version Error recovery performance not implemented yet');
     });
   });
 
@@ -359,7 +359,7 @@ describe('Phase 1: MIDI Latency with Worker Threads - Integration Tests', () => 
         
         // Verify MIDI latency maintained throughout
         expect(Math.max(...latencyMeasurements)).toBeLessThan(20);
-      }).rejects.toThrow('Phase 1: Performance targets not met yet');
+      }).rejects.toThrow('Version Performance targets not met yet');
     });
   });
 

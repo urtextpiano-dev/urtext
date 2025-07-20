@@ -28,7 +28,7 @@ try {
   // Not implemented yet - expected for TDD
 }
 
-describe('Phase 2: Enhanced Performance Requirements', () => {
+describe('Version Enhanced Performance Requirements', () => {
   describe('Enhanced Extraction Time Limits', () => {
     it('should extract with text expressions in under 25ms', async () => {
       await expect(async () => {

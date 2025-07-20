@@ -21,7 +21,7 @@ jest.mock('worker_threads', () => ({
   workerData: {}
 }));
 
-describe('Phase 1: File Processor Worker - Implementation Tests', () => {
+describe('Version File Processor Worker - Implementation Tests', () => {
   let mockWorker: any;
   let mockParentPort: any;
   
@@ -106,7 +106,7 @@ describe('Phase 1: File Processor Worker - Implementation Tests', () => {
         
         expect(result.success).toBe(false);
         expect(result.error).toContain('Invalid file path');
-      }).rejects.toThrow('Phase 1: Path security not implemented yet');
+      }).rejects.toThrow('Version Path security not implemented yet');
     });
 
     test('should reject non-absolute paths', async () => {
@@ -120,7 +120,7 @@ describe('Phase 1: File Processor Worker - Implementation Tests', () => {
         
         expect(result.success).toBe(false);
         expect(result.error).toContain('Invalid file path');
-      }).rejects.toThrow('Phase 1: Absolute path check not implemented yet');
+      }).rejects.toThrow('Version Absolute path check not implemented yet');
     });
   });
 
@@ -140,7 +140,7 @@ describe('Phase 1: File Processor Worker - Implementation Tests', () => {
         
         expect(result.success).toBe(false);
         expect(result.error).toMatch(/File too large.*150.*MB.*max.*100MB/);
-      }).rejects.toThrow('Phase 1: File size limit not implemented yet');
+      }).rejects.toThrow('Version File size limit not implemented yet');
     });
 
     test('should accept files under size limit', async () => {
@@ -160,7 +160,7 @@ describe('Phase 1: File Processor Worker - Implementation Tests', () => {
         
         expect(result.success).toBe(true);
         expect(result.fileSize).toBe(5 * 1024 * 1024);
-      }).rejects.toThrow('Phase 1: File processing not implemented yet');
+      }).rejects.toThrow('Version File processing not implemented yet');
     });
   });
 
@@ -196,7 +196,7 @@ describe('Phase 1: File Processor Worker - Implementation Tests', () => {
         expect(result.success).toBe(true);
         expect(result.content).toBe(xmlContent);
         expect(result.fileName).toBe('score.xml');
-      }).rejects.toThrow('Phase 1: XML processing not implemented yet');
+      }).rejects.toThrow('Version XML processing not implemented yet');
     });
 
     test('should validate XML structure', async () => {
@@ -212,7 +212,7 @@ describe('Phase 1: File Processor Worker - Implementation Tests', () => {
         
         expect(result.success).toBe(false);
         expect(result.error).toContain('Invalid XML');
-      }).rejects.toThrow('Phase 1: XML validation not implemented yet');
+      }).rejects.toThrow('Version XML validation not implemented yet');
     });
 
     test('should validate MusicXML structure', async () => {
@@ -228,7 +228,7 @@ describe('Phase 1: File Processor Worker - Implementation Tests', () => {
         
         expect(result.success).toBe(false);
         expect(result.error).toContain('Invalid MusicXML: Missing score element');
-      }).rejects.toThrow('Phase 1: MusicXML validation not implemented yet');
+      }).rejects.toThrow('Version MusicXML validation not implemented yet');
     });
   });
 
@@ -258,7 +258,7 @@ describe('Phase 1: File Processor Worker - Implementation Tests', () => {
         
         expect(result.success).toBe(true);
         expect(result.content).toContain('score-partwise');
-      }).rejects.toThrow('Phase 1: MXL extraction not implemented yet');
+      }).rejects.toThrow('Version MXL extraction not implemented yet');
     });
 
     test('should handle MXL files without score files', async () => {
@@ -283,7 +283,7 @@ describe('Phase 1: File Processor Worker - Implementation Tests', () => {
         
         expect(result.success).toBe(false);
         expect(result.error).toContain('No MusicXML score file found in MXL archive');
-      }).rejects.toThrow('Phase 1: MXL error handling not implemented yet');
+      }).rejects.toThrow('Version MXL error handling not implemented yet');
     });
   });
 
@@ -305,7 +305,7 @@ describe('Phase 1: File Processor Worker - Implementation Tests', () => {
         expect(result.performance.readTime).toBeGreaterThan(40);
         expect(result.performance.parseTime).toBeGreaterThan(0);
         expect(result.performance.totalTime).toBeGreaterThan(result.performance.readTime);
-      }).rejects.toThrow('Phase 1: Performance measurement not implemented yet');
+      }).rejects.toThrow('Version Performance measurement not implemented yet');
     });
 
     test('should meet performance targets for small files', async () => {
@@ -327,7 +327,7 @@ describe('Phase 1: File Processor Worker - Implementation Tests', () => {
         
         expect(result.success).toBe(true);
         expect(totalTime).toBeLessThan(500); // Target: <500ms for small files
-      }).rejects.toThrow('Phase 1: Performance optimization not implemented yet');
+      }).rejects.toThrow('Version Performance optimization not implemented yet');
     });
   });
 
@@ -362,7 +362,7 @@ describe('Phase 1: File Processor Worker - Implementation Tests', () => {
             jobId: 'test-123'
           })
         );
-      }).rejects.toThrow('Phase 1: Worker communication not implemented yet');
+      }).rejects.toThrow('Version Worker communication not implemented yet');
     });
 
     test('should post error message on failure', async () => {
@@ -386,7 +386,7 @@ describe('Phase 1: File Processor Worker - Implementation Tests', () => {
             error: 'File not found'
           })
         );
-      }).rejects.toThrow('Phase 1: Error communication not implemented yet');
+      }).rejects.toThrow('Version Error communication not implemented yet');
     });
   });
 
@@ -402,7 +402,7 @@ describe('Phase 1: File Processor Worker - Implementation Tests', () => {
         
         expect(result.success).toBe(false);
         expect(result.error).toContain('File not found');
-      }).rejects.toThrow('Phase 1: File error handling not implemented yet');
+      }).rejects.toThrow('Version File error handling not implemented yet');
     });
 
     test('should handle unexpected errors', async () => {
@@ -416,7 +416,7 @@ describe('Phase 1: File Processor Worker - Implementation Tests', () => {
         
         expect(result.success).toBe(false);
         expect(result.error).toBe('Unexpected error');
-      }).rejects.toThrow('Phase 1: General error handling not implemented yet');
+      }).rejects.toThrow('Version General error handling not implemented yet');
     });
   });
 

@@ -1,10 +1,6 @@
 /**
- * Phase 2: Practice Flow Integration Tests (CRITICAL)
+ * Version Practice Flow Integration Tests (CRITICAL)
  * 
- * TDD CYCLE REMINDER:
- * 1. RED: Run these tests - they should fail with "not implemented" errors
- * 2. GREEN: Integrate all Phase 2 components following phase-2-practice-integration.md
- * 3. REFACTOR: Optimize integration while keeping tests green
  * 
  * CRITICAL: This validates the entire practice flow modification
  */
@@ -52,7 +48,7 @@ jest.mock('@/renderer/features/practice-mode/services/MeasureTimeline', () => ({
   MeasureTimeline: mockMeasureTimeline
 }));
 
-describe('Phase 2: Complete Practice Flow Integration', () => {
+describe('Version Complete Practice Flow Integration', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     localStorage.clear();
@@ -107,7 +103,7 @@ describe('Phase 2: Complete Practice Flow Integration', () => {
         // Should loop back to start when reaching end
         expect(mockMeasureTimeline.seekToMeasure).toHaveBeenCalledWith(2, mockOsmdControls.cursor);
         expect(result.current.isActive).toBe(true); // Still practicing
-      }).toThrow('Phase 2: Complete loop cycle not implemented');
+      }).toThrow('Version Complete loop cycle not implemented');
     });
 
     test('should maintain performance during continuous looping', async () => {
@@ -149,7 +145,7 @@ describe('Phase 2: Complete Practice Flow Integration', () => {
         
         expect(loopCount).toBe(10);
         expect(avgLoopTime).toBeLessThan(50); // <50ms per complete loop
-      }).toThrow('Phase 2: Continuous looping performance not optimized');
+      }).toThrow('Version Continuous looping performance not optimized');
     });
   });
 
@@ -192,7 +188,7 @@ describe('Phase 2: Complete Practice Flow Integration', () => {
         
         expect(avgLatency).toBeLessThan(20); // Average <20ms
         expect(maxLatency).toBeLessThan(30); // Max <30ms
-      }).toThrow('Phase 2: MIDI latency requirement not met');
+      }).toThrow('Version MIDI latency requirement not met');
     });
 
     test('should handle rapid notes at range boundaries', async () => {
@@ -233,7 +229,7 @@ describe('Phase 2: Complete Practice Flow Integration', () => {
         // Should handle boundary transition smoothly
         expect(mockMeasureTimeline.seekToMeasure).toHaveBeenCalled();
         expect(result.current.isActive).toBe(true);
-      }).toThrow('Phase 2: Rapid note boundary handling not implemented');
+      }).toThrow('Version Rapid note boundary handling not implemented');
     });
   });
 
@@ -273,7 +269,7 @@ describe('Phase 2: Complete Practice Flow Integration', () => {
         expect(result.current.isActive).toBe(false);
         
         consoleSpy.mockRestore();
-      }).toThrow('Phase 2: Seek failure recovery not integrated');
+      }).toThrow('Version Seek failure recovery not integrated');
     });
 
     test('should handle score changes during active range', async () => {
@@ -303,10 +299,10 @@ describe('Phase 2: Complete Practice Flow Integration', () => {
         
         // Should auto-disable invalid range
         expect(usePracticeStore.getState().customRangeActive).toBe(false);
-      }).toThrow('Phase 2: Score change handling not integrated');
+      }).toThrow('Version Score change handling not integrated');
     });
 
-    // CRITICAL: Cursor corruption recovery (AI: Grok3)
+    // CRITICAL: Cursor corruption recovery (Code review: Code review:)
     test('should recover from cursor corruption during active practice', async () => {
       expect(() => {
         const { usePracticeController } = require('@/renderer/features/practice-mode/hooks/usePracticeController');
@@ -335,7 +331,7 @@ describe('Phase 2: Complete Practice Flow Integration', () => {
         // Should stop practice gracefully
         expect(result.current.isActive).toBe(false);
         expect(screen.getByRole('alert')).toHaveTextContent(/Practice stopped due to error/);
-      }).toThrow('Phase 2: Cursor corruption recovery not implemented');
+      }).toThrow('Version Cursor corruption recovery not implemented');
     });
   });
 
@@ -377,7 +373,7 @@ describe('Phase 2: Complete Practice Flow Integration', () => {
         // Should transition through looping state
         expect(stateHistory).toContain('looping');
         expect(stateHistory[stateHistory.length - 1]).toBe('listening');
-      }).toThrow('Phase 2: State machine integration not implemented');
+      }).toThrow('Version State machine integration not implemented');
     });
   });
 
@@ -419,7 +415,7 @@ describe('Phase 2: Complete Practice Flow Integration', () => {
         
         // Should not leak more than 2MB
         expect(memoryIncrease).toBeLessThan(2 * 1024 * 1024);
-      }).toThrow('Phase 2: Memory leak prevention not integrated');
+      }).toThrow('Version Memory leak prevention not integrated');
     });
 
     test('should track performance metrics in development', () => {
@@ -467,7 +463,7 @@ describe('Phase 2: Complete Practice Flow Integration', () => {
         
         consoleSpy.mockRestore();
         process.env.NODE_ENV = originalEnv;
-      }).toThrow('Phase 2: Performance tracking not integrated');
+      }).toThrow('Version Performance tracking not integrated');
     });
   });
 
@@ -509,7 +505,7 @@ describe('Phase 2: Complete Practice Flow Integration', () => {
         expect(result.current.lastLatency).toBeLessThan(20);
         
         // Phase 2 is complete!
-      }).toThrow('Phase 2: Complete integration not implemented');
+      }).toThrow('Version Complete integration not implemented');
     });
   });
 });

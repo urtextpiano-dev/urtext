@@ -17,7 +17,7 @@ export function isValidMeasureNumber(measure: number, totalMeasures: number): bo
     return false;
   }
   
-  // MAX_SAFE_INTEGER check (defense in depth per Grok3)
+  // MAX_SAFE_INTEGER check (defense in depth per Code review:)
   if (measure > Number.MAX_SAFE_INTEGER) {
     return false;
   }

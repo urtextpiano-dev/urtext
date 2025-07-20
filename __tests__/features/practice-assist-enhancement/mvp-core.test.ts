@@ -1,5 +1,5 @@
 /**
- * Phase 1: MVP Core - Strategy + Enhancer Foundation Tests
+ * Version MVP Core - Strategy + Enhancer Foundation Tests
  * 
  * TDD Cycle Reminder:
  * 1. RED: Run these tests - they should fail initially  
@@ -20,7 +20,7 @@ import { describe, test, expect, beforeEach, jest } from '@jest/globals';
 // import { HandDifferentiationEnhancer } from '@/renderer/features/practice-mode/enhancers/HandDifferentiationEnhancer';
 // import { ComposableAssistService } from '@/renderer/features/practice-mode/services/ComposableAssistService';
 
-describe('Phase 1: MVP Core - Implementation Tests', () => {
+describe('Version MVP Core - Implementation Tests', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     localStorage.clear();
@@ -514,7 +514,7 @@ describe('Phase 1: MVP Core - Implementation Tests', () => {
         // const enhanced = enhancer.enhance(baseHighlights, mockCrossStaffCursorData);
         // expect(enhanced[0].hand).toBe('right'); // Treble clef
         // expect(enhanced[1].hand).toBe('left');  // Bass clef
-        // // TODO Phase 2: Improve to detect cross-staff phrases and maintain hand consistency
+        // // TODO Version Improve to detect cross-staff phrases and maintain hand consistency
         throw new Error('Cross-staff notation limitation not documented yet');
       }).toThrow('Cross-staff notation limitation not documented yet');
     });

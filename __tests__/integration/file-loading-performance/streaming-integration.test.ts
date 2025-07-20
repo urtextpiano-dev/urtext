@@ -15,7 +15,7 @@ import { StreamingMusicXMLParser } from '../../../src/main/parsers/streamingMusi
 import { fileCache } from '../../../src/main/services/fileCache';
 import { ChunkProcessor } from '../../../src/main/workers/chunkProcessor';
 
-describe('Phase 2: Streaming Integration - End-to-End Tests', () => {
+describe('Version Streaming Integration - End-to-End Tests', () => {
   let workerManager: any;
   let streamingParser: any;
   let testFilePath: string;
@@ -68,7 +68,7 @@ describe('Phase 2: Streaming Integration - End-to-End Tests', () => {
           type: 'streaming-complete',
           measuresProcessed: expect.any(Number)
         });
-      }).rejects.toThrow('Phase 2: Worker streaming integration not implemented yet');
+      }).rejects.toThrow('Version Worker streaming integration not implemented yet');
     });
 
     test('should emit measures progressively from worker', async () => {
@@ -95,7 +95,7 @@ describe('Phase 2: Streaming Integration - End-to-End Tests', () => {
         await workerManager.waitForJob(jobId);
         
         expect(measures.length).toBeGreaterThan(100);
-      }).rejects.toThrow('Phase 2: Progressive measure emission not implemented yet');
+      }).rejects.toThrow('Version Progressive measure emission not implemented yet');
     });
   });
 
@@ -126,7 +126,7 @@ describe('Phase 2: Streaming Integration - End-to-End Tests', () => {
           cached: true,
           timestamp: expect.any(Number)
         });
-      }).rejects.toThrow('Phase 2: Progressive caching not implemented yet');
+      }).rejects.toThrow('Version Progressive caching not implemented yet');
     });
 
     test('should serve cached measures during streaming', async () => {
@@ -158,7 +158,7 @@ describe('Phase 2: Streaming Integration - End-to-End Tests', () => {
         // Should get cached measures immediately
         expect(measures.slice(0, 5).every(m => m.cached)).toBe(true);
         expect(measures.slice(0, 5).every(m => m.fromCache)).toBe(true);
-      }).rejects.toThrow('Phase 2: Cached measure serving not implemented yet');
+      }).rejects.toThrow('Version Cached measure serving not implemented yet');
     });
   });
 
@@ -181,7 +181,7 @@ describe('Phase 2: Streaming Integration - End-to-End Tests', () => {
           measures: [{ number: 2 }],
           incomplete: false
         });
-      }).rejects.toThrow('Phase 2: ChunkProcessor not implemented yet');
+      }).rejects.toThrow('Version ChunkProcessor not implemented yet');
     });
 
     test('should handle incomplete chunks across boundaries', async () => {
@@ -204,7 +204,7 @@ describe('Phase 2: Streaming Integration - End-to-End Tests', () => {
           measures: [{ number: 1 }],
           incomplete: false
         });
-      }).rejects.toThrow('Phase 2: Chunk boundary handling not implemented yet');
+      }).rejects.toThrow('Version Chunk boundary handling not implemented yet');
     });
   });
 
@@ -241,7 +241,7 @@ describe('Phase 2: Streaming Integration - End-to-End Tests', () => {
         
         // Total time should be under target
         expect(metrics.totalTime).toBeLessThan(1500); // <1.5s for 5MB
-      }).rejects.toThrow('Phase 2: Streaming performance targets not met yet');
+      }).rejects.toThrow('Version Streaming performance targets not met yet');
     });
 
     test('should maintain UI responsiveness during streaming', async () => {
@@ -268,7 +268,7 @@ describe('Phase 2: Streaming Integration - End-to-End Tests', () => {
         
         // Main thread should never block for long
         expect(maxBlockTime).toBeLessThan(50); // <50ms max block
-      }).rejects.toThrow('Phase 2: UI responsiveness not maintained yet');
+      }).rejects.toThrow('Version UI responsiveness not maintained yet');
     });
   });
 
@@ -300,7 +300,7 @@ describe('Phase 2: Streaming Integration - End-to-End Tests', () => {
           type: 'parse-error',
           recoverable: true
         });
-      }).rejects.toThrow('Phase 2: Streaming error recovery not implemented yet');
+      }).rejects.toThrow('Version Streaming error recovery not implemented yet');
     });
 
     test('should handle worker crashes during streaming', async () => {
@@ -326,7 +326,7 @@ describe('Phase 2: Streaming Integration - End-to-End Tests', () => {
         
         expect(recovered).toBe(true);
         expect(workerManager.getActiveWorkerCount()).toBeGreaterThan(0);
-      }).rejects.toThrow('Phase 2: Worker crash recovery not implemented yet');
+      }).rejects.toThrow('Version Worker crash recovery not implemented yet');
     });
   });
 
@@ -348,7 +348,7 @@ describe('Phase 2: Streaming Integration - End-to-End Tests', () => {
           number: 1,
           fromMXL: true
         });
-      }).rejects.toThrow('Phase 2: MXL streaming not implemented yet');
+      }).rejects.toThrow('Version MXL streaming not implemented yet');
     });
   });
 
@@ -377,7 +377,7 @@ describe('Phase 2: Streaming Integration - End-to-End Tests', () => {
         
         expect(maxMemory).toBeLessThan(100); // <100MB peak
         expect(avgMemory).toBeLessThan(50);  // <50MB average
-      }).rejects.toThrow('Phase 2: Memory efficiency not achieved yet');
+      }).rejects.toThrow('Version Memory efficiency not achieved yet');
     });
   });
 

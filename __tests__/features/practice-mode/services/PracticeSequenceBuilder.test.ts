@@ -161,7 +161,7 @@ describe('PracticeSequenceBuilder', () => {
     });
   });
 
-  describe('Memory Safety (Grok\'s Security Audit)', () => {
+  describe('Memory Safety (Code review:\'s Security Audit)', () => {
     test('should enforce MAX_STEPS limit (50,000)', () => {
       // Create infinite sequence mock
       let stepCount = 0;

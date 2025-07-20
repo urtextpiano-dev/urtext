@@ -11,7 +11,7 @@ import { usePracticeControllerV2 } from '@/renderer/features/practice-mode/hooks
 import { usePracticeStore } from '@/renderer/features/practice-mode/stores/practiceStore';
 import type { OSMDContext } from '@/renderer/contexts/OSMDContext';
 
-// Performance constants from CLAUDE.md
+// Performance constants
 const MIDI_LATENCY_BUDGET = 20; // ms
 const SEEK_TIME_DESKTOP = 35; // ms
 const SEEK_TIME_MOBILE = 60; // ms

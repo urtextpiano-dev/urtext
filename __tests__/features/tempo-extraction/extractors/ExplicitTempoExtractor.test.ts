@@ -20,7 +20,7 @@ try {
   // Not implemented yet - expected for TDD
 }
 
-describe('Phase 1: ExplicitTempoExtractor - MVP Core', () => {
+describe('Version ExplicitTempoExtractor - MVP Core', () => {
   let mockAdapter: any;
   let mockOSMD: any;
 

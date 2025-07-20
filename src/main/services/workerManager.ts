@@ -102,7 +102,7 @@ export class WorkerManager extends EventEmitter {
     // Handle worker events
     worker.on('message', (result) => {
       
-      // Handle telemetry messages (Phase 1: Multi-AI Visibility Strategy - FIXED)
+      // Handle telemetry messages (Version Multi-AI Visibility Strategy - FIXED)
       if (result.__telemetry) {
         // Forward telemetry to main process console if in development
         if (process.env.NODE_ENV === 'development' || process.env.ENABLE_WORKER_TELEMETRY === 'true') {

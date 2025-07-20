@@ -18,7 +18,7 @@ export interface RecentFile {
 // Union type for file loading states
 export type LoadState = 'idle' | 'loading' | 'success' | 'error';
 
-// Tempo extraction types (Phase 2: Direct XML Tempo Extraction)
+// Tempo extraction types (Version Direct XML Tempo Extraction)
 export interface XMLTempoEvent {
   measureNumber: number;
   bpm: number;

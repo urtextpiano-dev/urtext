@@ -70,14 +70,14 @@ function readStringFromQueryOrLocalStorage<T extends string>(
  * Global feature flags instance
  */
 export const Flags: FeatureFlags = {
-  // Phase 1: Critical latency fixes (enabled by default for V2)
+  // Version Critical latency fixes (enabled by default for V2)
   microBatching: readFromQueryOrLocalStorage('mb', true),
   preComputedSequence: readFromQueryOrLocalStorage('pcs', true),
   
-  // Phase 2: Performance optimization  
+  // Version Performance optimization  
   audioWorklet: readFromQueryOrLocalStorage('aw', false),
   
-  // Phase 3: Advanced optimization
+  // Version Advanced optimization
   wasmComparison: readFromQueryOrLocalStorage('wasm', false),
   
   // Controller version selection (v2 default - state machine with optimizations)

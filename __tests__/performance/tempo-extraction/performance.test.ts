@@ -22,7 +22,7 @@ try {
   // Not implemented yet - expected for TDD
 }
 
-describe('Phase 1: Performance Requirements', () => {
+describe('Version Performance Requirements', () => {
   describe('Extraction Time Limits', () => {
     it('should extract tempo from small score (<50 measures) in under 10ms', async () => {
       await expect(async () => {

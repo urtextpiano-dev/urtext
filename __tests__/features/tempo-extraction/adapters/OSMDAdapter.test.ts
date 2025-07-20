@@ -29,7 +29,7 @@ interface MockOSMD {
   };
 }
 
-describe('Phase 1: OSMDAdapter - Anti-Corruption Layer', () => {
+describe('Version OSMDAdapter - Anti-Corruption Layer', () => {
   let mockOSMD: MockOSMD;
 
   beforeEach(() => {

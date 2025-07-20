@@ -11,7 +11,7 @@ import { useOSMDStore } from '@/renderer/stores/osmdStore';
 jest.mock('@/renderer/utils/performance-logger');
 jest.mock('@/renderer/utils/simple-logger');
 
-describe('Phase 1: Core Zoom State & OSMD Integration - Implementation Tests', () => {
+describe('Version Core Zoom State & OSMD Integration - Implementation Tests', () => {
   beforeEach(() => {
     // Reset store to initial state
     useOSMDStore.getState().reset();
@@ -23,7 +23,7 @@ describe('Phase 1: Core Zoom State & OSMD Integration - Implementation Tests', (
       expect(() => {
         const state = useOSMDStore.getState();
         expect(state.zoomLevel).toBe(1.0);
-      }).toThrow('Phase 1: Zoom state not implemented yet');
+      }).toThrow('Version Zoom state not implemented yet');
     });
 
     test('should have setZoomLevel action that clamps values between 0.5 and 2.0', () => {
@@ -41,7 +41,7 @@ describe('Phase 1: Core Zoom State & OSMD Integration - Implementation Tests', (
         // Test clamping at maximum
         act(() => setZoomLevel(3.0));
         expect(useOSMDStore.getState().zoomLevel).toBe(2.0);
-      }).toThrow('Phase 1: setZoomLevel action not implemented yet');
+      }).toThrow('Version setZoomLevel action not implemented yet');
     });
 
     test('should have zoomIn action that increases zoom by 0.1', () => {
@@ -53,7 +53,7 @@ describe('Phase 1: Core Zoom State & OSMD Integration - Implementation Tests', (
         
         act(() => zoomIn());
         expect(useOSMDStore.getState().zoomLevel).toBe(1.2);
-      }).toThrow('Phase 1: zoomIn action not implemented yet');
+      }).toThrow('Version zoomIn action not implemented yet');
     });
 
     test('should have zoomOut action that decreases zoom by 0.1', () => {
@@ -65,7 +65,7 @@ describe('Phase 1: Core Zoom State & OSMD Integration - Implementation Tests', (
         
         act(() => zoomOut());
         expect(useOSMDStore.getState().zoomLevel).toBe(0.8);
-      }).toThrow('Phase 1: zoomOut action not implemented yet');
+      }).toThrow('Version zoomOut action not implemented yet');
     });
 
     test('should have resetZoom action that sets zoom back to 1.0', () => {
@@ -79,7 +79,7 @@ describe('Phase 1: Core Zoom State & OSMD Integration - Implementation Tests', (
         // Reset zoom
         act(() => resetZoom());
         expect(useOSMDStore.getState().zoomLevel).toBe(1.0);
-      }).toThrow('Phase 1: resetZoom action not implemented yet');
+      }).toThrow('Version resetZoom action not implemented yet');
     });
 
     test('should not allow zoom beyond limits with repeated actions', () => {
@@ -97,7 +97,7 @@ describe('Phase 1: Core Zoom State & OSMD Integration - Implementation Tests', (
           act(() => zoomOut());
         }
         expect(useOSMDStore.getState().zoomLevel).toBe(0.5);
-      }).toThrow('Phase 1: Zoom limits not enforced yet');
+      }).toThrow('Version Zoom limits not enforced yet');
     });
   });
 
@@ -117,7 +117,7 @@ describe('Phase 1: Core Zoom State & OSMD Integration - Implementation Tests', (
         
         expect(mockOSMD.zoom).toBe(1.5);
         expect(mockOSMD.render).toHaveBeenCalled();
-      }).toThrow('Phase 1: OSMD zoom integration not implemented yet');
+      }).toThrow('Version OSMD zoom integration not implemented yet');
     });
 
     test('should debounce zoom renders to prevent performance issues', async () => {
@@ -138,7 +138,7 @@ describe('Phase 1: Core Zoom State & OSMD Integration - Implementation Tests', (
         expect(mockRender).toHaveBeenCalledTimes(1);
         
         jest.useRealTimers();
-      }).toThrow('Phase 1: Debounced zoom rendering not implemented yet');
+      }).toThrow('Version Debounced zoom rendering not implemented yet');
     });
 
     test('should preserve scroll position during zoom', () => {
@@ -155,7 +155,7 @@ describe('Phase 1: Core Zoom State & OSMD Integration - Implementation Tests', (
         mockContainer.scrollTop = scrollPercent * mockContainer.scrollHeight; // Should be 750
         
         expect(mockContainer.scrollTop).toBe(750);
-      }).toThrow('Phase 1: Scroll position preservation not implemented yet');
+      }).toThrow('Version Scroll position preservation not implemented yet');
     });
   });
 
@@ -169,7 +169,7 @@ describe('Phase 1: Core Zoom State & OSMD Integration - Implementation Tests', (
         const duration = performance.now() - startTime;
         
         expect(duration).toBeLessThan(10);
-      }).toThrow('Phase 1: Performance test not implemented yet');
+      }).toThrow('Version Performance test not implemented yet');
     });
 
     test('should not trigger re-render if zoom value unchanged', () => {
@@ -181,7 +181,7 @@ describe('Phase 1: Core Zoom State & OSMD Integration - Implementation Tests', (
         // Should not trigger render
         
         expect(mockRender).not.toHaveBeenCalled();
-      }).toThrow('Phase 1: Optimization for unchanged zoom not implemented yet');
+      }).toThrow('Version Optimization for unchanged zoom not implemented yet');
     });
   });
 
@@ -213,7 +213,7 @@ describe('Phase 1: Core Zoom State & OSMD Integration - Implementation Tests', (
         
         // Ensure no errors were thrown
         expect(() => setZoomLevel('abc' as any)).not.toThrow();
-      }).toThrow('Phase 1: Invalid zoom value handling not implemented yet');
+      }).toThrow('Version Invalid zoom value handling not implemented yet');
     });
 
     test('should handle OSMD render errors without crashing', () => {
@@ -234,7 +234,7 @@ describe('Phase 1: Core Zoom State & OSMD Integration - Implementation Tests', (
             // Should be caught internally
           }
         }).not.toThrow();
-      }).toThrow('Phase 1: OSMD error handling not implemented yet');
+      }).toThrow('Version OSMD error handling not implemented yet');
     });
     
     test('should handle null OSMD instance gracefully', () => {
@@ -253,7 +253,7 @@ describe('Phase 1: Core Zoom State & OSMD Integration - Implementation Tests', (
             mockOSMD.render();
           }
         }).not.toThrow();
-      }).toThrow('Phase 1: Null OSMD handling not implemented yet');
+      }).toThrow('Version Null OSMD handling not implemented yet');
     });
 
     test('should handle actions at boundaries without side effects', () => {
@@ -276,7 +276,7 @@ describe('Phase 1: Core Zoom State & OSMD Integration - Implementation Tests', (
         act(() => zoomOut());
         expect(useOSMDStore.getState().zoomLevel).toBe(0.5); // Should remain at min
         expect(mockRender).not.toHaveBeenCalled();
-      }).toThrow('Phase 1: Boundary action handling not implemented yet');
+      }).toThrow('Version Boundary action handling not implemented yet');
     });
     
     test('should handle component unmount during debounce', async () => {
@@ -311,7 +311,7 @@ describe('Phase 1: Core Zoom State & OSMD Integration - Implementation Tests', (
         expect(cleanup).toHaveBeenCalled();
         
         jest.useRealTimers();
-      }).toThrow('Phase 1: Debounce cleanup not implemented yet');
+      }).toThrow('Version Debounce cleanup not implemented yet');
     });
     
     test('should handle race conditions with rapid actions', () => {
@@ -341,7 +341,7 @@ describe('Phase 1: Core Zoom State & OSMD Integration - Implementation Tests', (
         expect(mockRender).toHaveBeenCalledWith(1.0); // Final zoom level
         
         jest.useRealTimers();
-      }).toThrow('Phase 1: Race condition handling not implemented yet');
+      }).toThrow('Version Race condition handling not implemented yet');
     });
     
     test('should handle non-scrollable containers during zoom', () => {
@@ -365,7 +365,7 @@ describe('Phase 1: Core Zoom State & OSMD Integration - Implementation Tests', (
           const newScrollTop = scrollPercent * mockContainer.scrollHeight;
           mockContainer.scrollTo(0, newScrollTop);
         }).not.toThrow();
-      }).toThrow('Phase 1: Non-scrollable container handling not implemented yet');
+      }).toThrow('Version Non-scrollable container handling not implemented yet');
     });
   });
 
@@ -379,7 +379,7 @@ describe('Phase 1: Core Zoom State & OSMD Integration - Implementation Tests', (
         mockResize(zoomLevel);
         
         expect(mockResize).toHaveBeenCalledWith(1.5);
-      }).toThrow('Phase 1: Resize handler zoom integration not implemented yet');
+      }).toThrow('Version Resize handler zoom integration not implemented yet');
     });
 
     test('should maintain note mappings after zoom', () => {
@@ -395,7 +395,7 @@ describe('Phase 1: Core Zoom State & OSMD Integration - Implementation Tests', (
         const sizeAfter = mockNoteMapping.size;
         
         expect(sizeAfter).toBe(sizeBefore);
-      }).toThrow('Phase 1: Note mapping preservation not verified yet');
+      }).toThrow('Version Note mapping preservation not verified yet');
     });
 
     test('should re-inject note ID attributes after zoom render', () => {
@@ -406,7 +406,7 @@ describe('Phase 1: Core Zoom State & OSMD Integration - Implementation Tests', (
         // Should call requestAnimationFrame then inject
         
         expect(mockInjectNoteIdAttributes).toHaveBeenCalled();
-      }).toThrow('Phase 1: Note ID re-injection not implemented yet');
+      }).toThrow('Version Note ID re-injection not implemented yet');
     });
   });
 });

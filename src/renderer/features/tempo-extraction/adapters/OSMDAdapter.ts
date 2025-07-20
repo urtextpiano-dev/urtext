@@ -44,7 +44,7 @@ export class OSMDAdapter implements IOSMDAdapter {
   }
 
   /**
-   * Phase 1: Get ALL tempos in a measure with position data
+   * Version Get ALL tempos in a measure with position data
    * This is the core bug fix - collect ALL tempos, not just first
    */
   getTemposInMeasure(measure: any): TempoWithPosition[] {
@@ -151,7 +151,7 @@ export class OSMDAdapter implements IOSMDAdapter {
   /**
    * Get tempo in BPM from a measure
    * Returns null if not found or invalid
-   * Updated for Phase 1: Now uses getTemposInMeasure internally
+   * Updated for Version Now uses getTemposInMeasure internally
    */
   getTempoInBpm(measure: any): number | null {
     const tempos = this.getTemposInMeasure(measure);

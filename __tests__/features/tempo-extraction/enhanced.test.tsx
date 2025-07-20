@@ -33,7 +33,7 @@ try {
   // Not implemented yet - expected for TDD
 }
 
-describe('Phase 2: Enhanced Experience - Full Integration', () => {
+describe('Version Enhanced Experience - Full Integration', () => {
   let mockOSMD: any;
 
   beforeEach(() => {

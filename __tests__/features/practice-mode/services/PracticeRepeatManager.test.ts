@@ -23,7 +23,7 @@ jest.mock('@/renderer/utils/performance-logger', () => ({
   }
 }));
 
-describe('Phase 1: PracticeRepeatManager Service - Implementation Tests', () => {
+describe('Version PracticeRepeatManager Service - Implementation Tests', () => {
   let mockTimeline: any; // Will be MeasureTimeline
   let mockAdapter: any; // Will be IRepeatAdapter
   let manager: any; // Will be PracticeRepeatManager

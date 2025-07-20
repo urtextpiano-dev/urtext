@@ -1,5 +1,5 @@
 /**
- * Phase 3: Performance Monitor UI Tests
+ * Version Performance Monitor UI Tests
  * 
  * Tests for latency visualization component
  */
@@ -13,7 +13,7 @@ import { useMidiStore } from '@/renderer/stores/midiStore';
 // Mock the store
 jest.mock('@/renderer/stores/midiStore');
 
-describe('Phase 3: MIDI Performance Monitor', () => {
+describe('Version MIDI Performance Monitor', () => {
   const mockUseMidiStore = useMidiStore as jest.MockedFunction<typeof useMidiStore>;
   
   beforeEach(() => {

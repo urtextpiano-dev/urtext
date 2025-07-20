@@ -1,5 +1,5 @@
 /**
- * Phase 1: Practice Mode Types and Interfaces Tests
+ * Version Practice Mode Types and Interfaces Tests
  * 
  * TDD Cycle:
  * 1. RED: Tests fail - types don't exist
@@ -19,7 +19,7 @@ import type {
   PracticeStepResult
 } from '@/renderer/features/practice-mode/types';
 
-describe('Phase 1: Practice Mode Types', () => {
+describe('Version Practice Mode Types', () => {
   test('should export PracticeNote interface', () => {
     // TypeScript compilation will verify the interface shape
 const note: PracticeNote = {

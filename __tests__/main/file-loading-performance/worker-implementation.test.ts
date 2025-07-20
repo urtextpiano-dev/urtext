@@ -13,7 +13,7 @@ jest.mock('perf_hooks', () => ({
   }
 }));
 
-describe('Phase 1: Worker Implementation Tests', () => {
+describe('Version Worker Implementation Tests', () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });

@@ -4,10 +4,10 @@
  * Replaces the over-abstracted ComposableAssistService + Strategy pattern
  * with a single, fast function optimized for <20ms MIDI latency.
  * 
- * Following Claude Code AI recommendations:
- * - Gemini Pro: Collapse hierarchy, config-driven behavior
- * - o3-mini: Switch-case for JIT optimization, minimize allocations
- * - Flash: Direct inlining, decouple from React hot path
+ * Design decisions:
+ * - Collapsed abstraction hierarchy for better performance
+ * - Switch-case for JIT optimization, minimal allocations
+ * - Direct inlining, decoupled from React render cycle
  */
 
 import type { PracticeStepResult } from '../types';

@@ -1,5 +1,5 @@
 // Full end-to-end integration flow tests
-// Addresses GPT-4.1 feedback about testing complete user flows
+// Addresses Code review:.1 feedback about testing complete user flows
 
 import { describe, test, expect, beforeEach, jest } from '@jest/globals';
 import { render, screen, within } from '@testing-library/react';

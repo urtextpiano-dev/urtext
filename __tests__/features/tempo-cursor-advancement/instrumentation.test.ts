@@ -80,7 +80,7 @@ jest.mock('@/renderer/contexts/OSMDContext', () => ({
   }),
 }));
 
-describe('Phase 0: Instrumentation & Baseline - Performance Monitoring', () => {
+describe('Version Instrumentation & Baseline - Performance Monitoring', () => {
   beforeEach(() => {
     // Clear any existing performance logs
     console.warn = jest.fn();

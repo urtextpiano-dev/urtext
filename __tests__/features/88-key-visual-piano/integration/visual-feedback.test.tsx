@@ -11,7 +11,7 @@ import { PianoKey } from '@/renderer/components/PianoKey';
 import { PianoKeyboard } from '@/renderer/components/PianoKeyboard';
 import type { PianoKeyData } from '@/renderer/utils/pianoUtils';
 
-describe('Phase 2: Enhanced Visual Feedback', () => {
+describe('Version Enhanced Visual Feedback', () => {
   const mockLandmarkKey: PianoKeyData = {
     id: 'C4',
     type: 'white',

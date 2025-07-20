@@ -1,10 +1,6 @@
 /**
- * Phase 1: Integration Tests - Store & Component Together
+ * Version Integration Tests - Store & Component Together
  * 
- * TDD CYCLE REMINDER:
- * 1. RED: Run these tests - they should fail with "not implemented" errors
- * 2. GREEN: Integrate components following phase-1-mvp-core.md
- * 3. REFACTOR: Improve integration while keeping tests green
  * 
  * PERFORMANCE TARGET: Full feature interaction <100ms
  */
@@ -18,7 +14,7 @@ import userEvent from '@testing-library/user-event';
 // import { MeasureRangeSelector } from '@/renderer/features/practice-mode/components/MeasureRangeSelector';
 // import { usePracticeStore } from '@/renderer/features/practice-mode/stores/practiceStore';
 
-describe('Phase 1: Custom Range Integration', () => {
+describe('Version Custom Range Integration', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     localStorage.clear();
@@ -59,7 +55,7 @@ describe('Phase 1: Custom Range Integration', () => {
         // Component should reflect store changes
         expect(startInput.value).toBe('5');
         expect(endInput.value).toBe('10');
-      }).toThrow('Phase 1: Store-Component synchronization not implemented');
+      }).toThrow('Version Store-Component synchronization not implemented');
     });
 
     test('should update store when user interacts with component', async () => {
@@ -84,7 +80,7 @@ describe('Phase 1: Custom Range Integration', () => {
         const state = usePracticeStore.getState();
         expect(state.customStartMeasure).toBe(3);
         expect(state.customEndMeasure).toBe(8);
-      }).toThrow('Phase 1: Component-Store updates not implemented');
+      }).toThrow('Version Component-Store updates not implemented');
     });
 
     test('should toggle custom range through UI and reflect in store', async () => {
@@ -112,7 +108,7 @@ describe('Phase 1: Custom Range Integration', () => {
         
         expect(usePracticeStore.getState().customRangeActive).toBe(false);
         expect(toggleButton).toHaveTextContent('Enable Range');
-      }).toThrow('Phase 1: Toggle integration not implemented');
+      }).toThrow('Version Toggle integration not implemented');
     });
   });
 
@@ -143,7 +139,7 @@ describe('Phase 1: Custom Range Integration', () => {
         // Should be enabled now
         expect(toggleButton).not.toBeDisabled();
         expect(screen.queryByText(/must be greater than/)).not.toBeInTheDocument();
-      }).toThrow('Phase 1: Validation integration not implemented');
+      }).toThrow('Version Validation integration not implemented');
     });
 
     test('should show real-time validation feedback', async () => {
@@ -173,7 +169,7 @@ describe('Phase 1: Custom Range Integration', () => {
         await waitFor(() => {
           expect(screen.getByText('End measure cannot exceed 20')).toBeInTheDocument();
         });
-      }).toThrow('Phase 1: Real-time validation feedback not implemented');
+      }).toThrow('Version Real-time validation feedback not implemented');
     });
   });
 
@@ -202,7 +198,7 @@ describe('Phase 1: Custom Range Integration', () => {
         
         // Final state should be correct
         expect(usePracticeStore.getState().customStartMeasure).toBe(20);
-      }).toThrow('Phase 1: Rapid input handling not implemented');
+      }).toThrow('Version Rapid input handling not implemented');
     });
 
     test('should render complete feature within budget', () => {
@@ -220,7 +216,7 @@ describe('Phase 1: Custom Range Integration', () => {
         
         // Complete render + re-render should be fast
         expect(duration).toBeLessThan(100); // <100ms budget
-      }).toThrow('Phase 1: Render performance not optimized');
+      }).toThrow('Version Render performance not optimized');
     });
   });
 
@@ -253,7 +249,7 @@ describe('Phase 1: Custom Range Integration', () => {
         // Restore
         usePracticeStore.getState().setCustomRange = originalSetCustomRange;
         consoleSpy.mockRestore();
-      }).toThrow('Phase 1: Error recovery not implemented');
+      }).toThrow('Version Error recovery not implemented');
     });
   });
 
@@ -281,13 +277,13 @@ describe('Phase 1: Custom Range Integration', () => {
         
         const errorElement = screen.getByText('Start measure must be at least 1');
         expect(errorElement).toHaveAttribute('role', 'alert');
-      }).toThrow('Phase 1: Accessibility integration not implemented');
+      }).toThrow('Version Accessibility integration not implemented');
     });
   });
 });
 
 // Integration test to verify Phase 1 is complete
-describe('Phase 1: Complete Integration Verification', () => {
+describe('Version Complete Integration Verification', () => {
   test('should demonstrate full Phase 1 functionality', () => {
     expect(() => {
       const { MeasureRangeSelector } = require('@/renderer/features/practice-mode/components/MeasureRangeSelector');
@@ -314,6 +310,6 @@ describe('Phase 1: Complete Integration Verification', () => {
       expect(typeof state.clearCustomRange).toBe('function');
       
       // Phase 1 is complete!
-    }).toThrow('Phase 1: Complete integration not implemented');
+    }).toThrow('Version Complete integration not implemented');
   });
 });

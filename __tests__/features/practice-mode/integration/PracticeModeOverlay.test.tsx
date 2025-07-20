@@ -1,5 +1,5 @@
 /**
- * Phase 2: Practice Mode UI Overlay Tests
+ * Version Practice Mode UI Overlay Tests
  * 
  * Requirements:
  * - Display current practice status
@@ -24,7 +24,7 @@ import type { PracticeStatus, PracticeStep, ComparisonResult } from '@/renderer/
 // Mock the store
 jest.mock('@/renderer/features/practice-mode/stores/practiceStore');
 
-describe('Phase 2: Practice Mode UI Overlay', () => {
+describe('Version Practice Mode UI Overlay', () => {
   let mockStore: any;
 
   beforeEach(() => {

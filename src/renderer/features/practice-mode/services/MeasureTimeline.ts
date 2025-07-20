@@ -1,4 +1,4 @@
-// Phase 1: MeasureTimeline Service - Core implementation for measure navigation
+// Version MeasureTimeline Service - Core implementation for measure navigation
 import { perfLogger } from '@/renderer/utils/performance-logger';
 
 interface MeasureInfo {

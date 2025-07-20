@@ -1,5 +1,5 @@
 /**
- * Phase 3: MIDI Zustand Store Tests
+ * Version MIDI Zustand Store Tests
  * 
  * Global state management for MIDI
  */
@@ -8,7 +8,7 @@ import { describe, test, expect } from '@jest/globals';
 import { useMidiStore, applyVelocityCurve } from '@/renderer/stores/midiStore';
 import type { MidiDevice } from '@/renderer/types/midi';
 
-describe('Phase 3: MIDI Zustand Store', () => {
+describe('Version MIDI Zustand Store', () => {
   test('should manage device list globally', () => {
     const { setDevices, devices } = useMidiStore.getState();
     

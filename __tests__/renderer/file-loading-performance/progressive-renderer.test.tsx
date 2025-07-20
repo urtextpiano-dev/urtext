@@ -23,7 +23,7 @@ jest.mock('../../../src/renderer/services/osmd-adapter', () => ({
   }
 }));
 
-describe('Phase 2: Progressive Renderer - Implementation Tests', () => {
+describe('Version Progressive Renderer - Implementation Tests', () => {
   let progressiveRenderer: any;
   let mockMeasureHandler: jest.Mock;
   
@@ -50,7 +50,7 @@ describe('Phase 2: Progressive Renderer - Implementation Tests', () => {
           preloadMeasures: 5,
           maxCachedMeasures: 50
         });
-      }).toThrow('Phase 2: ProgressiveRenderer not implemented yet');
+      }).toThrow('Version ProgressiveRenderer not implemented yet');
     });
 
     test('should handle incoming measure events', () => {
@@ -71,7 +71,7 @@ describe('Phase 2: Progressive Renderer - Implementation Tests', () => {
           number: 1,
           rendered: true
         });
-      }).toThrow('Phase 2: Measure handling not implemented yet');
+      }).toThrow('Version Measure handling not implemented yet');
     });
 
     test('should batch measures for efficient rendering', async () => {
@@ -108,7 +108,7 @@ describe('Phase 2: Progressive Renderer - Implementation Tests', () => {
           expect.objectContaining({ number: 4 }),
           expect.objectContaining({ number: 5 })
         ]));
-      }).rejects.toThrow('Phase 2: Batch rendering not implemented yet');
+      }).rejects.toThrow('Version Batch rendering not implemented yet');
     });
   });
 
@@ -133,7 +133,7 @@ describe('Phase 2: Progressive Renderer - Implementation Tests', () => {
         const rendered = renderer.getRenderedMeasures();
         expect(rendered).toHaveLength(5);
         expect(rendered.map(m => m.number)).toEqual([1, 2, 3, 4, 5]);
-      }).toThrow('Phase 2: Viewport management not implemented yet');
+      }).toThrow('Version Viewport management not implemented yet');
     });
 
     test('should update viewport on scroll', () => {
@@ -152,7 +152,7 @@ describe('Phase 2: Progressive Renderer - Implementation Tests', () => {
         
         const rendered = renderer.getRenderedMeasures();
         expect(rendered.map(m => m.number)).toEqual([8, 9, 10, 11, 12]);
-      }).toThrow('Phase 2: Viewport scrolling not implemented yet');
+      }).toThrow('Version Viewport scrolling not implemented yet');
     });
 
     test('should preload measures ahead of viewport', () => {
@@ -171,7 +171,7 @@ describe('Phase 2: Progressive Renderer - Implementation Tests', () => {
         const cached = renderer.getCachedMeasures();
         expect(cached).toHaveLength(8); // 5 viewport + 3 preload
         expect(cached.map(m => m.number)).toEqual([1, 2, 3, 4, 5, 6, 7, 8]);
-      }).toThrow('Phase 2: Measure preloading not implemented yet');
+      }).toThrow('Version Measure preloading not implemented yet');
     });
   });
 
@@ -195,7 +195,7 @@ describe('Phase 2: Progressive Renderer - Implementation Tests', () => {
         const cached = renderer.getCachedMeasures();
         expect(cached).toHaveLength(10);
         expect(cached[0].number).toBeGreaterThanOrEqual(11);
-      }).toThrow('Phase 2: Cache eviction not implemented yet');
+      }).toThrow('Version Cache eviction not implemented yet');
     });
 
     test('should clear rendering data on measure eviction', () => {
@@ -216,7 +216,7 @@ describe('Phase 2: Progressive Renderer - Implementation Tests', () => {
         
         // Should have cleared measure 1
         expect(clearSpy).toHaveBeenCalledWith({ measureNumber: 1 });
-      }).toThrow('Phase 2: Render cleanup not implemented yet');
+      }).toThrow('Version Render cleanup not implemented yet');
     });
   });
 
@@ -243,7 +243,7 @@ describe('Phase 2: Progressive Renderer - Implementation Tests', () => {
         
         expect(screen.getByText(/Loaded: 0\/0/)).toBeInTheDocument();
         expect(screen.getByText('Ready')).toBeInTheDocument();
-      }).toThrow('Phase 2: useProgressiveLoading hook not implemented yet');
+      }).toThrow('Version useProgressiveLoading hook not implemented yet');
     });
 
     test('should update hook state on measure loading', async () => {
@@ -267,7 +267,7 @@ describe('Phase 2: Progressive Renderer - Implementation Tests', () => {
         await waitFor(() => {
           expect(screen.getByText('Loaded: 2')).toBeInTheDocument();
         });
-      }).rejects.toThrow('Phase 2: Hook state updates not implemented yet');
+      }).rejects.toThrow('Version Hook state updates not implemented yet');
     });
   });
 
@@ -278,7 +278,7 @@ describe('Phase 2: Progressive Renderer - Implementation Tests', () => {
         
         expect(screen.getByTestId('progressive-sheet-music')).toBeInTheDocument();
         expect(screen.getByRole('region', { name: 'Sheet music display' })).toBeInTheDocument();
-      }).toThrow('Phase 2: SheetMusicProgressive component not implemented yet');
+      }).toThrow('Version SheetMusicProgressive component not implemented yet');
     });
 
     test('should show loading skeleton for pending measures', () => {
@@ -292,7 +292,7 @@ describe('Phase 2: Progressive Renderer - Implementation Tests', () => {
         
         const skeletons = container.querySelectorAll('.measure-skeleton');
         expect(skeletons).toHaveLength(7); // 10 total - 3 loaded
-      }).toThrow('Phase 2: Loading skeletons not implemented yet');
+      }).toThrow('Version Loading skeletons not implemented yet');
     });
 
     test('should handle scroll events for viewport updates', async () => {
@@ -319,7 +319,7 @@ describe('Phase 2: Progressive Renderer - Implementation Tests', () => {
             lastVisibleMeasure: expect.any(Number)
           });
         });
-      }).rejects.toThrow('Phase 2: Scroll handling not implemented yet');
+      }).rejects.toThrow('Version Scroll handling not implemented yet');
     });
   });
 
@@ -338,7 +338,7 @@ describe('Phase 2: Progressive Renderer - Implementation Tests', () => {
         const duration = performance.now() - start;
         
         expect(duration).toBeLessThan(16); // 60fps budget
-      }).rejects.toThrow('Phase 2: Render performance not optimized yet');
+      }).rejects.toThrow('Version Render performance not optimized yet');
     });
 
     test('should not block UI during batch rendering', async () => {
@@ -369,7 +369,7 @@ describe('Phase 2: Progressive Renderer - Implementation Tests', () => {
         clearInterval(checkInterval);
         
         expect(blocked).toBe(false);
-      }).rejects.toThrow('Phase 2: Non-blocking rendering not implemented yet');
+      }).rejects.toThrow('Version Non-blocking rendering not implemented yet');
     });
   });
 
@@ -396,7 +396,7 @@ describe('Phase 2: Progressive Renderer - Implementation Tests', () => {
             measure: 1
           })
         );
-      }).rejects.toThrow('Phase 2: Render error handling not implemented yet');
+      }).rejects.toThrow('Version Render error handling not implemented yet');
     });
 
     test('should recover from partial render failures', async () => {
@@ -423,7 +423,7 @@ describe('Phase 2: Progressive Renderer - Implementation Tests', () => {
         const rendered = renderer.getRenderedMeasures();
         expect(rendered).toHaveLength(9);
         expect(rendered.map(m => m.number)).not.toContain(5);
-      }).rejects.toThrow('Phase 2: Partial failure recovery not implemented yet');
+      }).rejects.toThrow('Version Partial failure recovery not implemented yet');
     });
   });
 

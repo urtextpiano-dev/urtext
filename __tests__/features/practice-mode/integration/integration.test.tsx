@@ -1,5 +1,5 @@
 /**
- * Phase 2: Enhanced Feedback Integration Tests
+ * Version Enhanced Feedback Integration Tests
  * 
  * Tests the complete integration of all Phase 2 components:
  * - PracticeModeOverlay + enhanced piano highlighting
@@ -44,7 +44,7 @@ jest.mock('@/renderer/components/PianoKeyboard');
 // Import types
 import type { PracticeStep, PracticeResult } from '@/renderer/features/practice-mode/types';
 
-describe('Phase 2: Enhanced Feedback Integration', () => {
+describe('Version Enhanced Feedback Integration', () => {
   let mockMidiHook: any;
   let mockOSMDHook: any;
   let mockPracticeStore: any;

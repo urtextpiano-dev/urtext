@@ -31,7 +31,7 @@ try {
   // Types not implemented yet - this is expected in TDD
 }
 
-describe('Phase 1: Core Data Structures - Type Definitions', () => {
+describe('Version Core Data Structures - Type Definitions', () => {
   describe('TempoChangeEvent Interface', () => {
     it('should define required properties for tempo change events', () => {
       expect(() => {
@@ -186,7 +186,7 @@ describe('Phase 1: Core Data Structures - Type Definitions', () => {
 
   describe('Type Safety Requirements', () => {
     it('should enforce strict typing with no any types', () => {
-      // This test validates that implementation follows ChatGPT's requirement
+      // This test validates that implementation follows Code review:'s requirement
       // for strict TypeScript with no 'any' types
       expect(() => {
         // When implemented, types should be fully typed

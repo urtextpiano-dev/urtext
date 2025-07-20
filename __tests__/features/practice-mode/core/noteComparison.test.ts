@@ -1,5 +1,5 @@
 /**
- * Phase 1: Note Comparison Logic Tests
+ * Version Note Comparison Logic Tests
  * 
  * TDD Cycle:
  * 1. RED: Tests fail - comparison functions don't exist
@@ -16,7 +16,7 @@ import { performance } from 'perf_hooks';
 import { compareNotes, debounce } from '@/renderer/features/practice-mode/utils/noteComparison';
 import type { PracticeStep, ComparisonResult } from '@/renderer/features/practice-mode/types';
 
-describe('Phase 1: Note Comparison Logic', () => {
+describe('Version Note Comparison Logic', () => {
   describe('compareNotes function', () => {
     test('should detect correct single note', () => {
       const expected: PracticeStep = {

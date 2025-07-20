@@ -8,7 +8,7 @@ import { describe, test, expect, beforeEach, jest, afterEach } from '@jest/globa
 // Import the utility that will be created in this phase
 // import { announceToScreenReader } from '@/renderer/utils/accessibility';
 
-describe('Phase 3: Accessibility Utils - Screen Reader Announcement Tests', () => {
+describe('Version Accessibility Utils - Screen Reader Announcement Tests', () => {
   beforeEach(() => {
     // Clear DOM
     document.body.innerHTML = '';
@@ -30,7 +30,7 @@ describe('Phase 3: Accessibility Utils - Screen Reader Announcement Tests', () =
         // expect(liveRegion).toBeInTheDocument();
         // expect(liveRegion).toHaveAttribute('aria-live', 'polite');
         // expect(liveRegion).toHaveTextContent('Test announcement');
-      }).toThrow('Phase 3: announceToScreenReader - not implemented yet');
+      }).toThrow('Version announceToScreenReader - not implemented yet');
     });
 
     test('should use sr-only class for visual hiding', () => {
@@ -39,7 +39,7 @@ describe('Phase 3: Accessibility Utils - Screen Reader Announcement Tests', () =
         
         // const liveRegion = document.querySelector('[role="status"]');
         // expect(liveRegion).toHaveClass('sr-only');
-      }).toThrow('Phase 3: announceToScreenReader - sr-only class not implemented yet');
+      }).toThrow('Version announceToScreenReader - sr-only class not implemented yet');
     });
 
     test('should remove announcement after 1 second', () => {
@@ -56,7 +56,7 @@ describe('Phase 3: Accessibility Utils - Screen Reader Announcement Tests', () =
         // expect(document.querySelector('[role="status"]')).not.toBeInTheDocument();
         
         jest.useRealTimers();
-      }).toThrow('Phase 3: announceToScreenReader - auto cleanup not implemented yet');
+      }).toThrow('Version announceToScreenReader - auto cleanup not implemented yet');
     });
 
     test('should handle multiple announcements', () => {
@@ -71,7 +71,7 @@ describe('Phase 3: Accessibility Utils - Screen Reader Announcement Tests', () =
         // expect(liveRegions[0]).toHaveTextContent('First message');
         // expect(liveRegions[1]).toHaveTextContent('Second message');
         // expect(liveRegions[2]).toHaveTextContent('Third message');
-      }).toThrow('Phase 3: announceToScreenReader - multiple announcements not implemented yet');
+      }).toThrow('Version announceToScreenReader - multiple announcements not implemented yet');
     });
 
     test('should handle empty or null messages gracefully', () => {
@@ -83,7 +83,7 @@ describe('Phase 3: Accessibility Utils - Screen Reader Announcement Tests', () =
         
         // const liveRegions = document.querySelectorAll('[role="status"]');
         // expect(liveRegions).toHaveLength(0);
-      }).toThrow('Phase 3: announceToScreenReader - empty message handling not implemented yet');
+      }).toThrow('Version announceToScreenReader - empty message handling not implemented yet');
     });
 
     test('should escape HTML in messages', () => {
@@ -94,7 +94,7 @@ describe('Phase 3: Accessibility Utils - Screen Reader Announcement Tests', () =
         // Should use textContent, not innerHTML
         // expect(liveRegion?.textContent).toBe('<script>alert("xss")</script>');
         // expect(liveRegion?.innerHTML).not.toContain('<script>');
-      }).toThrow('Phase 3: announceToScreenReader - HTML escaping not implemented yet');
+      }).toThrow('Version announceToScreenReader - HTML escaping not implemented yet');
     });
 
     test('should handle cleanup even if DOM is modified', () => {
@@ -115,7 +115,7 @@ describe('Phase 3: Accessibility Utils - Screen Reader Announcement Tests', () =
         // }).not.toThrow();
         
         jest.useRealTimers();
-      }).toThrow('Phase 3: announceToScreenReader - safe cleanup not implemented yet');
+      }).toThrow('Version announceToScreenReader - safe cleanup not implemented yet');
     });
   });
 
@@ -140,7 +140,7 @@ describe('Phase 3: Accessibility Utils - Screen Reader Announcement Tests', () =
         
         // But still in accessibility tree
         // expect(element.textContent).toBe('Screen reader only text');
-      }).toThrow('Phase 3: sr-only CSS - not implemented yet');
+      }).toThrow('Version sr-only CSS - not implemented yet');
     });
   });
 });

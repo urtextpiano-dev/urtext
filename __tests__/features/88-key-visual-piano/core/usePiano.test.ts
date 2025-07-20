@@ -17,7 +17,7 @@ jest.mock('@/renderer/utils/pianoUtils', () => ({
   ])
 }));
 
-describe('Phase 1: usePiano Hook Implementation', () => {
+describe('Version usePiano Hook Implementation', () => {
   describe('Core Functionality', () => {
     test('should provide keys, whiteKeys, and blackKeys arrays', () => {
       const { result } = renderHook(() => usePiano());

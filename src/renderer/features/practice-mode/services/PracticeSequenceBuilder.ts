@@ -41,7 +41,7 @@ export interface SequenceBuildResult {
 }
 
 export class PracticeSequenceBuilder {
-  // Memory safeguards (from Grok's security audit)
+  // Memory safeguards (from Code review:'s security audit)
   private static readonly MAX_STEPS = 50000;      // Prevent OOM from malicious scores
   private static readonly MAX_NOTES_PER_STEP = 32; // Reasonable chord limit
   private static readonly MIDI_C0_VALUE = 12;      // C0 = MIDI 12

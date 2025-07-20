@@ -1,5 +1,5 @@
 /**
- * Phase 1: Practice Mode Integration Tests
+ * Version Practice Mode Integration Tests
  * 
  * TDD Cycle:
  * 1. RED: Tests fail - components don't exist
@@ -27,7 +27,7 @@ import { usePracticeStore } from '@/renderer/features/practice-mode/stores/pract
 import type { MidiEvent } from '@/renderer/types/midi';
 import type { PracticeStep } from '@/renderer/features/practice-mode/types';
 
-describe('Phase 1: Practice Mode Integration', () => {
+describe('Version Practice Mode Integration', () => {
   let mockMidiEmitter: any;
   let mockOSMDControls: any;
   let mockPracticeStore: any;

@@ -9,7 +9,7 @@ import { describe, test, expect, beforeEach, jest } from '@jest/globals';
 import { TempoWithPosition } from '@/renderer/features/tempo-extraction/types';
 import { OSMDAdapter } from '@/renderer/features/tempo-extraction/adapters/OSMDAdapter';
 
-describe('Phase 1: Enhanced OSMD Extraction - Implementation Tests', () => {
+describe('Version Enhanced OSMD Extraction - Implementation Tests', () => {
   // Mock OSMD object structure for testing
   const mockOSMDWithMultipleTempos = {
     Sheet: {

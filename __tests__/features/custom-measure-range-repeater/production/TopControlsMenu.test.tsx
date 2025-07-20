@@ -1,10 +1,6 @@
 /**
- * Phase 3: TopControlsMenu Integration Tests
+ * Version TopControlsMenu Integration Tests
  * 
- * TDD CYCLE REMINDER:
- * 1. RED: Run these tests - they should fail with "not implemented" errors
- * 2. GREEN: Integrate MeasureRangeSelector into TopControlsMenu following phase-3-app-integration.md
- * 3. REFACTOR: Polish UI while keeping tests green
  * 
  * PERFORMANCE TARGET: Menu render <50ms with range selector
  */
@@ -44,7 +40,7 @@ jest.mock('@/renderer/stores/osmdStore', () => ({
   useOSMDStore: () => mockOsmdStore
 }));
 
-describe('Phase 3: TopControlsMenu Integration', () => {
+describe('Version TopControlsMenu Integration', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     mockPracticeStore.isActive = false;
@@ -71,7 +67,7 @@ describe('Phase 3: TopControlsMenu Integration', () => {
         expect(screen.getByText('Practice Range:')).toBeInTheDocument();
         expect(screen.getByLabelText('Start measure')).toBeInTheDocument();
         expect(screen.getByLabelText('End measure')).toBeInTheDocument();
-      }).toThrow('Phase 3: MeasureRangeSelector not integrated into TopControlsMenu');
+      }).toThrow('Version MeasureRangeSelector not integrated into TopControlsMenu');
     });
 
     test('should hide MeasureRangeSelector when practice is inactive', () => {
@@ -84,7 +80,7 @@ describe('Phase 3: TopControlsMenu Integration', () => {
         
         // Should not find the measure range selector
         expect(screen.queryByText('Practice Range:')).not.toBeInTheDocument();
-      }).toThrow('Phase 3: Conditional visibility not implemented');
+      }).toThrow('Version Conditional visibility not implemented');
     });
 
     test('should hide MeasureRangeSelector when OSMD not ready', () => {
@@ -98,7 +94,7 @@ describe('Phase 3: TopControlsMenu Integration', () => {
         
         // Should not show when OSMD not ready
         expect(screen.queryByText('Practice Range:')).not.toBeInTheDocument();
-      }).toThrow('Phase 3: OSMD ready check not implemented');
+      }).toThrow('Version OSMD ready check not implemented');
     });
   });
 
@@ -121,7 +117,7 @@ describe('Phase 3: TopControlsMenu Integration', () => {
         // Should be after practice mode toggle
         const practiceToggle = within(practiceSection).getByRole('button', { name: /stop practice/i });
         expect(practiceToggle).toBeInTheDocument();
-      }).toThrow('Phase 3: Component positioning not implemented');
+      }).toThrow('Version Component positioning not implemented');
     });
 
     test('should maintain measure count from OSMD store', () => {
@@ -139,10 +135,10 @@ describe('Phase 3: TopControlsMenu Integration', () => {
         // Should pass totalMeasures from OSMD store
         expect(startInput.max).toBe('50');
         expect(endInput.max).toBe('50');
-      }).toThrow('Phase 3: Measure count integration not implemented');
+      }).toThrow('Version Measure count integration not implemented');
     });
 
-    // CRITICAL: State updates from UI (AI: Gemini pro)
+    // CRITICAL: State updates from UI (Code review: Gemini pro)
     test('should update practice store when user changes measure range', async () => {
       const { TopControlsMenu } = require('@/renderer/components/TopControlsMenu/TopControlsMenu');
       const user = userEvent.setup();
@@ -175,7 +171,7 @@ describe('Phase 3: TopControlsMenu Integration', () => {
         const computedStyle = window.getComputedStyle(rangeSelector!);
         expect(computedStyle.padding).toBeTruthy();
         expect(computedStyle.borderRadius).toBeTruthy();
-      }).toThrow('Phase 3: Visual styling not applied');
+      }).toThrow('Version Visual styling not applied');
     });
 
     test('should animate entrance/exit smoothly', async () => {
@@ -203,7 +199,7 @@ describe('Phase 3: TopControlsMenu Integration', () => {
         waitFor(() => {
           expect(screen.queryByText('Practice Range:')).not.toBeInTheDocument();
         }, { timeout: 500 });
-      }).toThrow('Phase 3: Entrance/exit animations not implemented');
+      }).toThrow('Version Entrance/exit animations not implemented');
     });
   });
 
@@ -230,7 +226,7 @@ describe('Phase 3: TopControlsMenu Integration', () => {
         inputs.forEach(input => {
           expect(input).toHaveClass('full-width');
         });
-      }).toThrow('Phase 3: Responsive design not implemented');
+      }).toThrow('Version Responsive design not implemented');
     });
 
     test('should maintain usability on touch devices', () => {
@@ -260,7 +256,7 @@ describe('Phase 3: TopControlsMenu Integration', () => {
         const buttonStyle = window.getComputedStyle(button);
         const buttonHeight = parseInt(buttonStyle.height);
         expect(buttonHeight).toBeGreaterThanOrEqual(44);
-      }).toThrow('Phase 3: Touch device optimization not implemented');
+      }).toThrow('Version Touch device optimization not implemented');
     });
   });
 
@@ -278,7 +274,7 @@ describe('Phase 3: TopControlsMenu Integration', () => {
         const renderTime = performance.now() - startTime;
         
         expect(renderTime).toBeLessThan(50); // <50ms render budget
-      }).toThrow('Phase 3: Render performance not optimized');
+      }).toThrow('Version Render performance not optimized');
     });
 
     test('should not cause unnecessary re-renders', () => {
@@ -309,7 +305,7 @@ describe('Phase 3: TopControlsMenu Integration', () => {
         
         // Should re-render for relevant changes
         expect(renderCount).toBe(2);
-      }).toThrow('Phase 3: Re-render optimization not implemented');
+      }).toThrow('Version Re-render optimization not implemented');
     });
   });
 
@@ -338,7 +334,7 @@ describe('Phase 3: TopControlsMenu Integration', () => {
         expect(screen.getByText(/Unable to load practice range/i)).toBeInTheDocument();
         
         consoleSpy.mockRestore();
-      }).toThrow('Phase 3: Error boundary not implemented');
+      }).toThrow('Version Error boundary not implemented');
     });
   });
 
@@ -365,11 +361,11 @@ describe('Phase 3: TopControlsMenu Integration', () => {
         
         // Both should work independently
         expect(startMeasure).toHaveValue(5);
-      }).toThrow('Phase 3: Feature coexistence not verified');
+      }).toThrow('Version Feature coexistence not verified');
     });
   });
 
-  // CRITICAL: Keyboard navigation (AI: Gemini pro)
+  // CRITICAL: Keyboard navigation (Code review: Gemini pro)
   describe('Keyboard Accessibility', () => {
     test('should support Tab navigation through all controls', async () => {
       const { TopControlsMenu } = require('@/renderer/components/TopControlsMenu/TopControlsMenu');
@@ -390,7 +386,7 @@ describe('Phase 3: TopControlsMenu Integration', () => {
       mockPracticeStore.isActive = true;
       render(<TopControlsMenu />);
       
-      // Note: We changed the shortcut from Ctrl+R to Ctrl+M per Grok3 feedback
+      // Note: We changed the shortcut from Ctrl+R to Ctrl+M per Code review: feedback
       const measureRangeSelector = screen.queryByLabelText('Practice measure range selector');
       expect(measureRangeSelector).toBeInTheDocument();
     });

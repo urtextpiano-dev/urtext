@@ -19,7 +19,7 @@ jest.mock('@/renderer/utils/performance-logger', () => ({
   }
 }));
 
-describe('Phase 1: MeasureTimeline Service - Implementation Tests', () => {
+describe('Version MeasureTimeline Service - Implementation Tests', () => {
   let mockOSMD: any;
   let timeline: MeasureTimeline;
 
@@ -426,7 +426,7 @@ describe('Phase 1: MeasureTimeline Service - Implementation Tests', () => {
     });
   });
 
-  describe('Phase 4: Advanced Edge Cases and Race Conditions', () => {
+  describe('Version Advanced Edge Cases and Race Conditions', () => {
     describe('Race Conditions', () => {
       test('handles concurrent build requests safely', async () => {
         // Mock 50 measures for stress test

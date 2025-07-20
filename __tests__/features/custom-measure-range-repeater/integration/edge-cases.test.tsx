@@ -1,10 +1,6 @@
 /**
  * Edge Cases Integration Tests
  * 
- * TDD CYCLE REMINDER:
- * 1. RED: Run these tests - they should fail with "not implemented" errors
- * 2. GREEN: Handle edge cases across all phases
- * 3. REFACTOR: Improve edge case handling while keeping tests green
  * 
  * These tests cover unusual scenarios and boundary conditions
  */
@@ -127,7 +123,7 @@ describe('Edge Cases: Custom Measure Range Repeater', () => {
       }).toThrow('Edge case: Integer overflow not handled');
     });
 
-    // CRITICAL: JavaScript max safe integer edge case (AI: Grok3)
+    // CRITICAL: JavaScript max safe integer edge case (Code review: Code review:)
     test('should prevent JavaScript MAX_SAFE_INTEGER overflow', async () => {
       expect(async () => {
         const { MeasureRangeSelector } = require('@/renderer/features/practice-mode/components/MeasureRangeSelector');
@@ -269,7 +265,7 @@ describe('Edge Cases: Custom Measure Range Repeater', () => {
       }).toThrow('Edge case: Non-numeric input not handled');
     });
 
-    // CRITICAL: DOM injection prevention (AI: Grok3)
+    // CRITICAL: DOM injection prevention (Code review: Code review:)
     test('should prevent DOM injection through crafted inputs', async () => {
       expect(async () => {
         const { MeasureRangeSelector } = require('@/renderer/features/practice-mode/components/MeasureRangeSelector');

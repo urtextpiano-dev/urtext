@@ -1,5 +1,5 @@
 /**
- * Phase 3: MIDI Error Boundary Tests
+ * Version MIDI Error Boundary Tests
  * 
  * Graceful error handling for MIDI failures
  */
@@ -17,7 +17,7 @@ const ThrowError: React.FC<{ shouldThrow: boolean }> = ({ shouldThrow }) => {
   return <div>No error</div>;
 };
 
-describe('Phase 3: MIDI Error Boundary', () => {
+describe('Version MIDI Error Boundary', () => {
   beforeEach(() => {
     // Suppress console.error for cleaner test output
     jest.spyOn(console, 'error').mockImplementation(() => {});

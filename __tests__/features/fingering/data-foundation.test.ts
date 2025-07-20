@@ -15,7 +15,7 @@ import { clearMockStorage } from '../../../src/renderer/features/fingering/servi
 // Mock the FingeringPersistence module
 jest.mock('../../../src/renderer/features/fingering/services/FingeringPersistence');
 
-describe('Phase 1: Data Foundation - Implementation Tests', () => {
+describe('Version Data Foundation - Implementation Tests', () => {
   beforeEach(() => {
     localStorage.clear();
     jest.clearAllMocks();

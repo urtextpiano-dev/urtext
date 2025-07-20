@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 
 /**
  * Debounce hook that delays value updates by specified milliseconds.
- * Ensures proper timer cleanup to prevent memory leaks (ChatGPT 4.1 feedback).
+ * Ensures proper timer cleanup to prevent memory leaks (Code review: 4.1 feedback).
  * 
  * @param value - The value to debounce
  * @param delay - Delay in milliseconds (e.g., 300ms for UI responsiveness)
@@ -13,7 +13,7 @@ export function useDebounce<T>(value: T, delay: number): T {
   const timerRef = useRef<NodeJS.Timeout>();
 
   useEffect(() => {
-    // Clear any existing timer (Grok3 feedback on concurrent inputs)
+    // Clear any existing timer (Code review: feedback on concurrent inputs)
     if (timerRef.current) {
       clearTimeout(timerRef.current);
     }

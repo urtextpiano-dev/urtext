@@ -1,10 +1,6 @@
 /**
- * Phase 2: Practice Controller Modification Tests (CRITICAL)
+ * Version Practice Controller Modification Tests (CRITICAL)
  * 
- * TDD CYCLE REMINDER:
- * 1. RED: Run these tests - they should fail with "not implemented" errors
- * 2. GREEN: Modify usePracticeController following phase-2-practice-integration.md
- * 3. REFACTOR: Optimize while keeping tests green
  * 
  * CRITICAL PERFORMANCE TARGET: 
  * - MIDI latency must remain <20ms
@@ -40,7 +36,7 @@ jest.mock('@/renderer/features/practice-mode/services/MeasureTimeline', () => ({
   MeasureTimeline: mockMeasureTimeline
 }));
 
-describe('Phase 2: Practice Controller Custom Range Integration', () => {
+describe('Version Practice Controller Custom Range Integration', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     mockOsmdControls.cursor.iterator.currentMeasureIndex = 0;
@@ -81,7 +77,7 @@ describe('Phase 2: Practice Controller Custom Range Integration', () => {
         // Should not call stopPractice, but instead loop back
         expect(result.current.practiceStatus).not.toBe('stopped');
         expect(mockMeasureTimeline.seekToMeasure).toHaveBeenCalledWith(2, mockOsmdControls.cursor);
-      }).toThrow('Phase 2: Custom range detection not implemented');
+      }).toThrow('Version Custom range detection not implemented');
     });
 
     test('should not interfere when custom range is inactive', () => {
@@ -105,7 +101,7 @@ describe('Phase 2: Practice Controller Custom Range Integration', () => {
         
         // Should not attempt to seek
         expect(mockMeasureTimeline.seekToMeasure).not.toHaveBeenCalled();
-      }).toThrow('Phase 2: Normal flow preservation not implemented');
+      }).toThrow('Version Normal flow preservation not implemented');
     });
 
     test('should handle edge case of single measure range', () => {
@@ -131,7 +127,7 @@ describe('Phase 2: Practice Controller Custom Range Integration', () => {
         });
         
         expect(mockMeasureTimeline.seekToMeasure).toHaveBeenCalledWith(4, mockOsmdControls.cursor);
-      }).toThrow('Phase 2: Single measure range not handled');
+      }).toThrow('Version Single measure range not handled');
     });
   });
 
@@ -167,7 +163,7 @@ describe('Phase 2: Practice Controller Custom Range Integration', () => {
         
         // Must maintain <1ms overhead per advancement
         expect(avgOverhead).toBeLessThan(1);
-      }).toThrow('Phase 2: Performance overhead exceeds 1ms');
+      }).toThrow('Version Performance overhead exceeds 1ms');
     });
 
     test('should maintain <20ms MIDI latency with custom range active', () => {
@@ -200,7 +196,7 @@ describe('Phase 2: Practice Controller Custom Range Integration', () => {
         
         // Total MIDI processing must remain <20ms
         expect(latency).toBeLessThan(20);
-      }).toThrow('Phase 2: MIDI latency requirement not met');
+      }).toThrow('Version MIDI latency requirement not met');
     });
   });
 
@@ -237,7 +233,7 @@ describe('Phase 2: Practice Controller Custom Range Integration', () => {
         );
         
         consoleSpy.mockRestore();
-      }).toThrow('Phase 2: Error recovery not implemented');
+      }).toThrow('Version Error recovery not implemented');
     });
 
     test('should handle MeasureTimeline seek failures gracefully', () => {
@@ -265,10 +261,10 @@ describe('Phase 2: Practice Controller Custom Range Integration', () => {
         
         // Should stop practice on seek failure
         expect(result.current.practiceStatus).toBe('stopped');
-      }).toThrow('Phase 2: Seek failure handling not implemented');
+      }).toThrow('Version Seek failure handling not implemented');
     });
 
-    // CRITICAL: Race condition protection (AI: Gemini pro)
+    // CRITICAL: Race condition protection (Code review: Gemini pro)
     test('should handle custom range being disabled mid-loop', () => {
       expect(() => {
         const { usePracticeController } = require('@/renderer/features/practice-mode/hooks/usePracticeController');
@@ -306,7 +302,7 @@ describe('Phase 2: Practice Controller Custom Range Integration', () => {
 
         // However, the store state should now reflect that the range is off
         expect(usePracticeStore.getState().customRangeActive).toBe(false);
-      }).toThrow('Phase 2: Race condition with state toggle not handled');
+      }).toThrow('Version Race condition with state toggle not handled');
     });
   });
 
@@ -332,7 +328,7 @@ describe('Phase 2: Practice Controller Custom Range Integration', () => {
         
         // Custom range should be cleared
         expect(usePracticeStore.getState().customRangeActive).toBe(false);
-      }).toThrow('Phase 2: State cleanup not implemented');
+      }).toThrow('Version State cleanup not implemented');
     });
 
     test('should validate range bounds against current score', () => {
@@ -359,7 +355,7 @@ describe('Phase 2: Practice Controller Custom Range Integration', () => {
         
         // Should auto-clear invalid range
         expect(usePracticeStore.getState().customRangeActive).toBe(false);
-      }).toThrow('Phase 2: Range validation not implemented');
+      }).toThrow('Version Range validation not implemented');
     });
   });
 
@@ -390,7 +386,7 @@ describe('Phase 2: Practice Controller Custom Range Integration', () => {
         
         // Should get notes from start measure after loop
         expect(result.current.currentStep).toEqual(mockExpectedNotes);
-      }).toThrow('Phase 2: getExpectedNotesAtCursor integration not implemented');
+      }).toThrow('Version getExpectedNotesAtCursor integration not implemented');
     });
   });
 });

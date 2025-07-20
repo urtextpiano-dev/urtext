@@ -1,5 +1,5 @@
 /**
- * Phase 2: Enhanced User Experience Tests
+ * Version Enhanced User Experience Tests
  * 
  * TDD Cycle Reminder:
  * 1. RED: Run these tests - they should fail
@@ -52,7 +52,7 @@ jest.mock('@/renderer/contexts/MidiContext', () => ({
   useMidiContext: () => mockUseMidiContext()
 }))
 
-describe('Phase 2: Enhanced UX - Debouncing and State Management', () => {
+describe('Version Enhanced UX - Debouncing and State Management', () => {
   // Mock OSMD context
   const mockOSMDContext: Partial<OSMDContext> = {
     osmd: {

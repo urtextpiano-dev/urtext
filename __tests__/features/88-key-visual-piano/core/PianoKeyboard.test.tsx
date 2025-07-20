@@ -20,7 +20,7 @@ import { PianoKey } from '@/renderer/components/PianoKey';
 const mockUsePiano = usePiano as jest.MockedFunction<typeof usePiano>;
 const mockPianoKey = PianoKey as jest.MockedFunction<typeof PianoKey>;
 
-describe('Phase 1: PianoKeyboard Component', () => {
+describe('Version PianoKeyboard Component', () => {
   const mockKeys: any[] = [
     { id: 'A0', type: 'white', noteName: 'A', octave: 0, fullName: 'A0', whiteKeyIndex: 0 },
     { id: 'A#0', type: 'black', noteName: 'A#', octave: 0, fullName: 'A#0', referenceGridColumn: 2 },

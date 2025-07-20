@@ -1,5 +1,5 @@
 /**
- * Phase 1: MVP Core Functionality Tests
+ * Version MVP Core Functionality Tests
  * 
  * TDD Cycle Reminder:
  * 1. RED: Run these tests - they should fail
@@ -68,7 +68,7 @@ jest.mock('@/renderer/features/practice-mode/providers/TempoServicesProvider', (
   })
 }));
 
-describe('Phase 1: MVP Core - Immediate Cursor Seek', () => {
+describe('Version MVP Core - Immediate Cursor Seek', () => {
   // Suppress console logs during tests
   const originalConsoleLog = console.log;
   beforeAll(() => {

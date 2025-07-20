@@ -21,7 +21,7 @@ jest.mock('@/renderer/stores/sheetMusicStore');
 jest.mock('@/renderer/features/practice-mode/stores/practiceStore');
 jest.mock('@/renderer/hooks/useOSMD');
 
-describe('Phase 3: Integration - FingeringEditIndicator in App', () => {
+describe('Version Integration - FingeringEditIndicator in App', () => {
   const mockFingeringStore = {
     isEditingMode: false,
     setEditingMode: jest.fn(),

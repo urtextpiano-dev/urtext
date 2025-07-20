@@ -7,7 +7,7 @@ import { describe, test, expect } from '@jest/globals';
 import * as fs from 'fs';
 import * as path from 'path';
 
-describe('Phase 3: Bundle Size Optimization', () => {
+describe('Version Bundle Size Optimization', () => {
   describe('Component Size Targets', () => {
     test('should document expected component sizes', () => {
       // These are target sizes for planning

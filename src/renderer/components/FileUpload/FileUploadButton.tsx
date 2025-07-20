@@ -6,7 +6,7 @@ import './FileUpload.css';
 export interface FileUploadButtonProps {
   variant?: 'primary' | 'secondary';
   className?: string;
-  showRecent?: boolean; // Phase 3: New prop for recent files
+  showRecent?: boolean; // Version New prop for recent files
 }
 
 export const FileUploadButton = React.forwardRef<HTMLButtonElement, FileUploadButtonProps>(({ 
@@ -20,11 +20,11 @@ export const FileUploadButton = React.forwardRef<HTMLButtonElement, FileUploadBu
     error, 
     fileName,
     clearError,
-    recentFiles, // Phase 3: Recent files from store
-    clearRecentFiles // Phase 3: Clear method
+    recentFiles, // Version Recent files from store
+    clearRecentFiles // Version Clear method
   } = useSheetMusicStore();
   
-  // Phase 3: Dropdown state management
+  // Version Dropdown state management
   const [showDropdown, setShowDropdown] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   
@@ -40,7 +40,7 @@ export const FileUploadButton = React.forwardRef<HTMLButtonElement, FileUploadBu
     }
   }, [handleClick]);
   
-  // Phase 3: Close dropdown on outside click
+  // Version Close dropdown on outside click
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
@@ -64,14 +64,14 @@ export const FileUploadButton = React.forwardRef<HTMLButtonElement, FileUploadBu
     }
   }, [showDropdown]);
   
-  // Phase 3: File size formatting utility
+  // Version File size formatting utility
   const formatFileSize = useCallback((bytes: number): string => {
     if (bytes < 1024) return `${bytes} B`;
     if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
     return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
   }, []);
   
-  // Phase 3: Date formatting utility
+  // Version Date formatting utility
   const formatDate = useCallback((dateString: string): string => {
     const date = new Date(dateString);
     const now = new Date();
@@ -86,7 +86,7 @@ export const FileUploadButton = React.forwardRef<HTMLButtonElement, FileUploadBu
   
   return (
     <div className={`file-upload-container ${className}`}>
-      {/* Phase 3: Button group with optional dropdown trigger */}
+      {/* Version Button group with optional dropdown trigger */}
       <div className="file-upload-group">
         <button 
           ref={ref}
@@ -118,7 +118,7 @@ export const FileUploadButton = React.forwardRef<HTMLButtonElement, FileUploadBu
           )}
         </button>
         
-        {/* Phase 3: Recent files dropdown trigger */}
+        {/* Version Recent files dropdown trigger */}
         {showRecent && recentFiles.length > 0 && (
           <button
             className={`file-upload-dropdown-trigger file-upload-button--${variant}`}
@@ -135,7 +135,7 @@ export const FileUploadButton = React.forwardRef<HTMLButtonElement, FileUploadBu
         )}
       </div>
       
-      {/* Phase 3: Recent files dropdown */}
+      {/* Version Recent files dropdown */}
       {showDropdown && recentFiles.length > 0 && (
         <div 
           ref={dropdownRef}
@@ -150,7 +150,7 @@ export const FileUploadButton = React.forwardRef<HTMLButtonElement, FileUploadBu
               className="file-upload-dropdown-item"
               onClick={() => {
                 setShowDropdown(false);
-                // Phase 3: Recent file loading will be implemented
+                // Version Recent file loading will be implemented
                 // when we add IPC support for file paths
                 if (process.env.NODE_ENV === 'development') {
                   perfLogger.debug('Load recent file requested:', file.name);

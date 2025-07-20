@@ -32,7 +32,7 @@ describe('TDD Test Setup Verification', () => {
   });
 
   describe('Phase Implementation Readiness', () => {
-    test('Phase 1: Enhanced OSMD - modules should not exist yet', () => {
+    test('Version Enhanced OSMD - modules should not exist yet', () => {
       // These imports should fail until Phase 1 is implemented
       expect(() => {
         // This would normally be: import { OSMDAdapter } from '@/renderer/features/tempo-extraction/adapters/OSMDAdapter';
@@ -41,7 +41,7 @@ describe('TDD Test Setup Verification', () => {
       }).toThrow();
     });
 
-    test('Phase 2: XML Extraction - modules should not exist yet', () => {
+    test('Version XML Extraction - modules should not exist yet', () => {
       // These imports should fail until Phase 2 is implemented
       expect(() => {
         // This would normally be: import { MusicXMLTempoExtractor } from '@/main/parsers/musicXMLTempoExtractor';
@@ -49,7 +49,7 @@ describe('TDD Test Setup Verification', () => {
       }).toThrow();
     });
 
-    test('Phase 3: Integration - enhanced methods should not exist yet', () => {
+    test('Version Integration - enhanced methods should not exist yet', () => {
       // These imports should fail until Phase 3 is implemented
       expect(() => {
         // Enhanced TempoService methods don't exist yet
@@ -101,9 +101,9 @@ describe('TDD Test Setup Verification', () => {
       
       const expectedFailurePatterns = [
         'not implemented yet',
-        'Phase 1:',
-        'Phase 2:', 
-        'Phase 3:'
+        'Version',
+        'Version', 
+        'Version'
       ];
       
       expect(expectedFailurePatterns.every(pattern => typeof pattern === 'string')).toBe(true);

@@ -12,7 +12,7 @@ import * as os from 'os';
 // import { validateFilePath, enforceSecurityConstraints } from '../../../src/main/security/filePathValidator';
 // import { fileProcessor } from '../../../src/main/workers/fileProcessor';
 
-describe('Phase 1: Enhanced Security Tests - Critical Edge Cases', () => {
+describe('Version Enhanced Security Tests - Critical Edge Cases', () => {
   const SAFE_DIR = path.join(os.tmpdir(), 'abc-piano-test');
   
   beforeEach(async () => {
@@ -40,7 +40,7 @@ describe('Phase 1: Enhanced Security Tests - Critical Edge Cases', () => {
           expect(result.valid).toBe(false);
           expect(result.error).toMatch(/Path traversal attempt detected/);
         });
-      }).toThrow('Phase 1: Encoded path traversal prevention not implemented yet');
+      }).toThrow('Version Encoded path traversal prevention not implemented yet');
     });
 
     test('should block symbolic link attacks', async () => {
@@ -59,7 +59,7 @@ describe('Phase 1: Enhanced Security Tests - Critical Edge Cases', () => {
         // Should also block when resolving
         const resolved = await enforceSecurityConstraints(symlinkPath);
         expect(resolved.blocked).toBe(true);
-      }).rejects.toThrow('Phase 1: Symlink attack prevention not implemented yet');
+      }).rejects.toThrow('Version Symlink attack prevention not implemented yet');
     });
 
     test('should block Windows junction attacks', async () => {
@@ -74,7 +74,7 @@ describe('Phase 1: Enhanced Security Tests - Critical Edge Cases', () => {
         const result = await validateFilePath(junctionPath, SAFE_DIR);
         expect(result.valid).toBe(false);
         expect(result.error).toMatch(/Junction point detected/);
-      }).rejects.toThrow('Phase 1: Junction attack prevention not implemented yet');
+      }).rejects.toThrow('Version Junction attack prevention not implemented yet');
     });
 
     test('should block UNC path attacks', () => {
@@ -91,7 +91,7 @@ describe('Phase 1: Enhanced Security Tests - Critical Edge Cases', () => {
           expect(result.valid).toBe(false);
           expect(result.error).toMatch(/UNC path not allowed/);
         });
-      }).toThrow('Phase 1: UNC path blocking not implemented yet');
+      }).toThrow('Version UNC path blocking not implemented yet');
     });
 
     test('should block case variation attacks', () => {
@@ -106,7 +106,7 @@ describe('Phase 1: Enhanced Security Tests - Critical Edge Cases', () => {
           const result = validateFilePath(attack, SAFE_DIR);
           expect(result.valid).toBe(false);
         });
-      }).toThrow('Phase 1: Case variation attack prevention not implemented yet');
+      }).toThrow('Version Case variation attack prevention not implemented yet');
     });
 
     test('should handle null byte injection', () => {
@@ -122,7 +122,7 @@ describe('Phase 1: Enhanced Security Tests - Critical Edge Cases', () => {
           expect(result.valid).toBe(false);
           expect(result.error).toMatch(/Null byte detected/);
         });
-      }).toThrow('Phase 1: Null byte injection prevention not implemented yet');
+      }).toThrow('Version Null byte injection prevention not implemented yet');
     });
   });
 
@@ -149,7 +149,7 @@ describe('Phase 1: Enhanced Security Tests - Critical Edge Cases', () => {
           expect(error.message).toMatch(/Entity expansion attack detected/);
           expect(Date.now() - startTime).toBeLessThan(1000); // Should fail fast
         }
-      }).rejects.toThrow('Phase 1: XML bomb prevention not implemented yet');
+      }).rejects.toThrow('Version XML bomb prevention not implemented yet');
     });
 
     test('should prevent external entity (XXE) attacks', async () => {
@@ -170,7 +170,7 @@ describe('Phase 1: Enhanced Security Tests - Critical Edge Cases', () => {
         } catch (error) {
           expect(error.message).toMatch(/External entity reference not allowed/);
         }
-      }).rejects.toThrow('Phase 1: XXE attack prevention not implemented yet');
+      }).rejects.toThrow('Version XXE attack prevention not implemented yet');
     });
 
     test('should limit XML parsing depth', async () => {
@@ -193,7 +193,7 @@ describe('Phase 1: Enhanced Security Tests - Critical Edge Cases', () => {
         } catch (error) {
           expect(error.message).toMatch(/Maximum XML depth exceeded/);
         }
-      }).rejects.toThrow('Phase 1: XML depth limiting not implemented yet');
+      }).rejects.toThrow('Version XML depth limiting not implemented yet');
     });
   });
 
@@ -226,7 +226,7 @@ describe('Phase 1: Enhanced Security Tests - Critical Edge Cases', () => {
             await chunkProcessor.processChunk(chunk);
           }
         }
-      }).rejects.toThrow('Phase 1: Chunked upload bypass prevention not implemented yet');
+      }).rejects.toThrow('Version Chunked upload bypass prevention not implemented yet');
     });
 
     test('should validate compressed file extracted size', async () => {
@@ -254,7 +254,7 @@ describe('Phase 1: Enhanced Security Tests - Critical Edge Cases', () => {
         const maliciousMXL = 'zipbomb.mxl';
         await expect(validateMXL(maliciousMXL))
           .rejects.toThrow(/zip bomb|exceeds limit/);
-      }).rejects.toThrow('Phase 1: Zip bomb prevention not implemented yet');
+      }).rejects.toThrow('Version Zip bomb prevention not implemented yet');
     });
   });
 
@@ -295,7 +295,7 @@ describe('Phase 1: Enhanced Security Tests - Critical Edge Cases', () => {
         
         // Cleanup
         handles.forEach(h => fileOps.closeFile(h));
-      }).rejects.toThrow('Phase 1: File handle limiting not implemented yet');
+      }).rejects.toThrow('Version File handle limiting not implemented yet');
     });
   });
 

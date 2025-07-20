@@ -1,10 +1,6 @@
 /**
- * Phase 2: Custom Range Detection Logic Tests
+ * Version Custom Range Detection Logic Tests
  * 
- * TDD CYCLE REMINDER:
- * 1. RED: Run these tests - they should fail with "not implemented" errors
- * 2. GREEN: Implement checkCustomRangeLoop following phase-2-practice-integration.md
- * 3. REFACTOR: Optimize detection logic while keeping tests green
  * 
  * PERFORMANCE TARGET: Detection logic <1ms overhead
  */
@@ -30,7 +26,7 @@ const createMockStoreState = (active: boolean, start: number, end: number) => ({
   customEndMeasure: end
 });
 
-describe('Phase 2: Custom Range Detection Logic', () => {
+describe('Version Custom Range Detection Logic', () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
@@ -46,7 +42,7 @@ describe('Phase 2: Custom Range Detection Logic', () => {
         const shouldLoop = checkCustomRangeLoop(osmdControls, storeState);
         
         expect(shouldLoop).toBe(true);
-      }).toThrow('Phase 2: Basic range detection not implemented');
+      }).toThrow('Version Basic range detection not implemented');
     });
 
     test('should not trigger before reaching end measure', () => {
@@ -59,7 +55,7 @@ describe('Phase 2: Custom Range Detection Logic', () => {
         const shouldLoop = checkCustomRangeLoop(osmdControls, storeState);
         
         expect(shouldLoop).toBe(false);
-      }).toThrow('Phase 2: Pre-end detection not implemented');
+      }).toThrow('Version Pre-end detection not implemented');
     });
 
     test('should not trigger when custom range is inactive', () => {
@@ -72,7 +68,7 @@ describe('Phase 2: Custom Range Detection Logic', () => {
         const shouldLoop = checkCustomRangeLoop(osmdControls, storeState);
         
         expect(shouldLoop).toBe(false);
-      }).toThrow('Phase 2: Inactive range detection not implemented');
+      }).toThrow('Version Inactive range detection not implemented');
     });
   });
 
@@ -87,7 +83,7 @@ describe('Phase 2: Custom Range Detection Logic', () => {
         const shouldLoop = checkCustomRangeLoop(osmdControls, storeState);
         
         expect(shouldLoop).toBe(true);
-      }).toThrow('Phase 2: Single measure detection not implemented');
+      }).toThrow('Version Single measure detection not implemented');
     });
 
     test('should handle cursor at measure 0', () => {
@@ -100,7 +96,7 @@ describe('Phase 2: Custom Range Detection Logic', () => {
         const shouldLoop = checkCustomRangeLoop(osmdControls, storeState);
         
         expect(shouldLoop).toBe(true);
-      }).toThrow('Phase 2: First measure detection not implemented');
+      }).toThrow('Version First measure detection not implemented');
     });
 
     test('should handle missing cursor safely', () => {
@@ -113,7 +109,7 @@ describe('Phase 2: Custom Range Detection Logic', () => {
         const shouldLoop = checkCustomRangeLoop(osmdControls, storeState);
         
         expect(shouldLoop).toBe(false);
-      }).toThrow('Phase 2: Null cursor handling not implemented');
+      }).toThrow('Version Null cursor handling not implemented');
     });
 
     test('should handle invalid measure index safely', () => {
@@ -126,10 +122,10 @@ describe('Phase 2: Custom Range Detection Logic', () => {
         const shouldLoop = checkCustomRangeLoop(osmdControls, storeState);
         
         expect(shouldLoop).toBe(false);
-      }).toThrow('Phase 2: Invalid index handling not implemented');
+      }).toThrow('Version Invalid index handling not implemented');
     });
 
-    // CRITICAL: Cursor overshoot detection (AI: Gemini pro)
+    // CRITICAL: Cursor overshoot detection (Code review: Gemini pro)
     test('should trigger loop if cursor advances past the end measure', () => {
       expect(() => {
         const { checkCustomRangeLoop } = require('@/renderer/features/practice-mode/utils/customRangeDetection');
@@ -141,7 +137,7 @@ describe('Phase 2: Custom Range Detection Logic', () => {
         const shouldLoop = checkCustomRangeLoop(osmdControls, storeState);
         
         expect(shouldLoop).toBe(true); // Must use >= not ===
-      }).toThrow('Phase 2: Overshoot detection not implemented');
+      }).toThrow('Version Overshoot detection not implemented');
     });
   });
 
@@ -165,7 +161,7 @@ describe('Phase 2: Custom Range Detection Logic', () => {
         const shouldLoop = checkCustomRangeLoop(osmdControls, storeState);
         
         expect(shouldLoop).toBe(false);
-      }).toThrow('Phase 2: Early exit optimization not implemented');
+      }).toThrow('Version Early exit optimization not implemented');
     });
 
     test('should complete detection in <1ms', () => {
@@ -186,7 +182,7 @@ describe('Phase 2: Custom Range Detection Logic', () => {
         const avgDuration = duration / iterations;
         
         expect(avgDuration).toBeLessThan(0.001); // <1μs per check
-      }).toThrow('Phase 2: Detection performance not optimized');
+      }).toThrow('Version Detection performance not optimized');
     });
   });
 
@@ -210,7 +206,7 @@ describe('Phase 2: Custom Range Detection Logic', () => {
           
           expect(result).toBe(shouldLoop);
         });
-      }).toThrow('Phase 2: Index conversion not implemented correctly');
+      }).toThrow('Version Index conversion not implemented correctly');
     });
 
     test('should handle measure ranges at score boundaries', () => {
@@ -226,7 +222,7 @@ describe('Phase 2: Custom Range Detection Logic', () => {
         osmdControls = createMockCursor(99);
         storeState = createMockStoreState(true, 90, 100);
         expect(checkCustomRangeLoop(osmdControls, storeState)).toBe(true);
-      }).toThrow('Phase 2: Boundary handling not implemented');
+      }).toThrow('Version Boundary handling not implemented');
     });
   });
 
@@ -250,7 +246,7 @@ describe('Phase 2: Custom Range Detection Logic', () => {
             checkCustomRangeLoop(osmdControls as any, storeState);
           }).not.toThrow();
         });
-      }).toThrow('Phase 2: Error resilience not implemented');
+      }).toThrow('Version Error resilience not implemented');
     });
 
     test('should log warnings for error conditions', () => {
@@ -269,7 +265,7 @@ describe('Phase 2: Custom Range Detection Logic', () => {
         );
         
         consoleSpy.mockRestore();
-      }).toThrow('Phase 2: Error logging not implemented');
+      }).toThrow('Version Error logging not implemented');
     });
   });
 });

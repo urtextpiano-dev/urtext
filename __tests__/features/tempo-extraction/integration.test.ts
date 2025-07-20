@@ -11,7 +11,7 @@ import { TempoService } from '@/renderer/features/tempo-extraction/services/Temp
 // import { useOSMD } from '@/renderer/hooks/useOSMD';
 import { XMLTempoEvent, TempoWithPosition } from '@/renderer/features/tempo-extraction/types';
 
-describe('Phase 3: Integration & Testing - Implementation Tests', () => {
+describe('Version Integration & Testing - Implementation Tests', () => {
   let tempoService: TempoService;
   
   const mockXMLTempoData: XMLTempoEvent[] = [
@@ -118,7 +118,7 @@ describe('Phase 3: Integration & Testing - Implementation Tests', () => {
         // expect(tempoService.getTempoAtPosition(1, 0)).toBe(25);    // Start
         // expect(tempoService.getTempoAtPosition(1, 400)).toBe(50);  // After first change
         // expect(tempoService.getTempoAtPosition(1, 800)).toBe(85);  // After second change
-      }).toThrow('Phase 3: getTempoAtPosition method - not implemented yet');
+      }).toThrow('Version getTempoAtPosition method - not implemented yet');
     });
 
     test('should maintain backward compatibility with getTempoForMeasure', () => {
@@ -131,7 +131,7 @@ describe('Phase 3: Integration & Testing - Implementation Tests', () => {
         // Legacy method should still work and return first tempo
         // const tempo = tempoService.getTempoForMeasure(1);
         // expect(tempo).toBe(25); // First tempo in measure
-      }).toThrow('Phase 3: Backward compatibility - not implemented yet');
+      }).toThrow('Version Backward compatibility - not implemented yet');
     });
   });
 
@@ -154,7 +154,7 @@ describe('Phase 3: Integration & Testing - Implementation Tests', () => {
         // const tempoService = TempoService.getInstance();
         // const tempos = tempoService.getTemposForMeasure(1);
         // expect(tempos).toHaveLength(3);
-      }).toThrow('Phase 3: File loading integration - not implemented yet');
+      }).toThrow('Version File loading integration - not implemented yet');
     });
 
     test('should extract enhanced OSMD tempos after file loads', () => {
@@ -177,7 +177,7 @@ describe('Phase 3: Integration & Testing - Implementation Tests', () => {
         
         // Should have called enhanced extraction
         // expect(mockOSMD was processed with getTemposInMeasure);
-      }).toThrow('Phase 3: OSMD extraction integration - not implemented yet');
+      }).toThrow('Version OSMD extraction integration - not implemented yet');
     });
 
     test('should handle errors gracefully without breaking file loading', () => {
@@ -196,7 +196,7 @@ describe('Phase 3: Integration & Testing - Implementation Tests', () => {
         // }).not.toThrow();
         
         // File should still load normally
-      }).toThrow('Phase 3: Error handling - not implemented yet');
+      }).toThrow('Version Error handling - not implemented yet');
     });
   });
 
@@ -232,7 +232,7 @@ describe('Phase 3: Integration & Testing - Implementation Tests', () => {
         //   offset: 768,
         //   text: 'Allegro'
         // });
-      }).toThrow('Phase 3: Un Sospiro integration - not implemented yet');
+      }).toThrow('Version Un Sospiro integration - not implemented yet');
     });
 
     test('should provide correct tempo at each position in Un Sospiro measure 1', () => {
@@ -246,7 +246,7 @@ describe('Phase 3: Integration & Testing - Implementation Tests', () => {
         // expect(tempoService.getTempoAtPosition(1, 384)).toBe(50);   // Third note
         // expect(tempoService.getTempoAtPosition(1, 767)).toBe(50);   // Just before change
         // expect(tempoService.getTempoAtPosition(1, 768)).toBe(85);   // Fourth note
-      }).toThrow('Phase 3: Position-based tempo - not implemented yet');
+      }).toThrow('Version Position-based tempo - not implemented yet');
     });
   });
 
@@ -265,7 +265,7 @@ describe('Phase 3: Integration & Testing - Implementation Tests', () => {
         
         // const duration = performance.now() - startTime;
         // expect(duration).toBeLessThan(10); // <10ms for 100 operations
-      }).toThrow('Phase 3: Performance verification - not implemented yet');
+      }).toThrow('Version Performance verification - not implemented yet');
     });
 
     test('should not leak memory with multiple file loads', () => {
@@ -280,7 +280,7 @@ describe('Phase 3: Integration & Testing - Implementation Tests', () => {
         
         // Should handle memory efficiently
         // expect(memory usage is reasonable);
-      }).toThrow('Phase 3: Memory management - not implemented yet');
+      }).toThrow('Version Memory management - not implemented yet');
     });
   });
 
@@ -303,7 +303,7 @@ describe('Phase 3: Integration & Testing - Implementation Tests', () => {
         // const tempoService = TempoService.getInstance();
         // const tempos = tempoService.getTemposForMeasure(1);
         // expect(tempos.length).toBeGreaterThan(0);
-      }).toThrow('Phase 3: End-to-end workflow - not implemented yet');
+      }).toThrow('Version End-to-end workflow - not implemented yet');
     });
 
     test('should handle files larger than 1MB gracefully', () => {
@@ -321,7 +321,7 @@ describe('Phase 3: Integration & Testing - Implementation Tests', () => {
         // handleFileLoaded(largeFileResult);
         
         // Should still work, just with OSMD data
-      }).toThrow('Phase 3: Large file handling - not implemented yet');
+      }).toThrow('Version Large file handling - not implemented yet');
     });
   });
 
@@ -339,7 +339,7 @@ describe('Phase 3: Integration & Testing - Implementation Tests', () => {
         // Legacy behavior should be preserved
         // const tempo = tempoService.getTempoForMeasure(1);
         // expect(typeof tempo).toBe('number');
-      }).toThrow('Phase 3: Legacy compatibility - not implemented yet');
+      }).toThrow('Version Legacy compatibility - not implemented yet');
     });
 
     test('should preserve all existing TempoService configuration', () => {
@@ -350,7 +350,7 @@ describe('Phase 3: Integration & Testing - Implementation Tests', () => {
         // expect(tempoService.config).toBeDefined();
         // expect(tempoService.config.defaultTempo).toBe(120);
         // expect(tempoService.cache).toBeDefined();
-      }).toThrow('Phase 3: Configuration preservation - not implemented yet');
+      }).toThrow('Version Configuration preservation - not implemented yet');
     });
   });
 });

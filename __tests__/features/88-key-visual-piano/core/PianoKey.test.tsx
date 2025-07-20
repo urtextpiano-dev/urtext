@@ -9,7 +9,7 @@ import '@testing-library/jest-dom';
 import { PianoKey } from '@/renderer/components/PianoKey';
 import type { PianoKeyData } from '@/renderer/utils/pianoUtils';
 
-describe('Phase 1: PianoKey Component', () => {
+describe('Version PianoKey Component', () => {
   const mockWhiteKey: PianoKeyData = {
     id: 'C4',
     type: 'white',

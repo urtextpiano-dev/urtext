@@ -31,7 +31,7 @@ const measureMemoryUsage = () => {
   return null;
 };
 
-describe('Phase 1: Performance Tests - 88-Key Visual Piano', () => {
+describe('Version Performance Tests - 88-Key Visual Piano', () => {
   describe('Initial Render Performance', () => {
     test('should render within 100ms budget', () => {
       const { duration } = measureRenderTime(<PianoKeyboard />);

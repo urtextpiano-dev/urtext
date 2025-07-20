@@ -27,7 +27,7 @@ const mockElectronAPI = {
   api: mockElectronAPI
 };
 
-describe('Phase 1: Loading UI - Implementation Tests', () => {
+describe('Version Loading UI - Implementation Tests', () => {
   let fileLoaderService: any;
   let user: ReturnType<typeof userEvent.setup>;
   
@@ -63,7 +63,7 @@ describe('Phase 1: Loading UI - Implementation Tests', () => {
           jobId: 'job-123',
           status: 'processing'
         });
-      }).rejects.toThrow('Phase 1: FileLoaderService not implemented yet');
+      }).rejects.toThrow('Version FileLoaderService not implemented yet');
     });
 
     test('should listen for file ready events', async () => {
@@ -73,7 +73,7 @@ describe('Phase 1: Loading UI - Implementation Tests', () => {
         // Verify event listeners are registered
         expect(mockElectronAPI.on).toHaveBeenCalledWith('file:ready', expect.any(Function));
         expect(mockElectronAPI.on).toHaveBeenCalledWith('file:error', expect.any(Function));
-      }).rejects.toThrow('Phase 1: Event listener registration not implemented yet');
+      }).rejects.toThrow('Version Event listener registration not implemented yet');
     });
 
     test('should handle file ready event', async () => {
@@ -109,7 +109,7 @@ describe('Phase 1: Loading UI - Implementation Tests', () => {
             fileSize: 1024
           })
         );
-      }).rejects.toThrow('Phase 1: File ready handling not implemented yet');
+      }).rejects.toThrow('Version File ready handling not implemented yet');
     });
 
     test('should fetch content after file is ready', async () => {
@@ -133,7 +133,7 @@ describe('Phase 1: Loading UI - Implementation Tests', () => {
         });
         
         expect(mockElectronAPI.getFileContent).toHaveBeenCalledWith('job-123');
-      }).rejects.toThrow('Phase 1: Content fetching not implemented yet');
+      }).rejects.toThrow('Version Content fetching not implemented yet');
     });
 
     test('should handle file loading errors', async () => {
@@ -159,7 +159,7 @@ describe('Phase 1: Loading UI - Implementation Tests', () => {
         });
         
         expect(errorSpy).toHaveBeenCalledWith('File too large');
-      }).rejects.toThrow('Phase 1: Error handling not implemented yet');
+      }).rejects.toThrow('Version Error handling not implemented yet');
     });
 
     test('should handle cancelled file selection', async () => {
@@ -175,7 +175,7 @@ describe('Phase 1: Loading UI - Implementation Tests', () => {
           jobId: '',
           status: 'idle'
         });
-      }).rejects.toThrow('Phase 1: Cancellation handling not implemented yet');
+      }).rejects.toThrow('Version Cancellation handling not implemented yet');
     });
   });
 
@@ -194,7 +194,7 @@ describe('Phase 1: Loading UI - Implementation Tests', () => {
           error: undefined,
           progress: 0
         });
-      }).toThrow('Phase 1: Loading state store not implemented yet');
+      }).toThrow('Version Loading state store not implemented yet');
     });
 
     test('should update loading states', () => {
@@ -224,7 +224,7 @@ describe('Phase 1: Loading UI - Implementation Tests', () => {
           fileSize: 1024,
           progress: 100
         });
-      }).toThrow('Phase 1: Store actions not implemented yet');
+      }).toThrow('Version Store actions not implemented yet');
     });
   });
 
@@ -244,7 +244,7 @@ describe('Phase 1: Loading UI - Implementation Tests', () => {
         
         expect(screen.getByText(/Loading test\.xml/i)).toBeInTheDocument();
         expect(screen.getByRole('progressbar')).toHaveAttribute('aria-valuenow', '30');
-      }).toThrow('Phase 1: Loading progress component not implemented yet');
+      }).toThrow('Version Loading progress component not implemented yet');
     });
 
     test('should hide when idle or complete', () => {
@@ -259,7 +259,7 @@ describe('Phase 1: Loading UI - Implementation Tests', () => {
         const { container } = render(<FileLoadingProgress />);
         
         expect(container).toBeEmptyDOMElement();
-      }).toThrow('Phase 1: Progress visibility control not implemented yet');
+      }).toThrow('Version Progress visibility control not implemented yet');
     });
 
     test('should show error state', () => {
@@ -276,7 +276,7 @@ describe('Phase 1: Loading UI - Implementation Tests', () => {
         
         expect(screen.getByText(/Error loading huge\.xml/i)).toBeInTheDocument();
         expect(screen.getByText(/File too large/i)).toBeInTheDocument();
-      }).toThrow('Phase 1: Error display not implemented yet');
+      }).toThrow('Version Error display not implemented yet');
     });
 
     test('should be accessible', () => {
@@ -295,7 +295,7 @@ describe('Phase 1: Loading UI - Implementation Tests', () => {
         expect(progressBar).toHaveAttribute('aria-valuenow', '50');
         expect(progressBar).toHaveAttribute('aria-valuemin', '0');
         expect(progressBar).toHaveAttribute('aria-valuemax', '100');
-      }).toThrow('Phase 1: Accessibility attributes not implemented yet');
+      }).toThrow('Version Accessibility attributes not implemented yet');
     });
   });
 
@@ -312,7 +312,7 @@ describe('Phase 1: Loading UI - Implementation Tests', () => {
         
         const uploadButton = screen.getByRole('button', { name: /upload/i });
         expect(uploadButton).toBeDisabled();
-      }).toThrow('Phase 1: Upload button integration not implemented yet');
+      }).toThrow('Version Upload button integration not implemented yet');
     });
 
     test('should show loading state in button', () => {
@@ -326,7 +326,7 @@ describe('Phase 1: Loading UI - Implementation Tests', () => {
         render(<FileUploadButton />);
         
         expect(screen.getByText(/Loading\.\.\./i)).toBeInTheDocument();
-      }).toThrow('Phase 1: Button loading state not implemented yet');
+      }).toThrow('Version Button loading state not implemented yet');
     });
   });
 
@@ -347,7 +347,7 @@ describe('Phase 1: Loading UI - Implementation Tests', () => {
         expect(clicked).toBe(true); // UI not blocked
         
         await loadPromise;
-      }).rejects.toThrow('Phase 1: Non-blocking UI not implemented yet');
+      }).rejects.toThrow('Version Non-blocking UI not implemented yet');
     });
 
     test('should update progress smoothly', async () => {
@@ -374,7 +374,7 @@ describe('Phase 1: Loading UI - Implementation Tests', () => {
         expect(updates.every((val, idx) => idx === 0 || val > updates[idx - 1])).toBe(true);
         
         unsubscribe();
-      }).rejects.toThrow('Phase 1: Progress updates not implemented yet');
+      }).rejects.toThrow('Version Progress updates not implemented yet');
     });
   });
 

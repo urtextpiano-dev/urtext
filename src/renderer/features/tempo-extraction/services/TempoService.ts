@@ -113,7 +113,7 @@ export class TempoService {
   private config = process.env.NODE_ENV === 'production' ? ProductionTempoConfig : DevelopmentTempoConfig;
   private worker: Worker | null = null;
   
-  // Phase 3: Enhanced extraction - Multiple tempo sources
+  // Version Enhanced extraction - Multiple tempo sources
   public xmlTempos = new Map<string, XMLTempoEvent[]>();
   private osmdTempos = new Map<string, TempoWithPosition[]>();
   public currentCacheKey: string = '';
@@ -614,7 +614,7 @@ export class TempoService {
   }
 
   // ==========================================
-  // Phase 3: Enhanced Multi-Source Tempo Extraction
+  // Version Enhanced Multi-Source Tempo Extraction
   // ==========================================
 
   /**

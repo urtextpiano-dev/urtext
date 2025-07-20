@@ -1,5 +1,5 @@
 /**
- * Phase 3: Production Optimization & Resilience Tests
+ * Version Production Optimization & Resilience Tests
  * 
  * TDD Cycle Reminder:
  * 1. RED: Run these tests - they should fail
@@ -23,7 +23,7 @@ import { renderHook, act } from '@testing-library/react-hooks';
 // import { performanceMonitor } from '@/renderer/utils/performanceMonitor';
 // import { memoryProfiler } from '@/renderer/utils/memoryProfiler';
 
-describe('Phase 3: Production Optimization & Resilience', () => {
+describe('Version Production Optimization & Resilience', () => {
   let container: HTMLDivElement;
   let consoleError: jest.SpyInstance;
   let consoleWarn: jest.SpyInstance;
@@ -72,7 +72,7 @@ describe('Phase 3: Production Optimization & Resilience', () => {
         unmount();
         
         expect(destroySpy).toHaveBeenCalled();
-      }).rejects.toThrow('Phase 3: OSMD cleanup not implemented');
+      }).rejects.toThrow('Version OSMD cleanup not implemented');
     });
 
     test('should cleanup resize observer on unmount', async () => {
@@ -98,7 +98,7 @@ describe('Phase 3: Production Optimization & Resilience', () => {
         expect(disconnectSpy).toHaveBeenCalled();
         
         window.ResizeObserver = originalResizeObserver;
-      }).rejects.toThrow('Phase 3: ResizeObserver cleanup not implemented');
+      }).rejects.toThrow('Version ResizeObserver cleanup not implemented');
     });
 
     test('should prevent memory leaks from event listeners', async () => {
@@ -119,7 +119,7 @@ describe('Phase 3: Production Optimization & Resilience', () => {
           'midi-event',
           expect.any(Function)
         );
-      }).rejects.toThrow('Phase 3: Event listener cleanup not implemented');
+      }).rejects.toThrow('Version Event listener cleanup not implemented');
     });
 
     test('should clear MIDI note mappings on unmount', async () => {
@@ -140,7 +140,7 @@ describe('Phase 3: Production Optimization & Resilience', () => {
         
         // Verify mappings are cleared
         expect(result.current._midiToTimestamp.size).toBe(0);
-      }).rejects.toThrow('Phase 3: MIDI mapping cleanup not implemented');
+      }).rejects.toThrow('Version MIDI mapping cleanup not implemented');
     });
 
     test('should monitor memory usage patterns', async () => {
@@ -164,7 +164,7 @@ describe('Phase 3: Production Optimization & Resilience', () => {
         unmount();
         
         expect(memoryMonitor.stopMonitoring).toHaveBeenCalled();
-      }).rejects.toThrow('Phase 3: Memory monitoring not implemented');
+      }).rejects.toThrow('Version Memory monitoring not implemented');
     });
   });
 
@@ -200,7 +200,7 @@ describe('Phase 3: Production Optimization & Resilience', () => {
         await waitFor(() => {
           expect(screen.queryByText(/Failed to load/)).not.toBeInTheDocument();
         });
-      }).rejects.toThrow('Phase 3: Error recovery not implemented');
+      }).rejects.toThrow('Version Error recovery not implemented');
     });
 
     test('should handle corrupt MusicXML gracefully', async () => {
@@ -216,7 +216,7 @@ describe('Phase 3: Production Optimization & Resilience', () => {
             expect.stringContaining('MusicXML parse error')
           );
         });
-      }).rejects.toThrow('Phase 3: Corrupt XML handling not implemented');
+      }).rejects.toThrow('Version Corrupt XML handling not implemented');
     });
 
     test('should implement circuit breaker for repeated failures', async () => {
@@ -243,7 +243,7 @@ describe('Phase 3: Production Optimization & Resilience', () => {
         jest.advanceTimersByTime(30000); // 30 second cooldown
         
         expect(result.current.status).toBe('IDLE');
-      }).rejects.toThrow('Phase 3: Circuit breaker not implemented');
+      }).rejects.toThrow('Version Circuit breaker not implemented');
     });
 
     test('should gracefully degrade when MIDI is unavailable', async () => {
@@ -264,7 +264,7 @@ describe('Phase 3: Production Optimization & Resilience', () => {
         });
         
         navigator.requestMIDIAccess = originalMIDI;
-      }).rejects.toThrow('Phase 3: MIDI degradation not implemented');
+      }).rejects.toThrow('Version MIDI degradation not implemented');
     });
   });
 
@@ -281,7 +281,7 @@ describe('Phase 3: Production Optimization & Resilience', () => {
             expect.stringContaining('opensheetmusicdisplay')
           );
         });
-      }).rejects.toThrow('Phase 3: Lazy loading not implemented');
+      }).rejects.toThrow('Version Lazy loading not implemented');
     });
 
     test('should tree-shake unused OSMD features', () => {
@@ -299,7 +299,7 @@ describe('Phase 3: Production Optimization & Resilience', () => {
         expect(webpackConfig.resolve.alias).toMatchObject({
           'opensheetmusicdisplay': 'opensheetmusicdisplay/build/opensheetmusicdisplay.min.js'
         });
-      }).toThrow('Phase 3: Tree shaking not configured');
+      }).toThrow('Version Tree shaking not configured');
     });
 
     test('should use production OSMD build', () => {
@@ -312,7 +312,7 @@ describe('Phase 3: Production Optimization & Resilience', () => {
         
         // Should have build optimization script
         expect(packageJson.scripts['build:optimize']).toContain('--optimize');
-      }).toThrow('Phase 3: Production build not configured');
+      }).toThrow('Version Production build not configured');
     });
   });
 
@@ -341,7 +341,7 @@ describe('Phase 3: Production Optimization & Resilience', () => {
             expect.any(Number)
           );
         });
-      }).rejects.toThrow('Phase 3: Performance tracking not implemented');
+      }).rejects.toThrow('Version Performance tracking not implemented');
     });
 
     test('should report performance degradation', async () => {
@@ -370,7 +370,7 @@ describe('Phase 3: Production Optimization & Resilience', () => {
             message: 'Render time exceeded budget by 50ms'
           });
         });
-      }).rejects.toThrow('Phase 3: Performance reporting not implemented');
+      }).rejects.toThrow('Version Performance reporting not implemented');
     });
 
     test('should collect long task metrics', async () => {
@@ -396,7 +396,7 @@ describe('Phase 3: Production Optimization & Resilience', () => {
         });
         
         observer.disconnect();
-      }).rejects.toThrow('Phase 3: Long task monitoring not implemented');
+      }).rejects.toThrow('Version Long task monitoring not implemented');
     });
   });
 
@@ -430,7 +430,7 @@ describe('Phase 3: Production Optimization & Resilience', () => {
             })
           );
         });
-      }).rejects.toThrow('Phase 3: Error logging not implemented');
+      }).rejects.toThrow('Version Error logging not implemented');
     });
 
     test('should sanitize sensitive data in logs', async () => {
@@ -469,7 +469,7 @@ describe('Phase 3: Production Optimization & Resilience', () => {
           expect(loggedData.musicXML).not.toContain('Copyright');
           expect(loggedData.musicXML).toContain('[REDACTED]');
         });
-      }).rejects.toThrow('Phase 3: Log sanitization not implemented');
+      }).rejects.toThrow('Version Log sanitization not implemented');
     });
   });
 
@@ -490,7 +490,7 @@ describe('Phase 3: Production Optimization & Resilience', () => {
           expect(announcement).toHaveTextContent('Sheet music updated');
           expect(announcement).toHaveAttribute('aria-live', 'polite');
         });
-      }).rejects.toThrow('Phase 3: Screen reader announcements not implemented');
+      }).rejects.toThrow('Version Screen reader announcements not implemented');
     });
 
     test('should provide keyboard navigation hints', async () => {
@@ -505,7 +505,7 @@ describe('Phase 3: Production Optimization & Resilience', () => {
             'Use arrow keys to navigate measures, space to play/pause'
           );
         });
-      }).rejects.toThrow('Phase 3: Keyboard hints not implemented');
+      }).rejects.toThrow('Version Keyboard hints not implemented');
     });
 
     test('should support high contrast mode', async () => {
@@ -524,7 +524,7 @@ describe('Phase 3: Production Optimization & Resilience', () => {
           const sheetContainer = container.querySelector('.sheet-music-container');
           expect(sheetContainer).toHaveClass('high-contrast');
         });
-      }).rejects.toThrow('Phase 3: High contrast support not implemented');
+      }).rejects.toThrow('Version High contrast support not implemented');
     });
   });
 
@@ -553,7 +553,7 @@ describe('Phase 3: Production Optimization & Resilience', () => {
           );
           expect(screen.getByText(/Something went wrong/)).toBeInTheDocument();
         });
-      }).rejects.toThrow('Phase 3: Error boundary integration not implemented');
+      }).rejects.toThrow('Version Error boundary integration not implemented');
     });
 
     test('should work with production build optimizations', () => {
@@ -572,7 +572,7 @@ describe('Phase 3: Production Optimization & Resilience', () => {
         );
         
         process.env.NODE_ENV = 'test';
-      }).toThrow('Phase 3: Production build optimization not implemented');
+      }).toThrow('Version Production build optimization not implemented');
     });
   });
 });

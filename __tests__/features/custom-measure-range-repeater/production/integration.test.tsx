@@ -1,10 +1,6 @@
 /**
- * Phase 3: Complete App Integration Tests
+ * Version Complete App Integration Tests
  * 
- * TDD CYCLE REMINDER:
- * 1. RED: Run these tests - they should fail with "not implemented" errors
- * 2. GREEN: Integrate all Phase 3 components following phase-3-app-integration.md
- * 3. REFACTOR: Polish integration while keeping tests green
  * 
  * This validates the complete feature integration into Urtext Piano
  */
@@ -29,7 +25,7 @@ global.window.electronAPI = {
   off: jest.fn()
 };
 
-describe('Phase 3: Complete App Integration', () => {
+describe('Version Complete App Integration', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     localStorage.clear();
@@ -94,7 +90,7 @@ describe('Phase 3: Complete App Integration', () => {
         await waitFor(() => {
           expect(screen.queryByText('Practice Range:')).not.toBeInTheDocument();
         });
-      }).toThrow('Phase 3: Full user journey not implemented');
+      }).toThrow('Version Full user journey not implemented');
     });
 
     test('should persist range preferences across sessions', async () => {
@@ -126,7 +122,7 @@ describe('Phase 3: Complete App Integration', () => {
         // Range should be remembered
         expect(screen.getByLabelText('Start measure')).toHaveValue(3);
         expect(screen.getByLabelText('End measure')).toHaveValue(7);
-      }).toThrow('Phase 3: Session persistence not implemented');
+      }).toThrow('Version Session persistence not implemented');
     });
   });
 
@@ -156,7 +152,7 @@ describe('Phase 3: Complete App Integration', () => {
         // Both should work together
         expect(startInput).toHaveValue(5);
         expect(tempoSlider).toHaveValue(80);
-      }).toThrow('Phase 3: Tempo integration not verified');
+      }).toThrow('Version Tempo integration not verified');
     });
 
     test('should work with visual feedback', async () => {
@@ -183,7 +179,7 @@ describe('Phase 3: Complete App Integration', () => {
         expect(rangeBracket).toBeInTheDocument();
         expect(rangeBracket).toHaveAttribute('data-start', '3');
         expect(rangeBracket).toHaveAttribute('data-end', '5');
-      }).toThrow('Phase 3: Visual feedback integration not implemented');
+      }).toThrow('Version Visual feedback integration not implemented');
     });
 
     test('should work with MIDI input', async () => {
@@ -217,7 +213,7 @@ describe('Phase 3: Complete App Integration', () => {
           const feedback = screen.getByTestId('note-feedback');
           expect(feedback).toHaveTextContent('Correct!');
         });
-      }).toThrow('Phase 3: MIDI integration not verified');
+      }).toThrow('Version MIDI integration not verified');
     });
   });
 
@@ -249,7 +245,7 @@ describe('Phase 3: Complete App Integration', () => {
         
         // Complete workflow should be snappy
         expect(totalTime).toBeLessThan(2000); // <2s for full setup
-      }).toThrow('Phase 3: Full integration performance not optimized');
+      }).toThrow('Version Full integration performance not optimized');
     });
 
     test('should handle rapid feature toggling', async () => {
@@ -271,7 +267,7 @@ describe('Phase 3: Complete App Integration', () => {
         // Should remain responsive
         expect(toggleButton).not.toBeDisabled();
         expect(screen.getByText('Practice Range:')).toBeInTheDocument();
-      }).toThrow('Phase 3: Rapid toggling handling not implemented');
+      }).toThrow('Version Rapid toggling handling not implemented');
     });
   });
 
@@ -295,7 +291,7 @@ describe('Phase 3: Complete App Integration', () => {
         
         // Should show appropriate message
         expect(screen.getByText(/Load a score to use practice features/i)).toBeInTheDocument();
-      }).toThrow('Phase 3: Missing OSMD handling not implemented');
+      }).toThrow('Version Missing OSMD handling not implemented');
     });
 
     test('should handle store errors without crashing', async () => {
@@ -320,7 +316,7 @@ describe('Phase 3: Complete App Integration', () => {
         expect(screen.getByText(/Something went wrong/i)).toBeInTheDocument();
         
         consoleSpy.mockRestore();
-      }).toThrow('Phase 3: Store error recovery not implemented');
+      }).toThrow('Version Store error recovery not implemented');
     });
   });
 
@@ -343,7 +339,7 @@ describe('Phase 3: Complete App Integration', () => {
         // Full accessibility check
         const results = await axe(container);
         expect(results).toHaveNoViolations();
-      }).toThrow('Phase 3: Full feature accessibility not verified');
+      }).toThrow('Version Full feature accessibility not verified');
     });
 
     test('should maintain keyboard navigation through all controls', async () => {
@@ -370,7 +366,7 @@ describe('Phase 3: Complete App Integration', () => {
         
         // Should be back at practice toggle
         expect(screen.getByRole('button', { name: /stop practice/i })).toHaveFocus();
-      }).toThrow('Phase 3: Complete keyboard navigation not implemented');
+      }).toThrow('Version Complete keyboard navigation not implemented');
     });
   });
 
@@ -413,7 +409,7 @@ describe('Phase 3: Complete App Integration', () => {
         expect(performance.now() - startTime).toBeLessThan(50);
         
         // Phase 3 is complete!
-      }).toThrow('Phase 3: Complete integration not implemented');
+      }).toThrow('Version Complete integration not implemented');
     });
   });
 });

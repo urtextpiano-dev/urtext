@@ -13,7 +13,7 @@ import { StreamingMusicXMLParser } from '../../../src/main/parsers/streamingMusi
 import { ProgressiveRenderer } from '../../../src/renderer/services/progressiveRenderer';
 import { ChunkProcessor } from '../../../src/main/workers/chunkProcessor';
 
-describe('Phase 2: Streaming MusicXML Parser - Implementation Tests', () => {
+describe('Version Streaming MusicXML Parser - Implementation Tests', () => {
   let parser: any;
   let mockStream: Readable;
   
@@ -41,7 +41,7 @@ describe('Phase 2: Streaming MusicXML Parser - Implementation Tests', () => {
         
         expect(parser).toBeDefined();
         expect(parser.getChunkSize()).toBe(64 * 1024);
-      }).toThrow('Phase 2: StreamingMusicXMLParser not implemented yet');
+      }).toThrow('Version StreamingMusicXMLParser not implemented yet');
     });
 
     test('should implement Transform stream interface', () => {
@@ -51,7 +51,7 @@ describe('Phase 2: Streaming MusicXML Parser - Implementation Tests', () => {
         expect(parser).toBeInstanceOf(Transform);
         expect(typeof parser.pipe).toBe('function');
         expect(typeof parser.on).toBe('function');
-      }).toThrow('Phase 2: Transform stream interface not implemented yet');
+      }).toThrow('Version Transform stream interface not implemented yet');
     });
   });
 
@@ -92,7 +92,7 @@ describe('Phase 2: Streaming MusicXML Parser - Implementation Tests', () => {
         expect(measures).toHaveLength(2);
         expect(measures[0].number).toBe(1);
         expect(measures[1].number).toBe(2);
-      }).rejects.toThrow('Phase 2: Progressive measure parsing not implemented yet');
+      }).rejects.toThrow('Version Progressive measure parsing not implemented yet');
     });
 
     test('should handle incomplete XML chunks correctly', async () => {
@@ -127,7 +127,7 @@ describe('Phase 2: Streaming MusicXML Parser - Implementation Tests', () => {
         
         expect(measures).toHaveLength(1);
         expect(measures[0].number).toBe(1);
-      }).rejects.toThrow('Phase 2: Chunk boundary handling not implemented yet');
+      }).rejects.toThrow('Version Chunk boundary handling not implemented yet');
     });
 
     test('should emit progress events during parsing', async () => {
@@ -153,7 +153,7 @@ describe('Phase 2: Streaming MusicXML Parser - Implementation Tests', () => {
         
         expect(progressEvents.length).toBeGreaterThan(5);
         expect(progressEvents[progressEvents.length - 1]).toBe(100);
-      }).rejects.toThrow('Phase 2: Progress event emission not implemented yet');
+      }).rejects.toThrow('Version Progress event emission not implemented yet');
     });
   });
 
@@ -180,7 +180,7 @@ describe('Phase 2: Streaming MusicXML Parser - Implementation Tests', () => {
         await new Promise(resolve => setTimeout(resolve, 100));
         
         expect(errorThrown).toBe(true);
-      }).rejects.toThrow('Phase 2: Buffer size limiting not implemented yet');
+      }).rejects.toThrow('Version Buffer size limiting not implemented yet');
     });
 
     test('should clean up partial data on error', async () => {
@@ -196,7 +196,7 @@ describe('Phase 2: Streaming MusicXML Parser - Implementation Tests', () => {
         // Verify cleanup
         expect(parser.getBufferSize()).toBe(0);
         expect(parser.getPendingMeasures()).toHaveLength(0);
-      }).rejects.toThrow('Phase 2: Error cleanup not implemented yet');
+      }).rejects.toThrow('Version Error cleanup not implemented yet');
     });
   });
 
@@ -220,7 +220,7 @@ describe('Phase 2: Streaming MusicXML Parser - Implementation Tests', () => {
         });
         
         expect(measures.length).toBeGreaterThan(0);
-      }).rejects.toThrow('Phase 2: MXL streaming decompression not implemented yet');
+      }).rejects.toThrow('Version MXL streaming decompression not implemented yet');
     });
   });
 
@@ -246,7 +246,7 @@ describe('Phase 2: Streaming MusicXML Parser - Implementation Tests', () => {
         });
         
         expect(errorMessage).toContain('Invalid XML');
-      }).rejects.toThrow('Phase 2: Malformed XML handling not implemented yet');
+      }).rejects.toThrow('Version Malformed XML handling not implemented yet');
     });
 
     test('should recover from parsing errors and continue', async () => {
@@ -277,7 +277,7 @@ describe('Phase 2: Streaming MusicXML Parser - Implementation Tests', () => {
         
         expect(measures).toHaveLength(2); // Only valid measures
         expect(errors).toHaveLength(1); // One error for invalid measure
-      }).rejects.toThrow('Phase 2: Error recovery not implemented yet');
+      }).rejects.toThrow('Version Error recovery not implemented yet');
     });
   });
 
@@ -306,7 +306,7 @@ describe('Phase 2: Streaming MusicXML Parser - Implementation Tests', () => {
         // All chunks should process quickly
         expect(chunkTimes.every(time => time < 50)).toBe(true);
         expect(Math.max(...chunkTimes)).toBeLessThan(50);
-      }).rejects.toThrow('Phase 2: Chunk processing performance not optimized yet');
+      }).rejects.toThrow('Version Chunk processing performance not optimized yet');
     });
 
     test('should maintain streaming throughput', async () => {
@@ -333,7 +333,7 @@ describe('Phase 2: Streaming MusicXML Parser - Implementation Tests', () => {
         
         // Should process at least 10MB/s
         expect(throughputMBps).toBeGreaterThan(10);
-      }).rejects.toThrow('Phase 2: Streaming throughput not optimized yet');
+      }).rejects.toThrow('Version Streaming throughput not optimized yet');
     });
   });
 

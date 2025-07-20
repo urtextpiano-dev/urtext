@@ -218,7 +218,7 @@ describe('MicroBatchingMidiProcessor', () => {
     });
   });
 
-  describe('Memory Safety (Grok\'s Security Audit)', () => {
+  describe('Memory Safety (Code review:\'s Security Audit)', () => {
     test('should enforce MAX_BATCH_SIZE limit', () => {
       // Create fresh processor to avoid rate limiting
       const testProcessor = new MicroBatchingMidiProcessor(10);

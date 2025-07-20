@@ -1,10 +1,6 @@
 /**
- * Phase 3: Musical Repeat Conflicts Tests
+ * Version Musical Repeat Conflicts Tests
  * 
- * TDD CYCLE REMINDER:
- * 1. RED: Run these tests - they should fail with "not implemented" errors
- * 2. GREEN: Implement conflict resolution following phase-3-app-integration.md
- * 3. REFACTOR: Improve conflict handling while keeping tests green
  * 
  * IMPORTANT: Custom range takes precedence over musical repeats
  */
@@ -45,7 +41,7 @@ jest.mock('@/renderer/features/practice-mode/stores/practiceStore', () => ({
   usePracticeStore: () => mockPracticeStore
 }));
 
-describe('Phase 3: Musical Repeat Conflict Resolution', () => {
+describe('Version Musical Repeat Conflict Resolution', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     mockOsmdStore.hasMusicalRepeats = false;
@@ -68,7 +64,7 @@ describe('Phase 3: Musical Repeat Conflict Resolution', () => {
         const conflict = hasConflict();
         
         expect(conflict).toBe(true);
-      }).toThrow('Phase 3: Conflict detection not implemented');
+      }).toThrow('Version Conflict detection not implemented');
     });
 
     test('should identify specific conflicting measures', () => {
@@ -82,7 +78,7 @@ describe('Phase 3: Musical Repeat Conflict Resolution', () => {
         const conflicts = getConflictingMeasures(3, 7);
         
         expect(conflicts).toEqual([5, 6, 7]);
-      }).toThrow('Phase 3: Conflicting measure detection not implemented');
+      }).toThrow('Version Conflicting measure detection not implemented');
     });
 
     test('should not detect conflict when ranges dont overlap', () => {
@@ -96,7 +92,7 @@ describe('Phase 3: Musical Repeat Conflict Resolution', () => {
         const conflicts = getConflictingMeasures(1, 5);
         
         expect(conflicts).toEqual([]);
-      }).toThrow('Phase 3: Non-overlapping detection not implemented');
+      }).toThrow('Version Non-overlapping detection not implemented');
     });
   });
 
@@ -121,7 +117,7 @@ describe('Phase 3: Musical Repeat Conflict Resolution', () => {
           expect(screen.getByRole('alert')).toBeInTheDocument();
           expect(screen.getByText(/Musical repeats will be disabled/i)).toBeInTheDocument();
         });
-      }).toThrow('Phase 3: Conflict warning display not implemented');
+      }).toThrow('Version Conflict warning display not implemented');
     });
 
     test('should display ConflictWarning component with proper message', () => {
@@ -141,7 +137,7 @@ describe('Phase 3: Musical Repeat Conflict Resolution', () => {
         expect(screen.getByText(/Custom range will override musical repeats/i)).toBeInTheDocument();
         expect(screen.getByRole('button', { name: /continue/i })).toBeInTheDocument();
         expect(screen.getByRole('button', { name: /cancel/i })).toBeInTheDocument();
-      }).toThrow('Phase 3: ConflictWarning component not implemented');
+      }).toThrow('Version ConflictWarning component not implemented');
     });
 
     test('should auto-dismiss warning after user action', async () => {
@@ -176,7 +172,7 @@ describe('Phase 3: Musical Repeat Conflict Resolution', () => {
         );
         
         expect(screen.queryByRole('alert')).not.toBeInTheDocument();
-      }).toThrow('Phase 3: Warning dismissal not implemented');
+      }).toThrow('Version Warning dismissal not implemented');
     });
   });
 
@@ -193,7 +189,7 @@ describe('Phase 3: Musical Repeat Conflict Resolution', () => {
         // Musical repeats should be disabled
         expect(mockPracticeStore.setMusicalRepeatsActive).toHaveBeenCalledWith(false);
         expect(mockPracticeStore.toggleCustomRange).toHaveBeenCalled();
-      }).toThrow('Phase 3: Conflict resolution not implemented');
+      }).toThrow('Version Conflict resolution not implemented');
     });
 
     test('should re-enable musical repeats when custom range is disabled', () => {
@@ -207,7 +203,7 @@ describe('Phase 3: Musical Repeat Conflict Resolution', () => {
         
         // Should offer to re-enable musical repeats
         expect(mockPracticeStore.setMusicalRepeatsActive).toHaveBeenCalledWith(true);
-      }).toThrow('Phase 3: Musical repeat restoration not implemented');
+      }).toThrow('Version Musical repeat restoration not implemented');
     });
 
     test('should remember user preference for conflict resolution', () => {
@@ -223,7 +219,7 @@ describe('Phase 3: Musical Repeat Conflict Resolution', () => {
         
         // Should not show warning next time
         expect(screen.queryByRole('alert')).not.toBeInTheDocument();
-      }).toThrow('Phase 3: Preference memory not implemented');
+      }).toThrow('Version Preference memory not implemented');
     });
   });
 
@@ -247,7 +243,7 @@ describe('Phase 3: Musical Repeat Conflict Resolution', () => {
         expect(screen.getByRole('tooltip')).toHaveTextContent(
           /Will disable musical repeats/i
         );
-      }).toThrow('Phase 3: Conflict indicators not implemented');
+      }).toThrow('Version Conflict indicators not implemented');
     });
 
     test('should highlight conflicting measures in UI', () => {
@@ -269,7 +265,7 @@ describe('Phase 3: Musical Repeat Conflict Resolution', () => {
         // Should show conflict highlighting
         expect(startInput).toHaveClass('has-conflict');
         expect(screen.getByText(/Overlaps with repeat/i)).toBeInTheDocument();
-      }).toThrow('Phase 3: Conflict highlighting not implemented');
+      }).toThrow('Version Conflict highlighting not implemented');
     });
   });
 
@@ -304,7 +300,7 @@ describe('Phase 3: Musical Repeat Conflict Resolution', () => {
         
         // Should loop to custom start, not follow repeat
         expect(result.current.nextExpectedMeasure).toBe(3);
-      }).toThrow('Phase 3: Practice flow conflict resolution not implemented');
+      }).toThrow('Version Practice flow conflict resolution not implemented');
     });
   });
 
@@ -331,7 +327,7 @@ describe('Phase 3: Musical Repeat Conflict Resolution', () => {
         
         const alert = screen.getByRole('alert');
         expect(alert).toHaveAttribute('aria-live', 'polite');
-      }).toThrow('Phase 3: Conflict accessibility not implemented');
+      }).toThrow('Version Conflict accessibility not implemented');
     });
   });
 
@@ -352,7 +348,7 @@ describe('Phase 3: Musical Repeat Conflict Resolution', () => {
         
         // Should detect DS at measure 15
         expect(conflicts).toContain(15);
-      }).toThrow('Phase 3: Complex repeat handling not implemented');
+      }).toThrow('Version Complex repeat handling not implemented');
     });
 
     test('should handle scores with no repeats gracefully', () => {
@@ -368,7 +364,7 @@ describe('Phase 3: Musical Repeat Conflict Resolution', () => {
         // Should not show any conflict indicators
         expect(toggleButton).not.toHaveClass('has-conflict');
         expect(screen.queryByTestId('conflict-description')).not.toBeInTheDocument();
-      }).toThrow('Phase 3: No-conflict scenario not handled');
+      }).toThrow('Version No-conflict scenario not handled');
     });
   });
 });

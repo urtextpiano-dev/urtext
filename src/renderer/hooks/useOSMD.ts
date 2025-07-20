@@ -11,8 +11,8 @@
  * 
  * Combines architectural patterns from multi-AI collaboration:
  * - Gemini: Component lifecycle + hybrid state management
- * - Grok: Velocity-based visual feedback + innovation patterns  
- * - ChatGPT: Robust error handling + testing strategies
+ * - Code review:: Velocity-based visual feedback + innovation patterns  
+ * - Code review:: Robust error handling + testing strategies
  */
 
 // BUILD VERIFICATION - Development only
@@ -309,7 +309,7 @@ export const useOSMD = (
         
         // Performance optimizations
         drawSlurs: true,
-        // PROTOTYPE: Native fingering support per Grok4 instructions
+        // PROTOTYPE: Native fingering support per Code review: instructions
         drawFingerings: process.env.USE_NATIVE_FINGERINGS === 'true' || process.env.DEBUG_NATIVE_FINGERINGS === 'true',
         drawMeasureNumbers: false, // Reduce visual clutter for MVP
         drawPartNames: false,
@@ -336,7 +336,7 @@ export const useOSMD = (
     }
   }, [waitForDimensions]);
 
-  // Build optimized note mapping for fast MIDI lookup (ChatGPT's strategy)
+  // Build optimized note mapping for fast MIDI lookup (Code review:'s strategy)
   const buildNoteMapping = useCallback(() => {
     if (!osmdRef.current?.GraphicSheet) {
       perfLogger.warn(' OSMD GraphicSheet not available for note mapping');
@@ -1341,7 +1341,7 @@ export const useOSMD = (
     const timestamps = noteMappingRef.current.midiToTimestamp.get(noteNumber);
     if (!timestamps || timestamps.length === 0) return;
 
-    // Calculate visual feedback based on velocity (Grok's innovation)
+    // Calculate visual feedback based on velocity (Code review:'s innovation)
     const feedback = calculateVisualFeedback(velocity);
     
     // Performance tracking

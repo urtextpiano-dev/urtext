@@ -23,7 +23,7 @@ class PracticeDatabase extends Dexie {
   fingeringAnnotations!: Table<FingeringAnnotation>;
   
   constructor() {
-    super('ABCPianoPractice');
+    super('UrtextPianoPractice');
     
     // Version 1: Original schema
     this.version(1).stores({

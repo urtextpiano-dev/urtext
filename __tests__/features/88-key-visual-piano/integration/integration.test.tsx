@@ -9,7 +9,7 @@ import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
 import { PianoKeyboard } from '@/renderer/components/PianoKeyboard';
 
-describe('Phase 2: Integration Tests - Enhanced UX', () => {
+describe('Version Integration Tests - Enhanced UX', () => {
   describe('Complete Enhancement Integration', () => {
     test('should integrate all Phase 2 features together', () => {
       render(<PianoKeyboard />);

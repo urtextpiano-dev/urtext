@@ -27,7 +27,7 @@ export class MicroBatchingMidiProcessor {
   private batchTimer: NodeJS.Timeout | null = null;
   private callback: NoteBatchCallback | null = null;
   
-  // Memory safeguards (from Grok's security audit)
+  // Memory safeguards (from Code review:'s security audit)
   private readonly MAX_BATCH_SIZE = 128; // Prevent memory exhaustion
   private readonly MAX_BATCH_RATE = 1000; // Max batches per second
   private batchCount = 0;
@@ -125,7 +125,7 @@ export class MicroBatchingMidiProcessor {
   }
   
   /**
-   * Rate limiting safeguard (from Grok's security audit)
+   * Rate limiting safeguard (from Code review:'s security audit)
    */
   private checkRateLimit(): boolean {
     const now = performance.now();

@@ -1,10 +1,6 @@
 /**
  * Performance Tests: Render Performance and UI Responsiveness
  * 
- * TDD CYCLE REMINDER:
- * 1. RED: Run these tests - they should fail with "not implemented" errors
- * 2. GREEN: Optimize rendering to meet performance targets
- * 3. REFACTOR: Further optimize while maintaining smooth UI
  * 
  * REQUIREMENT: 60fps UI updates, <100ms component render
  */

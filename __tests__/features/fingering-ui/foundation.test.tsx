@@ -20,7 +20,7 @@ jest.mock('opensheetmusicdisplay', () => ({
   }))
 }));
 
-describe('Phase 1: Foundation - OSMD Native Fingering Disabled', () => {
+describe('Version Foundation - OSMD Native Fingering Disabled', () => {
   let mockOSMDInstance: any;
   
   beforeEach(() => {

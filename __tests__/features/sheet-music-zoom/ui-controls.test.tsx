@@ -55,7 +55,7 @@ jest.mock('@/renderer/utils/accessibility', () => ({
   announceToScreenReader: mockAnnounceToScreenReader
 }));
 
-describe('Phase 2: UI Controls & Keyboard Shortcuts - Implementation Tests', () => {
+describe('Version UI Controls & Keyboard Shortcuts - Implementation Tests', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     mockAnnounceToScreenReader.mockClear();
@@ -84,7 +84,7 @@ describe('Phase 2: UI Controls & Keyboard Shortcuts - Implementation Tests', () 
         
         // Should have zoom in button
         expect(screen.getByRole('button', { name: /zoom in/i })).toBeInTheDocument();
-      }).toThrow('Phase 2: ZoomControls component not implemented yet');
+      }).toThrow('Version ZoomControls component not implemented yet');
     });
 
     test('should display current zoom level as percentage', () => {
@@ -99,7 +99,7 @@ describe('Phase 2: UI Controls & Keyboard Shortcuts - Implementation Tests', () 
         render(<ZoomControls />);
         
         expect(screen.getByText('150%')).toBeInTheDocument();
-      }).toThrow('Phase 2: Zoom percentage display not implemented yet');
+      }).toThrow('Version Zoom percentage display not implemented yet');
     });
 
     test('should call zoom actions when buttons clicked', async () => {
@@ -129,7 +129,7 @@ describe('Phase 2: UI Controls & Keyboard Shortcuts - Implementation Tests', () 
         // Click reset (percentage display)
         await user.click(screen.getByRole('button', { name: /reset zoom to 100%/i }));
         expect(mockResetZoom).toHaveBeenCalledTimes(1);
-      }).toThrow('Phase 2: Zoom button click handlers not implemented yet');
+      }).toThrow('Version Zoom button click handlers not implemented yet');
     });
 
     test('should disable buttons at zoom limits', () => {
@@ -157,7 +157,7 @@ describe('Phase 2: UI Controls & Keyboard Shortcuts - Implementation Tests', () 
         rerender(<ZoomControls />);
         expect(screen.getByRole('button', { name: /zoom out/i })).not.toBeDisabled();
         expect(screen.getByRole('button', { name: /zoom in/i })).toBeDisabled();
-      }).toThrow('Phase 2: Zoom limit button disabling not implemented yet');
+      }).toThrow('Version Zoom limit button disabling not implemented yet');
     });
 
     test('should show keyboard shortcut hints in tooltips', () => {
@@ -171,7 +171,7 @@ describe('Phase 2: UI Controls & Keyboard Shortcuts - Implementation Tests', () 
         expect(zoomInButton).toHaveAttribute('title', expect.stringContaining('Ctrl++'));
         expect(zoomOutButton).toHaveAttribute('title', expect.stringContaining('Ctrl+-'));
         expect(resetButton).toHaveAttribute('title', expect.stringContaining('Ctrl+0'));
-      }).toThrow('Phase 2: Keyboard shortcut tooltips not implemented yet');
+      }).toThrow('Version Keyboard shortcut tooltips not implemented yet');
     });
   });
 
@@ -185,7 +185,7 @@ describe('Phase 2: UI Controls & Keyboard Shortcuts - Implementation Tests', () 
         
         // Should contain zoom controls
         expect(screen.getByRole('group', { name: /zoom controls/i })).toBeInTheDocument();
-      }).toThrow('Phase 2: ZoomControls not integrated into TopControlsMenu yet');
+      }).toThrow('Version ZoomControls not integrated into TopControlsMenu yet');
     });
 
     test('should not show ZoomControls when no score is loaded', () => {
@@ -201,7 +201,7 @@ describe('Phase 2: UI Controls & Keyboard Shortcuts - Implementation Tests', () 
         
         // Should not contain zoom controls
         expect(screen.queryByRole('group', { name: /zoom controls/i })).not.toBeInTheDocument();
-      }).toThrow('Phase 2: Conditional ZoomControls rendering not implemented yet');
+      }).toThrow('Version Conditional ZoomControls rendering not implemented yet');
     });
   });
 
@@ -223,7 +223,7 @@ describe('Phase 2: UI Controls & Keyboard Shortcuts - Implementation Tests', () 
         
         expect(mockZoomIn).toHaveBeenCalledTimes(1);
         expect(mockAnnounceToScreenReader).toHaveBeenCalledWith(expect.stringContaining('Zoom'));
-      }).toThrow('Phase 2: Keyboard shortcut for zoom in not implemented yet');
+      }).toThrow('Version Keyboard shortcut for zoom in not implemented yet');
     });
 
     test('should zoom out with Ctrl/Cmd + Minus', async () => {
@@ -243,7 +243,7 @@ describe('Phase 2: UI Controls & Keyboard Shortcuts - Implementation Tests', () 
         
         expect(mockZoomOut).toHaveBeenCalledTimes(1);
         expect(mockAnnounceToScreenReader).toHaveBeenCalledWith(expect.stringContaining('Zoom'));
-      }).toThrow('Phase 2: Keyboard shortcut for zoom out not implemented yet');
+      }).toThrow('Version Keyboard shortcut for zoom out not implemented yet');
     });
 
     test('should reset zoom with Ctrl/Cmd + 0', async () => {
@@ -263,7 +263,7 @@ describe('Phase 2: UI Controls & Keyboard Shortcuts - Implementation Tests', () 
         
         expect(mockResetZoom).toHaveBeenCalledTimes(1);
         expect(mockAnnounceToScreenReader).toHaveBeenCalledWith('Zoom reset to 100%');
-      }).toThrow('Phase 2: Keyboard shortcut for zoom reset not implemented yet');
+      }).toThrow('Version Keyboard shortcut for zoom reset not implemented yet');
     });
 
     test('should work with Cmd key on Mac', async () => {
@@ -282,7 +282,7 @@ describe('Phase 2: UI Controls & Keyboard Shortcuts - Implementation Tests', () 
         fireEvent.keyDown(window, { key: '+', metaKey: true });
         
         expect(mockZoomIn).toHaveBeenCalledTimes(1);
-      }).toThrow('Phase 2: Mac Cmd key support not implemented yet');
+      }).toThrow('Version Mac Cmd key support not implemented yet');
     });
 
     test('should prevent default browser zoom', async () => {
@@ -299,7 +299,7 @@ describe('Phase 2: UI Controls & Keyboard Shortcuts - Implementation Tests', () 
         window.dispatchEvent(event);
         
         expect(preventDefaultSpy).toHaveBeenCalled();
-      }).toThrow('Phase 2: Browser zoom prevention not implemented yet');
+      }).toThrow('Version Browser zoom prevention not implemented yet');
     });
 
     test('should handle equals key as plus (without shift)', async () => {
@@ -318,7 +318,7 @@ describe('Phase 2: UI Controls & Keyboard Shortcuts - Implementation Tests', () 
         fireEvent.keyDown(window, { key: '=', ctrlKey: true });
         
         expect(mockZoomIn).toHaveBeenCalledTimes(1);
-      }).toThrow('Phase 2: Equals key handling not implemented yet');
+      }).toThrow('Version Equals key handling not implemented yet');
     });
   });
 
@@ -333,7 +333,7 @@ describe('Phase 2: UI Controls & Keyboard Shortcuts - Implementation Tests', () 
         expect(screen.getByRole('button', { name: /zoom in/i })).toHaveAttribute('aria-label');
         expect(screen.getByRole('button', { name: /zoom out/i })).toHaveAttribute('aria-label');
         expect(screen.getByRole('button', { name: /reset zoom/i })).toHaveAttribute('aria-label');
-      }).toThrow('Phase 2: ARIA labels not implemented yet');
+      }).toThrow('Version ARIA labels not implemented yet');
     });
 
     test('should be keyboard navigable', async () => {
@@ -350,7 +350,7 @@ describe('Phase 2: UI Controls & Keyboard Shortcuts - Implementation Tests', () 
         
         await user.tab();
         expect(screen.getByRole('button', { name: /zoom in/i })).toHaveFocus();
-      }).toThrow('Phase 2: Keyboard navigation not implemented yet');
+      }).toThrow('Version Keyboard navigation not implemented yet');
     });
 
     test('should announce zoom changes to screen readers', async () => {
@@ -377,7 +377,7 @@ describe('Phase 2: UI Controls & Keyboard Shortcuts - Implementation Tests', () 
         await user.click(screen.getByRole('button', { name: /zoom in/i }));
         
         expect(mockAnnounceToScreenReader).toHaveBeenCalledWith('Zoom 110%');
-      }).toThrow('Phase 2: Screen reader announcements not implemented yet');
+      }).toThrow('Version Screen reader announcements not implemented yet');
     });
   });
 
@@ -390,7 +390,7 @@ describe('Phase 2: UI Controls & Keyboard Shortcuts - Implementation Tests', () 
         
         // Should not crash
         expect(() => render(<ZoomControls />)).not.toThrow();
-      }).toThrow('Phase 2: Error boundary not implemented yet');
+      }).toThrow('Version Error boundary not implemented yet');
     });
   });
 
@@ -422,7 +422,7 @@ describe('Phase 2: UI Controls & Keyboard Shortcuts - Implementation Tests', () 
         // Should prevent browser zoom
         expect(preventDefaultSpy).toHaveBeenCalled();
         expect(stopPropagationSpy).toHaveBeenCalled();
-      }).toThrow('Phase 2: Browser zoom prevention not implemented yet');
+      }).toThrow('Version Browser zoom prevention not implemented yet');
     });
 
     test('should handle rapid/held keyboard shortcuts gracefully', async () => {
@@ -451,7 +451,7 @@ describe('Phase 2: UI Controls & Keyboard Shortcuts - Implementation Tests', () 
         expect(mockZoomIn.mock.calls.length).toBeGreaterThan(0);
         
         jest.useRealTimers();
-      }).toThrow('Phase 2: Rapid keyboard input handling not implemented yet');
+      }).toThrow('Version Rapid keyboard input handling not implemented yet');
     });
 
     test('should work when browser zoom is applied', () => {
@@ -480,7 +480,7 @@ describe('Phase 2: UI Controls & Keyboard Shortcuts - Implementation Tests', () 
         
         // Reset browser zoom
         document.documentElement.style.zoom = '';
-      }).toThrow('Phase 2: Browser zoom compatibility not implemented yet');
+      }).toThrow('Version Browser zoom compatibility not implemented yet');
     });
 
     test('should handle keyboard shortcuts when modal is open', () => {
@@ -512,7 +512,7 @@ describe('Phase 2: UI Controls & Keyboard Shortcuts - Implementation Tests', () 
         // Define expected behavior: either works or is blocked
         // For this test, assume shortcuts should be disabled when modal is open
         expect(mockZoomIn).not.toHaveBeenCalled();
-      }).toThrow('Phase 2: Modal interaction handling not implemented yet');
+      }).toThrow('Version Modal interaction handling not implemented yet');
     });
 
     test('should handle tooltips at extreme zoom levels', async () => {
@@ -544,7 +544,7 @@ describe('Phase 2: UI Controls & Keyboard Shortcuts - Implementation Tests', () 
           expect(rect?.left).toBeGreaterThanOrEqual(0);
           expect(rect?.right).toBeLessThanOrEqual(window.innerWidth);
         });
-      }).toThrow('Phase 2: Tooltip positioning at extremes not implemented yet');
+      }).toThrow('Version Tooltip positioning at extremes not implemented yet');
     });
 
     test('should handle conflicting platform shortcuts', () => {
@@ -576,7 +576,7 @@ describe('Phase 2: UI Controls & Keyboard Shortcuts - Implementation Tests', () 
         // App should not interfere with browser shortcuts it doesn't use
         window.dispatchEvent(conflictEvent);
         expect(conflictEvent.defaultPrevented).toBe(false);
-      }).toThrow('Phase 2: Platform shortcut handling not implemented yet');
+      }).toThrow('Version Platform shortcut handling not implemented yet');
     });
   });
 });

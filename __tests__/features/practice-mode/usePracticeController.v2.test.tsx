@@ -1,7 +1,7 @@
 /**
  * Practice Controller v2 Tests - State Machine Validation
  * 
- * Comprehensive test suite following ChatGPT O3's testing strategy:
+ * Comprehensive test suite following Code review: Code review:'s testing strategy:
  * 1. Pure reducer unit tests (state transitions)
  * 2. Integration tests with fake timers 
  * 3. Performance/latency validation

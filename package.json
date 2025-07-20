@@ -26,8 +26,8 @@
   },
   "keywords": [],
   "author": {
-    "name": "frusaha",
-    "email": "118129896+frusaha@users.noreply.github.com"
+    "name": "Urtext Piano Team",
+    "email": "dev@urtextpiano.io"
   },
   "license": "MIT",
   "dependencies": {
@@ -81,7 +81,7 @@
     "rollup": "npm:@rollup/wasm-node"
   },
   "build": {
-    "appId": "com.frusaha.urtext-piano",
+    "appId": "com.urtextpiano.app",
     "productName": "Urtext Piano",
     "directories": {
       "output": "dist"

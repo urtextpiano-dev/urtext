@@ -34,7 +34,7 @@ interface SheetMusicState {
   clearScore: () => void;
   clearError: () => void;
   
-  // Phase 3: Recent files methods (RecentFilesService integration)
+  // Version Recent files methods (RecentFilesService integration)
   loadRecentFiles: () => void;
   addRecentFile: (metadata: RecentFileMetadata) => void;
   clearRecentFiles: () => void;
@@ -65,7 +65,7 @@ export const useSheetMusicStore = create<SheetMusicState>()(
         loadState: 'idle',
         error: null,
         recentFiles: initialRecentFiles, // Load from RecentFilesService
-        maxRecentFiles: 5, // Phase 3: Reduced to 5 for UI
+        maxRecentFiles: 5, // Version Reduced to 5 for UI
         
         // Load file via dialog
         loadFromDialog: async () => {
@@ -114,7 +114,7 @@ export const useSheetMusicStore = create<SheetMusicState>()(
             error: null
           });
           
-          // Add to recent files (Phase 3: Using RecentFilesService)
+          // Add to recent files (Version Using RecentFilesService)
           get().addRecentFile({
             name: result.fileName,
             size: result.fileSize,
@@ -189,7 +189,7 @@ export const useSheetMusicStore = create<SheetMusicState>()(
         set({ error: null });
       },
       
-      // Phase 3: Recent files methods (RecentFilesService integration)
+      // Version Recent files methods (RecentFilesService integration)
       loadRecentFiles: () => {
         const recent = recentFilesService.get();
         set({ recentFiles: recent });
@@ -242,7 +242,7 @@ export const useSheetMusicStore = create<SheetMusicState>()(
     },
     {
       name: 'sheet-music-storage',
-      // Phase 3: Recent files now handled by RecentFilesService
+      // Version Recent files now handled by RecentFilesService
       // Only persist non-sensitive settings and UI preferences
       partialize: (state) => ({ 
         maxRecentFiles: state.maxRecentFiles,

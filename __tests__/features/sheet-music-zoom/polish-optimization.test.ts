@@ -23,7 +23,7 @@ const localStorageMock = {
 };
 Object.defineProperty(window, 'localStorage', { value: localStorageMock });
 
-describe('Phase 3: Polish & Performance Optimization - Implementation Tests', () => {
+describe('Version Polish & Performance Optimization - Implementation Tests', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     localStorageMock.clear();
@@ -52,7 +52,7 @@ describe('Phase 3: Polish & Performance Optimization - Implementation Tests', ()
           const parsed = JSON.parse(savedData!);
           expect(parsed.state.zoomLevel).toBe(1.5);
         });
-      }).toThrow('Phase 3: Zoom persistence not implemented yet');
+      }).toThrow('Version Zoom persistence not implemented yet');
     });
 
     test('should restore zoom level from localStorage on init', () => {
@@ -69,7 +69,7 @@ describe('Phase 3: Polish & Performance Optimization - Implementation Tests', ()
         
         // Should restore zoom level
         expect(result.current.zoomLevel).toBe(1.7);
-      }).toThrow('Phase 3: Zoom restoration not implemented yet');
+      }).toThrow('Version Zoom restoration not implemented yet');
     });
 
     test('should only persist zoom level, not other state', async () => {
@@ -93,7 +93,7 @@ describe('Phase 3: Polish & Performance Optimization - Implementation Tests', ()
           expect(parsed.state.isLoading).toBeUndefined();
           expect(parsed.state.error).toBeUndefined();
         });
-      }).toThrow('Phase 3: Selective persistence not implemented yet');
+      }).toThrow('Version Selective persistence not implemented yet');
     });
 
     test('should handle corrupted localStorage data gracefully', () => {
@@ -104,7 +104,7 @@ describe('Phase 3: Polish & Performance Optimization - Implementation Tests', ()
         // Should not crash and use default
         const { result } = renderHook(() => useOSMDStore());
         expect(result.current.zoomLevel).toBe(1.0);
-      }).toThrow('Phase 3: Corrupted data handling not implemented yet');
+      }).toThrow('Version Corrupted data handling not implemented yet');
     });
   });
 
@@ -128,7 +128,7 @@ describe('Phase 3: Polish & Performance Optimization - Implementation Tests', ()
         }
         
         expect(mockOSMD.render).not.toHaveBeenCalled();
-      }).toThrow('Phase 3: Render optimization not implemented yet');
+      }).toThrow('Version Render optimization not implemented yet');
     });
 
     test('should preserve scroll position proportionally during zoom', () => {
@@ -150,7 +150,7 @@ describe('Phase 3: Polish & Performance Optimization - Implementation Tests', ()
         container.scrollTo(0, newScrollTop);
         
         expect(container.scrollTo).toHaveBeenCalledWith(0, 1500);
-      }).toThrow('Phase 3: Scroll preservation not implemented yet');
+      }).toThrow('Version Scroll preservation not implemented yet');
     });
 
     test('should log zoom performance metrics', () => {
@@ -165,7 +165,7 @@ describe('Phase 3: Polish & Performance Optimization - Implementation Tests', ()
         mockLogZoomLatency(renderTime);
         
         expect(mockLogZoomLatency).toHaveBeenCalledWith(expect.any(Number));
-      }).toThrow('Phase 3: Performance logging not implemented yet');
+      }).toThrow('Version Performance logging not implemented yet');
     });
 
     test('should warn for slow zoom renders', () => {
@@ -188,7 +188,7 @@ describe('Phase 3: Polish & Performance Optimization - Implementation Tests', ()
         );
         
         consoleWarnSpy.mockRestore();
-      }).toThrow('Phase 3: Slow render warning not implemented yet');
+      }).toThrow('Version Slow render warning not implemented yet');
     });
   });
 
@@ -215,7 +215,7 @@ describe('Phase 3: Polish & Performance Optimization - Implementation Tests', ()
         expect(isAnimating).toBe(false);
         
         jest.useRealTimers();
-      }).toThrow('Phase 3: Zoom animation not implemented yet');
+      }).toThrow('Version Zoom animation not implemented yet');
     });
 
     test('should show visual feedback when hitting zoom limits', () => {
@@ -236,7 +236,7 @@ describe('Phase 3: Polish & Performance Optimization - Implementation Tests', ()
         }
         
         expect(hasShakeClass).toBe(true);
-      }).toThrow('Phase 3: Zoom limit feedback not implemented yet');
+      }).toThrow('Version Zoom limit feedback not implemented yet');
     });
 
     test('should announce zoom limits to screen readers', () => {
@@ -250,7 +250,7 @@ describe('Phase 3: Polish & Performance Optimization - Implementation Tests', ()
         }
         
         expect(mockAnnounce).toHaveBeenCalledWith('Minimum zoom reached');
-      }).toThrow('Phase 3: Zoom limit announcements not implemented yet');
+      }).toThrow('Version Zoom limit announcements not implemented yet');
     });
   });
 
@@ -266,7 +266,7 @@ describe('Phase 3: Polish & Performance Optimization - Implementation Tests', ()
         mockLogZoomLatency(89);
         
         expect(mockLogZoomLatency).toHaveBeenCalledTimes(4);
-      }).toThrow('Phase 3: Ring buffer logging not implemented yet');
+      }).toThrow('Version Ring buffer logging not implemented yet');
     });
 
     test('should export zoom metrics for monitoring', () => {
@@ -287,7 +287,7 @@ describe('Phase 3: Polish & Performance Optimization - Implementation Tests', ()
           zoomCount: 4,
           slowZooms: 1
         });
-      }).toThrow('Phase 3: Metrics export not implemented yet');
+      }).toThrow('Version Metrics export not implemented yet');
     });
 
     test('should integrate with performance overlay', () => {
@@ -307,7 +307,7 @@ describe('Phase 3: Polish & Performance Optimization - Implementation Tests', ()
           'zoom',
           expect.any(Object)
         );
-      }).toThrow('Phase 3: Performance overlay integration not implemented yet');
+      }).toThrow('Version Performance overlay integration not implemented yet');
     });
   });
 
@@ -328,7 +328,7 @@ describe('Phase 3: Polish & Performance Optimization - Implementation Tests', ()
         expect(mockRender).toHaveBeenCalledTimes(1);
         
         jest.useRealTimers();
-      }).toThrow('Phase 3: Rapid zoom handling not implemented yet');
+      }).toThrow('Version Rapid zoom handling not implemented yet');
     });
 
     test('should handle OSMD disposal during zoom', () => {
@@ -349,7 +349,7 @@ describe('Phase 3: Polish & Performance Optimization - Implementation Tests', ()
         mockOSMD.render();
         
         expect(mockOSMD.render).not.toHaveBeenCalled();
-      }).toThrow('Phase 3: OSMD disposal handling not implemented yet');
+      }).toThrow('Version OSMD disposal handling not implemented yet');
     });
   });
 
@@ -370,7 +370,7 @@ describe('Phase 3: Polish & Performance Optimization - Implementation Tests', ()
         renderTimes.forEach(time => {
           expect(time).toBeLessThan(100);
         });
-      }).toThrow('Phase 3: Performance requirements not verified yet');
+      }).toThrow('Version Performance requirements not verified yet');
     });
 
     test('should not leak memory after extended use', () => {
@@ -393,7 +393,7 @@ describe('Phase 3: Polish & Performance Optimization - Implementation Tests', ()
         const memoryGrowth = finalMemory - initialMemory;
         
         expect(memoryGrowth).toBeLessThan(10 * 1024 * 1024); // <10MB growth
-      }).toThrow('Phase 3: Memory leak testing not implemented yet');
+      }).toThrow('Version Memory leak testing not implemented yet');
     });
   });
 });

@@ -1,5 +1,5 @@
 /**
- * Phase 2: MIDI Message Parsing Tests
+ * Version MIDI Message Parsing Tests
  * 
  * Tests for parsing various MIDI message types
  */
@@ -15,7 +15,7 @@ class TestableJZZMidiService extends JZZMidiService {
   }
 }
 
-describe('Phase 2: MIDI Message Parsing', () => {
+describe('Version MIDI Message Parsing', () => {
   let service: TestableJZZMidiService;
   
   beforeEach(() => {

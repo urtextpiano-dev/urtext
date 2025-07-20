@@ -8,7 +8,7 @@ import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { PianoKeyboard } from '@/renderer/components/PianoKeyboard';
 
-describe('Phase 3: Advanced Responsive Design', () => {
+describe('Version Advanced Responsive Design', () => {
   // Store original values
   let originalInnerWidth: number;
   let originalMatchMedia: typeof window.matchMedia;

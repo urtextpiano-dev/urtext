@@ -1,5 +1,5 @@
 /**
- * Phase 1: MIDI Type Definitions Tests
+ * Version MIDI Type Definitions Tests
  * 
  * TDD Cycle Reminder:
  * 1. RED: Run these tests - they should fail
@@ -20,7 +20,7 @@ import type {
   DeviceChangeHandler 
 } from '@/renderer/types/midi';
 
-describe('Phase 1: MIDI Type Definitions', () => {
+describe('Version MIDI Type Definitions', () => {
   describe('Discriminated Union Types', () => {
     test('should define NoteOnEvent with required properties', () => {
       // This test verifies the discriminated union structure

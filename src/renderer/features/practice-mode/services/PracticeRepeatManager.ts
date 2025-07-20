@@ -1,4 +1,4 @@
-// Phase 1: PracticeRepeatManager Service - Manages repeat logic with state machine
+// Version PracticeRepeatManager Service - Manages repeat logic with state machine
 import { perfLogger } from '@/renderer/utils/performance-logger';
 import { MeasureTimeline } from './MeasureTimeline';
 

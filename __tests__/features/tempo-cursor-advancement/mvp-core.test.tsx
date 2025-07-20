@@ -26,7 +26,7 @@ jest.mock('@/renderer/stores/osmdStore', () => ({
   })
 }));
 
-describe('Phase 1: MVP Core - Basic Tempo-Aware Advancement', () => {
+describe('Version MVP Core - Basic Tempo-Aware Advancement', () => {
   let mockAudioContext: any;
 
   beforeEach(() => {

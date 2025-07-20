@@ -9,7 +9,7 @@ import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
 import { PianoKeyboard } from '@/renderer/components/PianoKeyboard';
 
-describe('Phase 2: Simplified Keyboard Navigation', () => {
+describe('Version Simplified Keyboard Navigation', () => {
   describe('Tab Navigation', () => {
     test('should allow Tab navigation through all keys in order', async () => {
       const user = userEvent.setup();

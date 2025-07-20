@@ -92,7 +92,7 @@ jest.mock('@/renderer/features/practice-mode/stores/practiceStore', () => ({
   )
 }));
 
-describe('Phase 2: usePracticeController State Machine - Repeat Integration Tests', () => {
+describe('Version usePracticeController State Machine - Repeat Integration Tests', () => {
   let result: any;
   let mockOSMDControls: any;
   let mockTimeline: any;
@@ -496,7 +496,7 @@ describe('Phase 2: usePracticeController State Machine - Repeat Integration Test
     });
   });
 
-  describe('Edge Cases - Event/Polling Clarity (ChatGPT Additions)', () => {
+  describe('Edge Cases - Event/Polling Clarity (Code review: Additions)', () => {
     test('should clearly define playback states for polling', () => {
       const { result } = renderHook(() => usePracticeController());
         
@@ -544,7 +544,7 @@ describe('Phase 2: usePracticeController State Machine - Repeat Integration Test
     });
   });
 
-  describe('Edge Cases - Race Conditions (Grok Additions)', () => {
+  describe('Edge Cases - Race Conditions (Code review: Additions)', () => {
     test('should handle rapid concurrent state updates', () => {
       const { result } = renderHook(() => usePracticeController());
         

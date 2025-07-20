@@ -1,5 +1,5 @@
 /**
- * Phase 3: Production Hardening Tests
+ * Version Production Hardening Tests
  * 
  * TDD Cycle Reminder:
  * 1. RED: Run these tests - they should fail
@@ -132,7 +132,7 @@ jest.mock('@/renderer/contexts/MidiContext', () => ({
   useMidiContext: () => mockUseMidiContext()
 }));
 
-describe('Phase 3: Production - Race Conditions and Error Recovery', () => {
+describe('Version Production - Race Conditions and Error Recovery', () => {
   // Mock OSMD context
   const mockOSMDContext: Partial<OSMDContext> = {
     osmd: {

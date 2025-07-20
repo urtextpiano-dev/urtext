@@ -2,8 +2,8 @@
  * MidiDeviceSelector Component
  * 
  * Simple dropdown for MIDI device selection
- * Phase 2: Basic UI only
- * Phase 3: Will integrate with global state
+ * Version Basic UI only
+ * Version Will integrate with global state
  */
 
 import React from 'react';

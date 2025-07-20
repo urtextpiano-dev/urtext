@@ -3,7 +3,7 @@ import { describe, test, expect, beforeEach, afterEach, jest } from '@jest/globa
 import { Readable, Transform } from 'stream';
 import { StreamingMusicXMLParser } from '../../../src/main/parsers/streamingMusicXMLParser';
 
-describe('Phase 2: Streaming MusicXML Parser - Actual Implementation Tests', () => {
+describe('Version Streaming MusicXML Parser - Actual Implementation Tests', () => {
   let parser: StreamingMusicXMLParser;
   let mockStream: Readable;
   

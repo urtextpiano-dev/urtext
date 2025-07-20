@@ -8,7 +8,7 @@ import { describe, test, expect, beforeEach, jest } from '@jest/globals';
 // Import the modules that will be created in this phase
 import { FileCache, fileCache } from '../../../src/main/services/fileCache';
 
-describe('Phase 1: Version-Aware File Cache - Implementation Tests', () => {
+describe('Version Version-Aware File Cache - Implementation Tests', () => {
   let cache: any;
   
   beforeEach(() => {
@@ -55,7 +55,7 @@ describe('Phase 1: Version-Aware File Cache - Implementation Tests', () => {
         expect(retrieved).toMatchObject(data);
         expect(retrieved.version).toBeDefined();
         expect(retrieved.timestamp).toBeDefined();
-      }).toThrow('Phase 1: Basic cache operations not implemented yet');
+      }).toThrow('Version Basic cache operations not implemented yet');
     });
 
     test('should invalidate specific cache entries', () => {
@@ -67,7 +67,7 @@ describe('Phase 1: Version-Aware File Cache - Implementation Tests', () => {
         
         cache.invalidate('job-123');
         expect(cache.get('job-123')).toBeNull();
-      }).toThrow('Phase 1: Cache invalidation not implemented yet');
+      }).toThrow('Version Cache invalidation not implemented yet');
     });
 
     test('should clear all cache entries', () => {
@@ -82,7 +82,7 @@ describe('Phase 1: Version-Aware File Cache - Implementation Tests', () => {
         expect(cache.size()).toBe(0);
         expect(cache.get('job-1')).toBeNull();
         expect(cache.get('job-2')).toBeNull();
-      }).toThrow('Phase 1: Cache clear not implemented yet');
+      }).toThrow('Version Cache clear not implemented yet');
     });
   });
 
@@ -103,7 +103,7 @@ describe('Phase 1: Version-Aware File Cache - Implementation Tests', () => {
         cache.set('job-1', { content: 'v1-updated', fileName: 'test.xml', fileSize: 150 });
         const v1Updated = cache.get('job-1');
         expect(v1Updated.version).toBe(3);
-      }).toThrow('Phase 1: Version tracking not implemented yet');
+      }).toThrow('Version Version tracking not implemented yet');
     });
 
     test('should maintain version counter across operations', () => {
@@ -118,7 +118,7 @@ describe('Phase 1: Version-Aware File Cache - Implementation Tests', () => {
         
         cache.set('job-1', { content: 'v2', fileName: 'test.xml', fileSize: 100 });
         expect(cache.get('job-1').version).toBe(2); // Version continues incrementing
-      }).toThrow('Phase 1: Version counter persistence not implemented yet');
+      }).toThrow('Version Version counter persistence not implemented yet');
     });
   });
 
@@ -149,7 +149,7 @@ describe('Phase 1: Version-Aware File Cache - Implementation Tests', () => {
         expect(cache.size()).toBe(10); // Still at max
         expect(cache.get('job-0')).toBeNull(); // Oldest evicted
         expect(cache.get('job-10')).toBeDefined(); // New entry exists
-      }).toThrow('Phase 1: LRU eviction not implemented yet');
+      }).toThrow('Version LRU eviction not implemented yet');
     });
 
     test('should update timestamp on access to prevent eviction', () => {
@@ -182,7 +182,7 @@ describe('Phase 1: Version-Aware File Cache - Implementation Tests', () => {
         
         expect(cache.get('job-1')).toBeDefined(); // Still exists (was accessed)
         expect(cache.get('job-2')).toBeNull(); // Evicted (not accessed recently)
-      }).toThrow('Phase 1: LRU access tracking not implemented yet');
+      }).toThrow('Version LRU access tracking not implemented yet');
     });
   });
 
@@ -206,7 +206,7 @@ describe('Phase 1: Version-Aware File Cache - Implementation Tests', () => {
         // Advance 2 more seconds (total 5 minutes 1 second)
         jest.advanceTimersByTime(2000);
         expect(cache.get('job-123')).toBeNull(); // Expired
-      }).toThrow('Phase 1: Time-based expiration not implemented yet');
+      }).toThrow('Version Time-based expiration not implemented yet');
     });
 
     test('should remove expired entries on access', () => {
@@ -226,7 +226,7 @@ describe('Phase 1: Version-Aware File Cache - Implementation Tests', () => {
         
         // Size should be reduced
         expect(cache.size()).toBe(1);
-      }).toThrow('Phase 1: Expired entry cleanup not implemented yet');
+      }).toThrow('Version Expired entry cleanup not implemented yet');
     });
   });
 
@@ -270,7 +270,7 @@ describe('Phase 1: Version-Aware File Cache - Implementation Tests', () => {
             expect(versions[i]).toBeGreaterThan(versions[i - 1]);
           }
         });
-      }).toThrow('Phase 1: Concurrent access safety not implemented yet');
+      }).toThrow('Version Concurrent access safety not implemented yet');
     });
 
     test('should prevent stale data with version checking', () => {
@@ -300,7 +300,7 @@ describe('Phase 1: Version-Aware File Cache - Implementation Tests', () => {
         expect(v2.version).toBeGreaterThan(originalVersion);
         expect(v2.content).toBe('version2');
         expect(v2.fileSize).toBe(200);
-      }).toThrow('Phase 1: Version-based coherency not implemented yet');
+      }).toThrow('Version Version-based coherency not implemented yet');
     });
   });
 
@@ -337,7 +337,7 @@ describe('Phase 1: Version-Aware File Cache - Implementation Tests', () => {
         const avgGetTime = getDuration / iterations;
         
         expect(avgGetTime).toBeLessThan(0.01); // <0.01ms per get
-      }).toThrow('Phase 1: Cache performance optimization not implemented yet');
+      }).toThrow('Version Cache performance optimization not implemented yet');
     });
   });
 
@@ -352,7 +352,7 @@ describe('Phase 1: Version-Aware File Cache - Implementation Tests', () => {
         // Should be same instance
         const { fileCache: cache2 } = require('../../../src/main/services/fileCache');
         expect(fileCache).toBe(cache2);
-      }).toThrow('Phase 1: Singleton export not implemented yet');
+      }).toThrow('Version Singleton export not implemented yet');
     });
   });
 

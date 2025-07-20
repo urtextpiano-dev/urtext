@@ -25,7 +25,7 @@ jest.mock('@/renderer/features/practice-mode/hooks', () => ({
   }))
 }));
 
-describe('Phase 3: RepeatIndicator Component - Accessible UI Tests', () => {
+describe('Version RepeatIndicator Component - Accessible UI Tests', () => {
   let mockToggleRepeat: jest.Mock;
   let mockUsePracticeController: jest.Mock;
 

@@ -4,7 +4,7 @@ interface CachedFile {
   content: string;
   fileName: string;
   fileSize: number;
-  tempoData?: XMLTempoEvent[]; // Phase 3: Direct XML Tempo Extraction
+  tempoData?: XMLTempoEvent[]; // Version Direct XML Tempo Extraction
   version: number;
   timestamp: number;
 }

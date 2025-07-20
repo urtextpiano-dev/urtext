@@ -62,7 +62,7 @@ jest.mock('@/renderer/hooks/useOSMD', () => ({
   })
 }));
 
-describe('Phase 2: Basic Display - Implementation Tests', () => {
+describe('Version Basic Display - Implementation Tests', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     // Reset OSMD mock

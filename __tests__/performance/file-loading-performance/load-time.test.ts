@@ -22,7 +22,7 @@ jest.mock('electron', () => ({
   }
 }));
 
-describe('Phase 1: File Load Time Performance - Benchmark Tests', () => {
+describe('Version File Load Time Performance - Benchmark Tests', () => {
   let testFiles: Map<string, string>;
   
   beforeEach(async () => {
@@ -69,7 +69,7 @@ describe('Phase 1: File Load Time Performance - Benchmark Tests', () => {
         // Document current performance
         expect(duration).toBeGreaterThan(2000); // Currently slow
         expect(duration).toBeLessThan(3000); // But not infinitely slow
-      }).rejects.toThrow('Phase 1: Baseline measurement not implemented yet');
+      }).rejects.toThrow('Version Baseline measurement not implemented yet');
     });
   });
 
@@ -113,7 +113,7 @@ describe('Phase 1: File Load Time Performance - Benchmark Tests', () => {
         
         // Log results table
         console.table(results);
-      }).rejects.toThrow('Phase 1: Small file performance not achieved yet');
+      }).rejects.toThrow('Version Small file performance not achieved yet');
     });
   });
 
@@ -153,7 +153,7 @@ describe('Phase 1: File Load Time Performance - Benchmark Tests', () => {
         }
         
         console.table(results);
-      }).rejects.toThrow('Phase 1: Medium file performance not achieved yet');
+      }).rejects.toThrow('Version Medium file performance not achieved yet');
     });
 
     test('should handle MXL extraction efficiently', async () => {
@@ -175,7 +175,7 @@ describe('Phase 1: File Load Time Performance - Benchmark Tests', () => {
         
         expect(content).toContain('<?xml');
         expect(extractionTime).toBeLessThan(200); // Extraction should be fast
-      }).rejects.toThrow('Phase 1: MXL extraction optimization not implemented yet');
+      }).rejects.toThrow('Version MXL extraction optimization not implemented yet');
     });
   });
 
@@ -209,7 +209,7 @@ describe('Phase 1: File Load Time Performance - Benchmark Tests', () => {
         }
         
         console.table(results);
-      }).rejects.toThrow('Phase 1: Large file performance not achieved yet');
+      }).rejects.toThrow('Version Large file performance not achieved yet');
     });
   });
 
@@ -241,7 +241,7 @@ describe('Phase 1: File Load Time Performance - Benchmark Tests', () => {
         
         expect(warmTime).toBeLessThan(100); // Target: <100ms for cached
         expect(warmTime).toBeLessThan(coldTime * 0.1); // Should be >90% faster
-      }).rejects.toThrow('Phase 1: Cache performance not implemented yet');
+      }).rejects.toThrow('Version Cache performance not implemented yet');
     });
   });
 
@@ -281,7 +281,7 @@ describe('Phase 1: File Load Time Performance - Benchmark Tests', () => {
         
         // Total time should show parallelism benefit
         expect(totalTime).toBeLessThan(Math.max(...times) * 1.5);
-      }).rejects.toThrow('Phase 1: Concurrent load performance not implemented yet');
+      }).rejects.toThrow('Version Concurrent load performance not implemented yet');
     });
   });
 
@@ -312,7 +312,7 @@ describe('Phase 1: File Load Time Performance - Benchmark Tests', () => {
             baseline: performanceBaseline
           }, null, 2)
         );
-      }).rejects.toThrow('Phase 1: Performance regression detection not implemented yet');
+      }).rejects.toThrow('Version Performance regression detection not implemented yet');
     });
   });
 

@@ -1,5 +1,5 @@
 /**
- * Phase 1: OSMD Hook Extension Tests
+ * Version OSMD Hook Extension Tests
  * 
  * TDD Cycle:
  * 1. RED: Tests fail - getExpectedNotesAtCursor method doesn't exist
@@ -29,7 +29,7 @@ jest.mock('opensheetmusicdisplay', () => ({
 import { useOSMD } from '@/renderer/hooks/useOSMD';
 import type { PracticeStepResult } from '@/renderer/features/practice-mode/types';
 
-describe('Phase 1: OSMD Hook Extension for Practice Mode', () => {
+describe('Version OSMD Hook Extension for Practice Mode', () => {
   let mockOSMDInstance: any;
   let mockCursor: any;
   let mockIterator: any;

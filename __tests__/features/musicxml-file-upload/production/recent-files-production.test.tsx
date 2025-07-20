@@ -1,5 +1,5 @@
 /**
- * Phase 3: Recent Files & Production Features Tests
+ * Version Recent Files & Production Features Tests
  * 
  * TDD Cycle: RED → GREEN → REFACTOR
  * 
@@ -9,7 +9,7 @@
  * - Performance monitoring (dev-only)
  * - Production safety and edge cases
  * 
- * AI Validation: ✅ Gemini, ChatGPT, Grok approved approach
+ * AI Validation: ✅ Gemini, Code review:, Code review: approved approach
  */
 
 import React from 'react';
@@ -17,7 +17,7 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { act } from 'react-dom/test-utils';
 
-// Phase 3: GREEN phase implementations now available
+// Version GREEN phase implementations now available
 import { FileUploadButton } from '@/renderer/components/FileUpload/FileUploadButton';
 import { recentFilesService, type RecentFileMetadata } from '@/renderer/services/RecentFilesService';
 import { usePerformanceMonitor } from '@/renderer/hooks/usePerformanceMonitor';
@@ -26,7 +26,7 @@ import { useSheetMusicStore } from '@/renderer/stores/sheetMusicStore';
 // Mock the store
 jest.mock('@/renderer/stores/sheetMusicStore');
 
-describe('Phase 3: Recent Files & Production Features', () => {
+describe('Version Recent Files & Production Features', () => {
   let mockLocalStorage: { [key: string]: string };
   
   beforeEach(() => {
@@ -84,7 +84,7 @@ describe('Phase 3: Recent Files & Production Features', () => {
         expect(files).toHaveLength(2);
         expect(files[0].name).toBe('file1.xml');
         expect(files[0].lastOpened).toBe('2024-01-03');
-      }).toThrow('Phase 3: Duplicate handling not implemented');
+      }).toThrow('Version Duplicate handling not implemented');
     });
 
     test('should enforce maximum of 5 recent files', () => {
@@ -105,7 +105,7 @@ describe('Phase 3: Recent Files & Production Features', () => {
         expect(files).toHaveLength(5);
         expect(files[0].name).toBe('file6.xml'); // Most recent at top
         expect(files[4].name).toBe('file2.xml'); // file1.xml should be dropped
-      }).toThrow('Phase 3: Max files limit not implemented');
+      }).toThrow('Version Max files limit not implemented');
     });
 
     test('should handle localStorage errors gracefully', () => {
@@ -123,7 +123,7 @@ describe('Phase 3: Recent Files & Production Features', () => {
         expect(console.error).toHaveBeenCalledWith(
           expect.stringContaining('Failed to parse recent files')
         );
-      }).toThrow('Phase 3: localStorage error handling not implemented');
+      }).toThrow('Version localStorage error handling not implemented');
     });
 
     test('should handle corrupted localStorage data', () => {
@@ -136,7 +136,7 @@ describe('Phase 3: Recent Files & Production Features', () => {
         
         expect(files).toEqual([]);
         expect(console.error).toHaveBeenCalled();
-      }).toThrow('Phase 3: Corrupted data handling not implemented');
+      }).toThrow('Version Corrupted data handling not implemented');
     });
 
     test('should clear all recent files', () => {
@@ -150,7 +150,7 @@ describe('Phase 3: Recent Files & Production Features', () => {
         service.clear();
         expect(service.get()).toHaveLength(0);
         expect(window.localStorage.removeItem).toHaveBeenCalledWith('abc-piano-recent-files');
-      }).toThrow('Phase 3: Clear functionality not implemented');
+      }).toThrow('Version Clear functionality not implemented');
     });
   });
 
@@ -175,7 +175,7 @@ describe('Phase 3: Recent Files & Production Features', () => {
         expect(store.addRecentFile).toBeDefined();
         expect(store.clearRecentFiles).toBeDefined();
         expect(store.recentFiles).toBeDefined();
-      }).toThrow('Phase 3: Store methods not implemented');
+      }).toThrow('Version Store methods not implemented');
     });
 
     test('should load recent files from service on store initialization', () => {
@@ -186,7 +186,7 @@ describe('Phase 3: Recent Files & Production Features', () => {
         
         // Should call RecentFilesService.get()
         expect(store.recentFiles).toBeDefined();
-      }).toThrow('Phase 3: loadRecentFiles not implemented');
+      }).toThrow('Version loadRecentFiles not implemented');
     });
 
     test('should add recent file through store', () => {
@@ -199,7 +199,7 @@ describe('Phase 3: Recent Files & Production Features', () => {
         
         // Should call RecentFilesService.add() and update state
         expect(mockStoreState.addRecentFile).toHaveBeenCalledWith(fileData);
-      }).toThrow('Phase 3: addRecentFile not implemented');
+      }).toThrow('Version addRecentFile not implemented');
     });
 
     test('should clear recent files through store', () => {
@@ -211,7 +211,7 @@ describe('Phase 3: Recent Files & Production Features', () => {
         
         // Should call RecentFilesService.clear() and update state
         expect(mockStoreState.clearRecentFiles).toHaveBeenCalled();
-      }).toThrow('Phase 3: clearRecentFiles not implemented');
+      }).toThrow('Version clearRecentFiles not implemented');
     });
   });
 
@@ -242,7 +242,7 @@ describe('Phase 3: Recent Files & Production Features', () => {
         render(<FileUploadButton />);
         
         expect(screen.queryByRole('button', { name: /show recent files/i })).not.toBeInTheDocument();
-      }).toThrow('Phase 3: FileUploadButton recent files UI not implemented');
+      }).toThrow('Version FileUploadButton recent files UI not implemented');
     });
 
     test('should show dropdown trigger when recent files exist', () => {
@@ -251,7 +251,7 @@ describe('Phase 3: Recent Files & Production Features', () => {
         render(<FileUploadButton />);
         
         expect(screen.getByRole('button', { name: /show recent files/i })).toBeInTheDocument();
-      }).toThrow('Phase 3: Dropdown trigger not implemented');
+      }).toThrow('Version Dropdown trigger not implemented');
     });
 
     test('should open dropdown on trigger click', async () => {
@@ -265,7 +265,7 @@ describe('Phase 3: Recent Files & Production Features', () => {
         expect(screen.getByRole('menu', { name: /recent files/i })).toBeInTheDocument();
         expect(screen.getByText('song1.xml')).toBeInTheDocument();
         expect(screen.getByText('song2.mxl')).toBeInTheDocument();
-      }).rejects.toThrow('Phase 3: Dropdown open not implemented');
+      }).rejects.toThrow('Version Dropdown open not implemented');
     });
 
     test('should format file sizes correctly', async () => {
@@ -279,7 +279,7 @@ describe('Phase 3: Recent Files & Production Features', () => {
         expect(screen.getByText(/1\.0 KB/)).toBeInTheDocument();
         expect(screen.getByText(/2\.0 KB/)).toBeInTheDocument(); 
         expect(screen.getByText(/4\.0 KB/)).toBeInTheDocument();
-      }).rejects.toThrow('Phase 3: File size formatting not implemented');
+      }).rejects.toThrow('Version File size formatting not implemented');
     });
 
     test('should format relative dates correctly', async () => {
@@ -293,7 +293,7 @@ describe('Phase 3: Recent Files & Production Features', () => {
         expect(screen.getByText('Today')).toBeInTheDocument();
         expect(screen.getByText('Yesterday')).toBeInTheDocument();
         expect(screen.getByText('2 days ago')).toBeInTheDocument();
-      }).rejects.toThrow('Phase 3: Date formatting not implemented');
+      }).rejects.toThrow('Version Date formatting not implemented');
     });
 
     test('should close dropdown on outside click', async () => {
@@ -317,7 +317,7 @@ describe('Phase 3: Recent Files & Production Features', () => {
         await waitFor(() => {
           expect(screen.queryByRole('menu')).not.toBeInTheDocument();
         });
-      }).rejects.toThrow('Phase 3: Outside click handling not implemented');
+      }).rejects.toThrow('Version Outside click handling not implemented');
     });
 
     test('should close dropdown on escape key', async () => {
@@ -335,7 +335,7 @@ describe('Phase 3: Recent Files & Production Features', () => {
         await waitFor(() => {
           expect(screen.queryByRole('menu')).not.toBeInTheDocument();
         });
-      }).rejects.toThrow('Phase 3: Escape key handling not implemented');
+      }).rejects.toThrow('Version Escape key handling not implemented');
     });
 
     test('should provide clear recent files option', async () => {
@@ -350,7 +350,7 @@ describe('Phase 3: Recent Files & Production Features', () => {
         await userEvent.click(clearButton);
         
         expect(mockStoreState.clearRecentFiles).toHaveBeenCalled();
-      }).rejects.toThrow('Phase 3: Clear recent files option not implemented');
+      }).rejects.toThrow('Version Clear recent files option not implemented');
     });
 
     test('should limit recent files to 5 items in dropdown', async () => {
@@ -375,7 +375,7 @@ describe('Phase 3: Recent Files & Production Features', () => {
         // Should only show 5 files plus the clear button
         const menuItems = screen.getAllByRole('menuitem');
         expect(menuItems).toHaveLength(6); // 5 files + 1 clear button
-      }).rejects.toThrow('Phase 3: Dropdown item limit not implemented');
+      }).rejects.toThrow('Version Dropdown item limit not implemented');
     });
 
     test('should have proper ARIA attributes for accessibility', async () => {
@@ -393,7 +393,7 @@ describe('Phase 3: Recent Files & Production Features', () => {
         
         const menu = screen.getByRole('menu');
         expect(menu).toHaveAttribute('aria-label', 'Recent files');
-      }).rejects.toThrow('Phase 3: ARIA attributes not implemented');
+      }).rejects.toThrow('Version ARIA attributes not implemented');
     });
   });
 
@@ -404,7 +404,7 @@ describe('Phase 3: Recent Files & Production Features', () => {
         const monitor = usePerformanceMonitor();
         expect(monitor.trackFileLoadStart).toBeDefined();
         expect(monitor.trackFileLoadEnd).toBeDefined();
-      }).toThrow('Phase 3: usePerformanceMonitor not implemented');
+      }).toThrow('Version usePerformanceMonitor not implemented');
     });
 
     test('should track file load times in development', () => {
@@ -429,7 +429,7 @@ describe('Phase 3: Recent Files & Production Features', () => {
         );
         
         process.env.NODE_ENV = originalEnv;
-      }).toThrow('Phase 3: Performance tracking not implemented');
+      }).toThrow('Version Performance tracking not implemented');
     });
 
     test('should be no-op in production', () => {
@@ -447,7 +447,7 @@ describe('Phase 3: Recent Files & Production Features', () => {
         expect(markSpy).not.toHaveBeenCalled();
         
         process.env.NODE_ENV = originalEnv;
-      }).toThrow('Phase 3: Production no-op not implemented');
+      }).toThrow('Version Production no-op not implemented');
     });
 
     test('should monitor memory usage if available', () => {
@@ -464,7 +464,7 @@ describe('Phase 3: Recent Files & Production Features', () => {
         
         const memUsage = monitor.getMemoryUsage();
         expect(memUsage).toBeCloseTo(50, 1); // ~50MB
-      }).toThrow('Phase 3: Memory monitoring not implemented');
+      }).toThrow('Version Memory monitoring not implemented');
     });
   });
 
@@ -483,7 +483,7 @@ describe('Phase 3: Recent Files & Production Features', () => {
         
         // Should not throw errors or get stuck
         expect(screen.queryByRole('menu')).toBeInTheDocument();
-      }).rejects.toThrow('Phase 3: Rapid toggle handling not implemented');
+      }).rejects.toThrow('Version Rapid toggle handling not implemented');
     });
 
     test('should handle window resize during dropdown open', async () => {
@@ -501,7 +501,7 @@ describe('Phase 3: Recent Files & Production Features', () => {
         
         // Dropdown should still be functional
         expect(screen.getByRole('menu')).toBeInTheDocument();
-      }).rejects.toThrow('Phase 3: Window resize handling not implemented');
+      }).rejects.toThrow('Version Window resize handling not implemented');
     });
 
     test('should sanitize file names in display', async () => {
@@ -525,7 +525,7 @@ describe('Phase 3: Recent Files & Production Features', () => {
         // Should not execute script, should be escaped
         expect(screen.queryByText('<script>alert("xss")</script>.xml')).not.toBeInTheDocument();
         expect(screen.getByText(/script.*xml/)).toBeInTheDocument(); // Escaped version
-      }).rejects.toThrow('Phase 3: File name sanitization not implemented');
+      }).rejects.toThrow('Version File name sanitization not implemented');
     });
 
     test('should handle localStorage quota exceeded error', () => {
@@ -545,7 +545,7 @@ describe('Phase 3: Recent Files & Production Features', () => {
         expect(console.warn).toHaveBeenCalledWith(
           expect.stringContaining('localStorage quota exceeded')
         );
-      }).toThrow('Phase 3: Quota exceeded handling not implemented');
+      }).toThrow('Version Quota exceeded handling not implemented');
     });
   });
 
@@ -575,7 +575,7 @@ describe('Phase 3: Recent Files & Production Features', () => {
             lastOpened: expect.any(String)
           });
         });
-      }).rejects.toThrow('Phase 3: Auto-add to recent not implemented');
+      }).rejects.toThrow('Version Auto-add to recent not implemented');
     });
 
     test('should integrate with drag-drop functionality', async () => {
@@ -600,7 +600,7 @@ describe('Phase 3: Recent Files & Production Features', () => {
             lastOpened: expect.any(String)
           });
         });
-      }).rejects.toThrow('Phase 3: Drag-drop integration not implemented');
+      }).rejects.toThrow('Version Drag-drop integration not implemented');
     });
   });
 });

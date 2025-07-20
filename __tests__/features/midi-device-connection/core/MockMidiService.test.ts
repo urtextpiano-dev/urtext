@@ -1,5 +1,5 @@
 /**
- * Phase 1: MockMidiService Implementation Tests
+ * Version MockMidiService Implementation Tests
  * 
  * TDD Cycle:
  * 1. RED: Tests fail - MockMidiService doesn't exist
@@ -14,7 +14,7 @@ import { MockMidiService } from '@/renderer/services/midi/MockMidiService';
 import type { IMidiService } from '@/renderer/services/midi/IMidiService';
 import type { MidiEvent, MidiDevice, MidiEventHandler } from '@/renderer/types/midi';
 
-describe('Phase 1: MockMidiService Implementation', () => {
+describe('Version MockMidiService Implementation', () => {
   let service: MockMidiService;
   let mockCallback: jest.Mock<MidiEventHandler>;
 

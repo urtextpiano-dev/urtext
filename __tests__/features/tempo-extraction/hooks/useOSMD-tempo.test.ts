@@ -40,7 +40,7 @@ jest.mock('@/renderer/features/tempo-extraction/services/TempoService', () => ({
   }
 }));
 
-describe('Phase 1: useOSMD Tempo Integration', () => {
+describe('Version useOSMD Tempo Integration', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     

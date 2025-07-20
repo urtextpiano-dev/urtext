@@ -1,5 +1,5 @@
 /**
- * Phase 2: Enhanced Piano Key Highlighting Tests
+ * Version Enhanced Piano Key Highlighting Tests
  * 
  * Requirements:
  * - Blue highlights for expected notes (before playing)
@@ -41,7 +41,7 @@ jest.mock('@/renderer/components/PianoKey', () => ({
   ))
 }));
 
-describe('Phase 2: Enhanced Piano Key Highlighting', () => {
+describe('Version Enhanced Piano Key Highlighting', () => {
   let mockPracticeStore: any;
   let mockMidiHook: any;
   let mockAnimator: any;

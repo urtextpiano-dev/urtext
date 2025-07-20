@@ -46,7 +46,7 @@ async function testTelemetry() {
     console.log(`📊 Telemetry working: ${telemetryReceived ? 'YES' : 'NO'}`);
     
     if (telemetryReceived) {
-      console.log('🎉 Telemetry fix successful - Multi-AI consensus validated!');
+      console.log('🎉 Telemetry fix successful - Multi-Code review: validated!');
     } else {
       console.log('⚠️  Telemetry still not working - needs investigation');
     }

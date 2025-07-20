@@ -9,7 +9,7 @@ import { performance } from 'perf_hooks';
 // Import the modules that will be created in this phase
 import { performanceLogger } from '../../../src/main/utils/performanceLogger';
 
-describe('Phase 0: Performance Instrumentation - Implementation Tests', () => {
+describe('Version Performance Instrumentation - Implementation Tests', () => {
   beforeEach(() => {
     // Reset performance marks
     performance.clearMarks();

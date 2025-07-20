@@ -43,7 +43,7 @@ jest.mock('zustand/middleware', () => ({
   persist: jest.fn((createState, options) => createState)
 }));
 
-describe('Phase 4: Production Integration - Implementation Tests', () => {
+describe('Version Production Integration - Implementation Tests', () => {
   const user = userEvent.setup({ delay: null });
   let cleanupFunctions: Array<() => void> = [];
   
@@ -99,7 +99,7 @@ describe('Phase 4: Production Integration - Implementation Tests', () => {
           expect(options[1]).toHaveValue('#006600'); // Green
           expect(options[2]).toHaveValue('#800000'); // Red
           expect(options[3]).toHaveValue('#000000'); // Black
-        }).toThrow('Phase 4: Settings component rendering - not implemented yet');
+        }).toThrow('Version Settings component rendering - not implemented yet');
       });
 
       test('should hide advanced settings when fingering is disabled', async () => {
@@ -120,7 +120,7 @@ describe('Phase 4: Production Integration - Implementation Tests', () => {
           expect(screen.queryByRole('checkbox', { name: /show fingerings on all notes/i })).not.toBeInTheDocument();
           expect(screen.queryByRole('slider', { name: /font size/i })).not.toBeInTheDocument();
           expect(screen.queryByRole('combobox', { name: /color/i })).not.toBeInTheDocument();
-        }).toThrow('Phase 4: Settings visibility toggle - not implemented yet');
+        }).toThrow('Version Settings visibility toggle - not implemented yet');
       });
 
       test('should update settings immediately on change', async () => {
@@ -147,7 +147,7 @@ describe('Phase 4: Production Integration - Implementation Tests', () => {
           await user.click(showAllToggle);
           
           expect(settingsResult.current.showOnAllNotes).toBe(true);
-        }).toThrow('Phase 4: Settings immediate update - not implemented yet');
+        }).toThrow('Version Settings immediate update - not implemented yet');
       });
 
       test('should show descriptive helper text for settings', () => {
@@ -158,7 +158,7 @@ describe('Phase 4: Production Integration - Implementation Tests', () => {
           const helperText = screen.getByText(/displays suggested fingerings for unmarked notes/i);
           expect(helperText).toBeInTheDocument();
           expect(helperText).toHaveClass('small'); // Small text styling
-        }).toThrow('Phase 4: Settings helper text - not implemented yet');
+        }).toThrow('Version Settings helper text - not implemented yet');
       });
     });
 
@@ -179,7 +179,7 @@ describe('Phase 4: Production Integration - Implementation Tests', () => {
           // Check functions exist
           expect(typeof result.current.updateSettings).toBe('function');
           expect(typeof result.current.resetToDefaults).toBe('function');
-        }).toThrow('Phase 4: Settings store creation - not implemented yet');
+        }).toThrow('Version Settings store creation - not implemented yet');
       });
 
       test('should persist settings to localStorage', async () => {
@@ -211,7 +211,7 @@ describe('Phase 4: Production Integration - Implementation Tests', () => {
             showOnAllNotes: true
           });
           expect(parsed.version).toBe(1);
-        }).toThrow('Phase 4: Settings persistence - not implemented yet');
+        }).toThrow('Version Settings persistence - not implemented yet');
       });
 
       test('should restore settings from localStorage on load', () => {
@@ -234,7 +234,7 @@ describe('Phase 4: Production Integration - Implementation Tests', () => {
           
           // Should load saved settings
           expect(result.current).toMatchObject(savedSettings.state);
-        }).toThrow('Phase 4: Settings restoration - not implemented yet');
+        }).toThrow('Version Settings restoration - not implemented yet');
       });
 
       test('should handle version migration for future changes', () => {
@@ -256,7 +256,7 @@ describe('Phase 4: Production Integration - Implementation Tests', () => {
           expect(result.current.isEnabled).toBe(true); // Migrated from 'enabled'
           expect(result.current.fontSize).toBe(14); // Preserved
           expect(result.current.color).toBe('#000080'); // Default added
-        }).toThrow('Phase 4: Settings version migration - not implemented yet');
+        }).toThrow('Version Settings version migration - not implemented yet');
       });
 
       test('should reset to defaults correctly', () => {
@@ -285,7 +285,7 @@ describe('Phase 4: Production Integration - Implementation Tests', () => {
             color: '#000080',
             clickToEdit: true
           });
-        }).toThrow('Phase 4: Settings reset functionality - not implemented yet');
+        }).toThrow('Version Settings reset functionality - not implemented yet');
       });
     });
 
@@ -327,7 +327,7 @@ describe('Phase 4: Production Integration - Implementation Tests', () => {
               top: 200,   // -rect.top
               bottom: 968  // -rect.top + window.innerHeight
             });
-          }).toThrow('Phase 4: Viewport bounds calculation - not implemented yet');
+          }).toThrow('Version Viewport bounds calculation - not implemented yet');
         });
 
         test('should determine if element is in viewport with margin', () => {
@@ -360,7 +360,7 @@ describe('Phase 4: Production Integration - Implementation Tests', () => {
             // Test custom margin
             expect(result.current.isInViewport(-40, 400, 30)).toBe(false); // Outside 30px margin
             expect(result.current.isInViewport(-40, 400, 60)).toBe(true); // Within 60px margin
-          }).toThrow('Phase 4: Viewport visibility check - not implemented yet');
+          }).toThrow('Version Viewport visibility check - not implemented yet');
         });
 
         test('should debounce viewport updates during scroll', async () => {
@@ -409,7 +409,7 @@ describe('Phase 4: Production Integration - Implementation Tests', () => {
             
             // Should update once
             expect(mockOSMD.container.getBoundingClientRect).toHaveBeenCalledTimes(2);
-          }).toThrow('Phase 4: Viewport update debouncing - not implemented yet');
+          }).toThrow('Version Viewport update debouncing - not implemented yet');
         });
 
         test('should handle resize events', async () => {
@@ -434,7 +434,7 @@ describe('Phase 4: Production Integration - Implementation Tests', () => {
             expect(result.current.viewportBounds).not.toEqual(initialBounds);
             expect(result.current.viewportBounds?.right).toBe(1280);
             expect(result.current.viewportBounds?.bottom).toBe(1024);
-          }).toThrow('Phase 4: Resize event handling - not implemented yet');
+          }).toThrow('Version Resize event handling - not implemented yet');
         });
 
         test('should cleanup event listeners on unmount', () => {
@@ -448,7 +448,7 @@ describe('Phase 4: Production Integration - Implementation Tests', () => {
             
             expect(removeScrollSpy).toHaveBeenCalledWith('scroll', expect.any(Function));
             expect(removeResizeSpy).toHaveBeenCalledWith('resize', expect.any(Function));
-          }).toThrow('Phase 4: Event listener cleanup - not implemented yet');
+          }).toThrow('Version Event listener cleanup - not implemented yet');
         });
       });
 
@@ -482,7 +482,7 @@ describe('Phase 4: Production Integration - Implementation Tests', () => {
             
             // Verify isInViewport was called for each potential fingering
             expect(mockViewport.isInViewport).toHaveBeenCalledTimes(100);
-          }).toThrow('Phase 4: Viewport-based rendering - not implemented yet');
+          }).toThrow('Version Viewport-based rendering - not implemented yet');
         });
 
         test('should handle large scores with 500+ annotations efficiently', () => {
@@ -515,7 +515,7 @@ describe('Phase 4: Production Integration - Implementation Tests', () => {
             
             const lookupTime = performance.now() - lookupStart;
             expect(lookupTime).toBeLessThan(1); // <1ms for 100 lookups
-          }).toThrow('Phase 4: Large score performance - not implemented yet');
+          }).toThrow('Version Large score performance - not implemented yet');
         });
       });
     });
@@ -557,7 +557,7 @@ describe('Phase 4: Production Integration - Implementation Tests', () => {
               color: '#856404',
               fontSize: '12px'
             });
-          }).toThrow('Phase 4: Error boundary fallback UI - not implemented yet');
+          }).toThrow('Version Error boundary fallback UI - not implemented yet');
         });
 
         test('should log errors with performance logger', () => {
@@ -581,7 +581,7 @@ describe('Phase 4: Production Integration - Implementation Tests', () => {
                 componentStack: expect.any(String)
               })
             );
-          }).toThrow('Phase 4: Error logging - not implemented yet');
+          }).toThrow('Version Error logging - not implemented yet');
         });
 
         test('should allow retry after error', async () => {
@@ -613,7 +613,7 @@ describe('Phase 4: Production Integration - Implementation Tests', () => {
             // Should show content now
             expect(screen.getByText('Fingering content')).toBeInTheDocument();
             expect(screen.queryByText(/temporarily disabled/i)).not.toBeInTheDocument();
-          }).toThrow('Phase 4: Error recovery with retry - not implemented yet');
+          }).toThrow('Version Error recovery with retry - not implemented yet');
         });
 
         test('should provide custom fallback UI option', () => {
@@ -628,7 +628,7 @@ describe('Phase 4: Production Integration - Implementation Tests', () => {
             
             expect(screen.getByText('Custom error message')).toBeInTheDocument();
             expect(screen.queryByText(/temporarily disabled/i)).not.toBeInTheDocument();
-          }).toThrow('Phase 4: Custom fallback UI - not implemented yet');
+          }).toThrow('Version Custom fallback UI - not implemented yet');
         });
 
         test('should not clear store data automatically on error', () => {
@@ -653,7 +653,7 @@ describe('Phase 4: Production Integration - Implementation Tests', () => {
             expect(store.annotations['test-score']).toEqual({ 't1-m60': 3 });
             
             consoleWarnSpy.mockRestore();
-          }).toThrow('Phase 4: Store preservation on error - not implemented yet');
+          }).toThrow('Version Store preservation on error - not implemented yet');
         });
       });
 
@@ -677,7 +677,7 @@ describe('Phase 4: Production Integration - Implementation Tests', () => {
             
             // Should show user-friendly error
             expect(result.current.error).toBe('Storage quota exceeded. Please clear some data.');
-          }).toThrow('Phase 4: Quota exceeded handling - not implemented yet');
+          }).toThrow('Version Quota exceeded handling - not implemented yet');
         });
 
         test('should handle corrupted data gracefully', () => {
@@ -700,7 +700,7 @@ describe('Phase 4: Production Integration - Implementation Tests', () => {
               expect.stringContaining('Failed to parse settings'),
               expect.any(Error)
             );
-          }).toThrow('Phase 4: Corrupted data handling - not implemented yet');
+          }).toThrow('Version Corrupted data handling - not implemented yet');
         });
       });
     });
@@ -734,7 +734,7 @@ describe('Phase 4: Production Integration - Implementation Tests', () => {
             
             expect(result2.current.practiceActive).toBe(true);
             expect(result2.current.shouldShowFingeringEdit).toBe(false);
-          }).toThrow('Phase 4: Practice mode detection - not implemented yet');
+          }).toThrow('Version Practice mode detection - not implemented yet');
         });
 
         test('should hide fingering input during active practice', () => {
@@ -757,7 +757,7 @@ describe('Phase 4: Production Integration - Implementation Tests', () => {
             });
             
             expect(result.current.shouldShowFingeringEdit).toBe(false);
-          }).toThrow('Phase 4: Input hiding during practice - not implemented yet');
+          }).toThrow('Version Input hiding during practice - not implemented yet');
         });
 
         test('should respect fingering enabled setting', () => {
@@ -778,7 +778,7 @@ describe('Phase 4: Production Integration - Implementation Tests', () => {
             // Should not show edit when fingering disabled
             expect(result.current.shouldShowFingeringEdit).toBe(false);
             expect(result.current.fingeringEnabled).toBe(false);
-          }).toThrow('Phase 4: Settings integration with practice - not implemented yet');
+          }).toThrow('Version Settings integration with practice - not implemented yet');
         });
 
         test('should handle current step fingering lookup', () => {
@@ -815,7 +815,7 @@ describe('Phase 4: Production Integration - Implementation Tests', () => {
             // This is for optional highlighting functionality
             // The test just ensures integration doesn't break
             expect(result.current).toBeDefined();
-          }).toThrow('Phase 4: Current step fingering lookup - not implemented yet');
+          }).toThrow('Version Current step fingering lookup - not implemented yet');
         });
       });
 
@@ -843,7 +843,7 @@ describe('Phase 4: Production Integration - Implementation Tests', () => {
             
             // Fingering layer should not block practice controls
             expect(screen.queryByRole('textbox')).not.toBeInTheDocument();
-          }).toThrow('Phase 4: Practice mode control preservation - not implemented yet');
+          }).toThrow('Version Practice mode control preservation - not implemented yet');
         });
 
         test('should transition smoothly between practice and edit modes', async () => {
@@ -883,7 +883,7 @@ describe('Phase 4: Production Integration - Implementation Tests', () => {
             // Should allow editing again
             await user.click(noteElement);
             expect(screen.getByRole('textbox')).toBeInTheDocument();
-          }).toThrow('Phase 4: Practice/edit mode transitions - not implemented yet');
+          }).toThrow('Version Practice/edit mode transitions - not implemented yet');
         });
       });
     });
@@ -917,7 +917,7 @@ describe('Phase 4: Production Integration - Implementation Tests', () => {
           
           // Fingering layer should be rendered
           expect(screen.getByTestId('fingering-layer')).toBeInTheDocument();
-        }).toThrow('Phase 4: OSMD context integration - not implemented yet');
+        }).toThrow('Version OSMD context integration - not implemented yet');
       });
 
       test('should respect global fingering enable/disable setting', async () => {
@@ -946,7 +946,7 @@ describe('Phase 4: Production Integration - Implementation Tests', () => {
           
           // Should be visible again
           expect(screen.getByTestId('fingering-layer')).toBeVisible();
-        }).toThrow('Phase 4: Global enable/disable - not implemented yet');
+        }).toThrow('Version Global enable/disable - not implemented yet');
       });
 
       test('should work in all app contexts (main view, practice, settings)', () => {
@@ -980,7 +980,7 @@ describe('Phase 4: Production Integration - Implementation Tests', () => {
           // Settings should be accessible
           const settings = within(document.getElementById('settings-view')!).getByRole('checkbox', { name: /enable fingering/i });
           expect(settings).toBeInTheDocument();
-        }).toThrow('Phase 4: Multi-context functionality - not implemented yet');
+        }).toThrow('Version Multi-context functionality - not implemented yet');
       });
     });
 
@@ -1014,7 +1014,7 @@ describe('Phase 4: Production Integration - Implementation Tests', () => {
           // Should only render visible elements
           const renderedElements = screen.queryAllByTestId(/fingering-/);
           expect(renderedElements.length).toBeLessThanOrEqual(visibleNotes);
-        }).toThrow('Phase 4: Viewport performance verification - not implemented yet');
+        }).toThrow('Version Viewport performance verification - not implemented yet');
       });
 
       test('should handle 500+ annotations with <20MB memory', () => {
@@ -1037,7 +1037,7 @@ describe('Phase 4: Production Integration - Implementation Tests', () => {
           
           // Should use less than 20MB for 500 annotations
           expect(memoryUsed).toBeLessThan(20 * 1024 * 1024); // 20MB
-        }).toThrow('Phase 4: Memory usage verification - not implemented yet');
+        }).toThrow('Version Memory usage verification - not implemented yet');
       });
 
       test('should not impact MIDI latency (<20ms requirement)', async () => {
@@ -1072,7 +1072,7 @@ describe('Phase 4: Production Integration - Implementation Tests', () => {
           
           expect(avgLatency).toBeLessThan(20); // Average <20ms
           expect(maxLatency).toBeLessThan(20); // All <20ms
-        }).toThrow('Phase 4: MIDI latency impact - not implemented yet');
+        }).toThrow('Version MIDI latency impact - not implemented yet');
       });
 
       test('should apply settings changes within 100ms', async () => {
@@ -1101,7 +1101,7 @@ describe('Phase 4: Production Integration - Implementation Tests', () => {
           
           const updateTime = performance.now() - startTime;
           expect(updateTime).toBeLessThan(100); // <100ms for settings to apply
-        }).toThrow('Phase 4: Settings update performance - not implemented yet');
+        }).toThrow('Version Settings update performance - not implemented yet');
       });
 
       test('should recover from errors without app crash', async () => {
@@ -1136,7 +1136,7 @@ describe('Phase 4: Production Integration - Implementation Tests', () => {
           
           // Should work now
           expect(screen.queryByText(/temporarily disabled/i)).not.toBeInTheDocument();
-        }).toThrow('Phase 4: Error recovery without crash - not implemented yet');
+        }).toThrow('Version Error recovery without crash - not implemented yet');
       });
     });
 
@@ -1162,7 +1162,7 @@ describe('Phase 4: Production Integration - Implementation Tests', () => {
           
           // Helper text
           expect(screen.getByText(/displays suggested/i)).toBeInTheDocument();
-        }).toThrow('Phase 4: Professional UX verification - not implemented yet');
+        }).toThrow('Version Professional UX verification - not implemented yet');
       });
 
       test('should maintain app responsiveness with feature enabled', async () => {
@@ -1192,7 +1192,7 @@ describe('Phase 4: Production Integration - Implementation Tests', () => {
           
           // Should remain responsive
           expect(interactionTime / 10).toBeLessThan(50); // <50ms per interaction
-        }).toThrow('Phase 4: Responsiveness maintenance - not implemented yet');
+        }).toThrow('Version Responsiveness maintenance - not implemented yet');
       });
 
       test('should integrate without affecting existing features', () => {
@@ -1223,7 +1223,7 @@ describe('Phase 4: Production Integration - Implementation Tests', () => {
           
           // Fingering should not interfere
           expect(screen.getByRole('checkbox', { name: /enable fingering/i })).toBeInTheDocument();
-        }).toThrow('Phase 4: Existing feature preservation - not implemented yet');
+        }).toThrow('Version Existing feature preservation - not implemented yet');
       });
 
       test('should support basic keyboard navigation', async () => {
@@ -1246,7 +1246,7 @@ describe('Phase 4: Production Integration - Implementation Tests', () => {
           // Keyboard interaction
           await user.keyboard('{ArrowUp}'); // Increase font size
           expect(screen.getByRole('slider')).toHaveValue('13');
-        }).toThrow('Phase 4: Keyboard navigation support - not implemented yet');
+        }).toThrow('Version Keyboard navigation support - not implemented yet');
       });
     });
   });

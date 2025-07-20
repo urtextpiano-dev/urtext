@@ -88,7 +88,7 @@ declare global {
           source: 'direction' | 'sound' | 'metronome';
           sourceMeasure?: number;
           sourcePart?: string;
-        }>; // Phase 3: XML tempo data
+        }>; // Version XML tempo data
         error?: string;
       }>;
       on: (channel: string, callback: (...args: any[]) => void) => void;

@@ -2,7 +2,7 @@
  * MIDI Type Definitions
  * 
  * Discriminated unions for type-safe MIDI event handling
- * Phase 1: Core types for MVP implementation
+ * Version Core types for MVP implementation
  */
 
 // Base interface for common properties

@@ -1,10 +1,6 @@
 /**
  * End-to-End Integration Tests
  * 
- * TDD CYCLE REMINDER:
- * 1. RED: Run these tests - they should fail with "not implemented" errors
- * 2. GREEN: Implement complete feature across all phases
- * 3. REFACTOR: Optimize while keeping tests green
  * 
  * These tests validate the COMPLETE custom measure range repeater feature
  */
@@ -257,7 +253,7 @@ describe('End-to-End: Custom Measure Range Repeater', () => {
         
         render(<App />);
         
-        // Phase 1: Store state properly initialized
+        // Version Store state properly initialized
         const initialState = usePracticeStore.getState();
         expect(initialState).toMatchObject({
           customRangeActive: false,
@@ -265,7 +261,7 @@ describe('End-to-End: Custom Measure Range Repeater', () => {
           customEndMeasure: 1
         });
         
-        // Phase 1: Component renders and updates store
+        // Version Component renders and updates store
         const { result: controllerResult } = renderHook(() => usePracticeController());
         
         act(() => {
@@ -275,7 +271,7 @@ describe('End-to-End: Custom Measure Range Repeater', () => {
         
         expect(usePracticeStore.getState().customRangeActive).toBe(true);
         
-        // Phase 2: Practice controller detects range
+        // Version Practice controller detects range
         act(() => {
           controllerResult.current.startPractice();
         });
@@ -292,7 +288,7 @@ describe('End-to-End: Custom Measure Range Repeater', () => {
           expect(controllerResult.current.currentMeasure).toBe(4);
         });
         
-        // Phase 3: UI properly integrated
+        // Version UI properly integrated
         const rangeSelector = screen.getByText('Practice Range:').parentElement;
         expect(rangeSelector).toHaveClass('top-controls-item');
         

@@ -1,5 +1,5 @@
 /**
- * Phase 2: MIDI Integration & Real-Time Highlighting Tests
+ * Version MIDI Integration & Real-Time Highlighting Tests
  * 
  * TDD Cycle Reminder:
  * 1. RED: Run these tests - they should fail
@@ -19,7 +19,7 @@ import { render, screen } from '@testing-library/react';
 // import { SheetMusic } from '@/renderer/components/SheetMusic';
 // import { useSheetMusicStore } from '@/renderer/stores/sheetMusicStore';
 
-describe('Phase 2: MIDI Integration & Real-Time Highlighting', () => {
+describe('Version MIDI Integration & Real-Time Highlighting', () => {
   beforeEach(() => {
     localStorage.clear();
     jest.clearAllMocks();
@@ -40,7 +40,7 @@ describe('Phase 2: MIDI Integration & Real-Time Highlighting', () => {
           error: undefined,
           devices: expect.any(Array)
         });
-      }).toThrow('Phase 2: useMidi hook not implemented');
+      }).toThrow('Version useMidi hook not implemented');
     });
 
     test('should handle MIDI event callbacks', async () => {
@@ -60,7 +60,7 @@ describe('Phase 2: MIDI Integration & Real-Time Highlighting', () => {
             })
           );
         }, { timeout: 2000 });
-      }).rejects.toThrow('Phase 2: MIDI event handling not implemented');
+      }).rejects.toThrow('Version MIDI event handling not implemented');
     });
 
     test('should provide device enumeration structure', () => {
@@ -78,7 +78,7 @@ describe('Phase 2: MIDI Integration & Real-Time Highlighting', () => {
             })
           ])
         );
-      }).toThrow('Phase 2: Device enumeration not implemented');
+      }).toThrow('Version Device enumeration not implemented');
     });
 
     test('should measure callback overhead', async () => {
@@ -98,7 +98,7 @@ describe('Phase 2: MIDI Integration & Real-Time Highlighting', () => {
           expect(mockCallback).toHaveBeenCalled();
           expect(callbackTime).toBeLessThan(1); // <1ms overhead
         });
-      }).rejects.toThrow('Phase 2: Performance measurement not implemented');
+      }).rejects.toThrow('Version Performance measurement not implemented');
     });
   });
 
@@ -145,7 +145,7 @@ describe('Phase 2: MIDI Integration & Real-Time Highlighting', () => {
         
         expect(timestampsC4!.length).toBeGreaterThan(0);
         expect(timestampsE4!.length).toBeGreaterThan(0);
-      }).rejects.toThrow('Phase 2: Note mapping not implemented');
+      }).rejects.toThrow('Version Note mapping not implemented');
     });
 
     test('should handle octave transposition correctly', async () => {
@@ -180,7 +180,7 @@ describe('Phase 2: MIDI Integration & Real-Time Highlighting', () => {
         
         expect(result.current._midiToTimestamp.has(midiC3)).toBe(true);
         expect(result.current._midiToTimestamp.has(midiC5)).toBe(true);
-      }).rejects.toThrow('Phase 2: Octave transposition not implemented');
+      }).rejects.toThrow('Version Octave transposition not implemented');
     });
 
     test('should handle enharmonic equivalents', async () => {
@@ -224,7 +224,7 @@ describe('Phase 2: MIDI Integration & Real-Time Highlighting', () => {
         expect(result.current._midiToTimestamp.has(midiCSharp)).toBe(true);
         const timestamps = result.current._midiToTimestamp.get(midiCSharp);
         expect(timestamps!.length).toBe(2); // Both notes
-      }).rejects.toThrow('Phase 2: Enharmonic handling not implemented');
+      }).rejects.toThrow('Version Enharmonic handling not implemented');
     });
 
     test('should complete mapping within 100ms', async () => {
@@ -245,7 +245,7 @@ describe('Phase 2: MIDI Integration & Real-Time Highlighting', () => {
         
         const mappingTime = performance.now() - startTime;
         expect(mappingTime).toBeLessThan(100);
-      }).rejects.toThrow('Phase 2: Mapping performance not optimized');
+      }).rejects.toThrow('Version Mapping performance not optimized');
     });
   });
 
@@ -270,7 +270,7 @@ describe('Phase 2: MIDI Integration & Real-Time Highlighting', () => {
         
         const latency = performance.now() - startTime;
         expect(latency).toBeLessThan(30);
-      }).rejects.toThrow('Phase 2: Fast path highlighting not implemented');
+      }).rejects.toThrow('Version Fast path highlighting not implemented');
     });
 
     test('should apply velocity-based visual properties', async () => {
@@ -302,7 +302,7 @@ describe('Phase 2: MIDI Integration & Real-Time Highlighting', () => {
         });
         
         document.body.removeChild(container);
-      }).rejects.toThrow('Phase 2: Velocity visualization not implemented');
+      }).rejects.toThrow('Version Velocity visualization not implemented');
     });
 
     test('should handle 10 simultaneous notes', async () => {
@@ -334,7 +334,7 @@ describe('Phase 2: MIDI Integration & Real-Time Highlighting', () => {
           const highlighted = container.querySelectorAll('.note-highlighted');
           expect(highlighted.length).toBe(10);
         });
-      }).rejects.toThrow('Phase 2: Concurrent highlighting not implemented');
+      }).rejects.toThrow('Version Concurrent highlighting not implemented');
     });
 
     test('should use requestAnimationFrame for batching', async () => {
@@ -356,7 +356,7 @@ describe('Phase 2: MIDI Integration & Real-Time Highlighting', () => {
         });
         
         expect(rafSpy).toHaveBeenCalled();
-      }).rejects.toThrow('Phase 2: RAF batching not implemented');
+      }).rejects.toThrow('Version RAF batching not implemented');
     });
 
     test('should warn when latency exceeds 30ms', async () => {
@@ -390,7 +390,7 @@ describe('Phase 2: MIDI Integration & Real-Time Highlighting', () => {
         );
         
         performance.now = originalNow;
-      }).rejects.toThrow('Phase 2: Latency monitoring not implemented');
+      }).rejects.toThrow('Version Latency monitoring not implemented');
     });
   });
 
@@ -411,7 +411,7 @@ describe('Phase 2: MIDI Integration & Real-Time Highlighting', () => {
           const highlighted = container.querySelector('.note-highlighted');
           expect(highlighted).toBeInTheDocument();
         });
-      }).rejects.toThrow('Phase 2: MIDI integration not implemented');
+      }).rejects.toThrow('Version MIDI integration not implemented');
     });
 
     test('should show MIDI connection indicator', () => {
@@ -421,7 +421,7 @@ describe('Phase 2: MIDI Integration & Real-Time Highlighting', () => {
         
         expect(screen.getByText('MIDI Active')).toBeInTheDocument();
         expect(screen.getByTestId('midi-indicator')).toHaveClass('active');
-      }).toThrow('Phase 2: MIDI indicator not implemented');
+      }).toThrow('Version MIDI indicator not implemented');
     });
 
     test('should handle noteOff events', async () => {
@@ -450,7 +450,7 @@ describe('Phase 2: MIDI Integration & Real-Time Highlighting', () => {
         await waitFor(() => {
           expect(container.querySelector('.note-highlighted')).not.toBeInTheDocument();
         });
-      }).rejects.toThrow('Phase 2: Note off handling not implemented');
+      }).rejects.toThrow('Version Note off handling not implemented');
     });
 
     test('should not cause React re-renders on MIDI events', async () => {
@@ -477,7 +477,7 @@ describe('Phase 2: MIDI Integration & Real-Time Highlighting', () => {
         await waitFor(() => {
           expect(renderCount).toBe(initialRenders); // No additional renders
         });
-      }).rejects.toThrow('Phase 2: Render optimization not implemented');
+      }).rejects.toThrow('Version Render optimization not implemented');
     });
   });
 
@@ -497,7 +497,7 @@ describe('Phase 2: MIDI Integration & Real-Time Highlighting', () => {
           updateMetadata: expect.any(Function),
           setPlaybackState: expect.any(Function)
         });
-      }).toThrow('Phase 2: Sheet music store not implemented');
+      }).toThrow('Version Sheet music store not implemented');
     });
 
     test('should persist only metadata, not performance state', async () => {
@@ -525,7 +525,7 @@ describe('Phase 2: MIDI Integration & Real-Time Highlighting', () => {
         // Should NOT persist performance state
         expect(persisted.state.currentScoreXML).toBeUndefined();
         expect(persisted.state.isPlaying).toBeUndefined();
-      }).rejects.toThrow('Phase 2: Selective persistence not implemented');
+      }).rejects.toThrow('Version Selective persistence not implemented');
     });
 
     test('should not trigger during MIDI events', async () => {
@@ -550,7 +550,7 @@ describe('Phase 2: MIDI Integration & Real-Time Highlighting', () => {
         expect(storeSubscriber).not.toHaveBeenCalled();
         
         unsubscribe();
-      }).rejects.toThrow('Phase 2: Store isolation not implemented');
+      }).rejects.toThrow('Version Store isolation not implemented');
     });
   });
 });

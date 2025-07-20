@@ -24,7 +24,7 @@ try {
   // Not implemented yet - expected for TDD
 }
 
-describe('Phase 1: MVP Core - Full Integration', () => {
+describe('Version MVP Core - Full Integration', () => {
   let mockOSMD: any;
 
   beforeEach(() => {

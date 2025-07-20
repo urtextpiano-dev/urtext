@@ -16,7 +16,7 @@ import {
 } from '../../../../src/renderer/services/FileLoaderService';
 import type { FileData } from '../../../../src/common/types';
 
-describe('Phase 1: FileLoaderService - Renderer File Loading Abstraction', () => {
+describe('Version FileLoaderService - Renderer File Loading Abstraction', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     // Reset window.electronAPI mock
@@ -56,7 +56,7 @@ describe('Phase 1: FileLoaderService - Renderer File Loading Abstraction', () =>
         await expect(loader.loadFile()).rejects.toThrow(
           'File operations not available. Please ensure you are running in Electron.'
         );
-      }).rejects.toThrow('Phase 1: ElectronAPI check not implemented yet');
+      }).rejects.toThrow('Version ElectronAPI check not implemented yet');
     });
 
     test('should call window.electronAPI.openFile', async () => {
@@ -74,7 +74,7 @@ describe('Phase 1: FileLoaderService - Renderer File Loading Abstraction', () =>
         
         expect(window.electronAPI.openFile).toHaveBeenCalledTimes(1);
         expect(result).toEqual(mockFileData);
-      }).rejects.toThrow('Phase 1: ElectronAPI integration not implemented yet');
+      }).rejects.toThrow('Version ElectronAPI integration not implemented yet');
     });
 
     test('should propagate errors from IPC naturally', async () => {
@@ -83,7 +83,7 @@ describe('Phase 1: FileLoaderService - Renderer File Loading Abstraction', () =>
       expect(async () => {
         const loader = new ElectronFileLoader();
         await expect(loader.loadFile()).rejects.toThrow('File too large');
-      }).rejects.toThrow('Phase 1: Error propagation not implemented yet');
+      }).rejects.toThrow('Version Error propagation not implemented yet');
     });
 
     test('should handle user cancellation (null return)', async () => {
@@ -93,7 +93,7 @@ describe('Phase 1: FileLoaderService - Renderer File Loading Abstraction', () =>
         const loader = new ElectronFileLoader();
         const result = await loader.loadFile();
         expect(result).toBeNull();
-      }).rejects.toThrow('Phase 1: Cancellation handling not implemented yet');
+      }).rejects.toThrow('Version Cancellation handling not implemented yet');
     });
   });
 
@@ -108,7 +108,7 @@ describe('Phase 1: FileLoaderService - Renderer File Loading Abstraction', () =>
         
         const loader = new MockFileLoader(mockData);
         expect(loader).toBeDefined();
-      }).toThrow('Phase 1: MockFileLoader not implemented yet');
+      }).toThrow('Version MockFileLoader not implemented yet');
     });
 
     test('should return mocked file data', async () => {
@@ -122,7 +122,7 @@ describe('Phase 1: FileLoaderService - Renderer File Loading Abstraction', () =>
         const loader = new MockFileLoader(mockData);
         const result = await loader.loadFile();
         expect(result).toEqual(mockData);
-      }).rejects.toThrow('Phase 1: MockFileLoader loadFile not implemented yet');
+      }).rejects.toThrow('Version MockFileLoader loadFile not implemented yet');
     });
 
     test('should handle mocked errors', async () => {
@@ -131,7 +131,7 @@ describe('Phase 1: FileLoaderService - Renderer File Loading Abstraction', () =>
       expect(async () => {
         const loader = new MockFileLoader(mockError);
         await expect(loader.loadFile()).rejects.toThrow('Mocked error');
-      }).rejects.toThrow('Phase 1: MockFileLoader error handling not implemented yet');
+      }).rejects.toThrow('Version MockFileLoader error handling not implemented yet');
     });
 
     test('should handle mocked cancellation', async () => {
@@ -139,7 +139,7 @@ describe('Phase 1: FileLoaderService - Renderer File Loading Abstraction', () =>
         const loader = new MockFileLoader(null);
         const result = await loader.loadFile();
         expect(result).toBeNull();
-      }).rejects.toThrow('Phase 1: MockFileLoader null handling not implemented yet');
+      }).rejects.toThrow('Version MockFileLoader null handling not implemented yet');
     });
   });
 
@@ -162,7 +162,7 @@ describe('Phase 1: FileLoaderService - Renderer File Loading Abstraction', () =>
       expect(() => {
         const loader = createFileLoader();
         expect(loader.constructor.name).toBe('MockFileLoader');
-      }).toThrow('Phase 1: Test environment detection not implemented yet');
+      }).toThrow('Version Test environment detection not implemented yet');
     });
 
     test('should return ElectronFileLoader in non-test environment', () => {
@@ -171,7 +171,7 @@ describe('Phase 1: FileLoaderService - Renderer File Loading Abstraction', () =>
       expect(() => {
         const loader = createFileLoader();
         expect(loader.constructor.name).toBe('ElectronFileLoader');
-      }).toThrow('Phase 1: Production environment detection not implemented yet');
+      }).toThrow('Version Production environment detection not implemented yet');
     });
   });
 
@@ -182,7 +182,7 @@ describe('Phase 1: FileLoaderService - Renderer File Loading Abstraction', () =>
         const loader2 = getFileLoader();
         
         expect(loader1).toBe(loader2); // Same instance
-      }).toThrow('Phase 1: Singleton pattern not implemented yet');
+      }).toThrow('Version Singleton pattern not implemented yet');
     });
 
     test('should create instance lazily on first call', () => {
@@ -193,7 +193,7 @@ describe('Phase 1: FileLoaderService - Renderer File Loading Abstraction', () =>
         // First call creates instance
         const loader = getFileLoader();
         expect(loader).toBeDefined();
-      }).toThrow('Phase 1: Lazy initialization not implemented yet');
+      }).toThrow('Version Lazy initialization not implemented yet');
     });
 
     test('should reset singleton instance with resetFileLoader', () => {
@@ -203,7 +203,7 @@ describe('Phase 1: FileLoaderService - Renderer File Loading Abstraction', () =>
         const loader2 = getFileLoader();
         
         expect(loader1).not.toBe(loader2); // Different instances
-      }).toThrow('Phase 1: Reset functionality not implemented yet');
+      }).toThrow('Version Reset functionality not implemented yet');
     });
   });
 
@@ -226,7 +226,7 @@ describe('Phase 1: FileLoaderService - Renderer File Loading Abstraction', () =>
         expect(validData.fileName).toBeTypeOf('string');
         expect(validData.content).toBeTypeOf('string');
         expect(validData.fileSize).toBeTypeOf('number');
-      }).toThrow('Phase 1: TypeScript types not defined yet');
+      }).toThrow('Version TypeScript types not defined yet');
     });
   });
 
@@ -238,7 +238,7 @@ describe('Phase 1: FileLoaderService - Renderer File Loading Abstraction', () =>
         const duration = performance.now() - start;
         
         expect(duration).toBeLessThan(2);
-      }).toThrow('Phase 1: Performance optimization not implemented yet');
+      }).toThrow('Version Performance optimization not implemented yet');
     });
 
     test('should not block renderer process', async () => {
@@ -259,7 +259,7 @@ describe('Phase 1: FileLoaderService - Renderer File Loading Abstraction', () =>
         
         // Wait for completion
         await loadPromise;
-      }).rejects.toThrow('Phase 1: Async operation not implemented yet');
+      }).rejects.toThrow('Version Async operation not implemented yet');
     });
   });
 
@@ -282,7 +282,7 @@ describe('Phase 1: FileLoaderService - Renderer File Loading Abstraction', () =>
         expect(mockData).toHaveProperty('fileName');
         expect(mockData).toHaveProperty('content');
         expect(mockData).toHaveProperty('fileSize');
-      }).toThrow('Phase 1: Store integration types not ready yet');
+      }).toThrow('Version Store integration types not ready yet');
     });
   });
 });

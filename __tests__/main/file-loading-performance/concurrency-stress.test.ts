@@ -11,7 +11,7 @@ import { Worker } from 'worker_threads';
 // import { WorkerManager } from '../../../src/main/services/workerManager';
 // import { FileCache } from '../../../src/main/services/fileCache';
 
-describe('Phase 1: Concurrency Stress Tests - Production Edge Cases', () => {
+describe('Version Concurrency Stress Tests - Production Edge Cases', () => {
   let workerManager: any;
   let fileCache: any;
   
@@ -61,7 +61,7 @@ describe('Phase 1: Concurrency Stress Tests - Production Edge Cases', () => {
         
         expect(results).toHaveLength(100);
         expect(manager.getDeadlockCount()).toBe(0);
-      }).rejects.toThrow('Phase 1: Rapid-fire job handling not implemented yet');
+      }).rejects.toThrow('Version Rapid-fire job handling not implemented yet');
     });
 
     test('should handle worker crashes without silent failures', async () => {
@@ -101,7 +101,7 @@ describe('Phase 1: Concurrency Stress Tests - Production Edge Cases', () => {
         
         // Manager should recover
         expect(manager.getActiveWorkerCount()).toBeGreaterThan(0);
-      }).rejects.toThrow('Phase 1: Worker crash handling not implemented yet');
+      }).rejects.toThrow('Version Worker crash handling not implemented yet');
     });
 
     test('should prevent deadlock with circular job dependencies', async () => {
@@ -135,7 +135,7 @@ describe('Phase 1: Concurrency Stress Tests - Production Edge Cases', () => {
         } catch (error) {
           expect(error.message).toMatch(/Circular dependency detected/);
         }
-      }).rejects.toThrow('Phase 1: Circular dependency detection not implemented yet');
+      }).rejects.toThrow('Version Circular dependency detection not implemented yet');
     });
 
     test('should handle resource exhaustion gracefully', async () => {
@@ -168,7 +168,7 @@ describe('Phase 1: Concurrency Stress Tests - Production Edge Cases', () => {
         // Should queue jobs to prevent memory exhaustion
         expect(manager.getQueueLength()).toBeGreaterThan(0);
         expect(manager.getActiveJobCount()).toBeLessThanOrEqual(2);
-      }).rejects.toThrow('Phase 1: Resource exhaustion handling not implemented yet');
+      }).rejects.toThrow('Version Resource exhaustion handling not implemented yet');
     });
   });
 
@@ -223,7 +223,7 @@ describe('Phase 1: Concurrency Stress Tests - Production Edge Cases', () => {
         // Cache should be in valid state
         expect(cache.size()).toBeLessThanOrEqual(10);
         expect(cache.isValid()).toBe(true);
-      }).rejects.toThrow('Phase 1: Concurrent cache operations not implemented yet');
+      }).rejects.toThrow('Version Concurrent cache operations not implemented yet');
     });
 
     test('should prevent cache stampede on popular items', async () => {
@@ -252,7 +252,7 @@ describe('Phase 1: Concurrency Stress Tests - Production Edge Cases', () => {
         
         // Backend should only be called once (cache stampede prevention)
         expect(backendCalls).toBe(1);
-      }).rejects.toThrow('Phase 1: Cache stampede prevention not implemented yet');
+      }).rejects.toThrow('Version Cache stampede prevention not implemented yet');
     });
   });
 
@@ -286,7 +286,7 @@ describe('Phase 1: Concurrency Stress Tests - Production Edge Cases', () => {
         // Should handle concurrent access safely
         expect(sharedData.counter).toBe(4000); // No lost updates
         expect(sharedData.operations).toHaveLength(4000); // No lost operations
-      }).rejects.toThrow('Phase 1: Cross-thread data safety not implemented yet');
+      }).rejects.toThrow('Version Cross-thread data safety not implemented yet');
     });
 
     test('should handle worker termination during active processing', async () => {
@@ -323,7 +323,7 @@ describe('Phase 1: Concurrency Stress Tests - Production Edge Cases', () => {
           const failed = manager.isJobFailed('job-term-test');
           expect(requeued || failed).toBe(true);
         }
-      }).rejects.toThrow('Phase 1: Worker termination handling not implemented yet');
+      }).rejects.toThrow('Version Worker termination handling not implemented yet');
     });
   });
 
@@ -362,7 +362,7 @@ describe('Phase 1: Concurrency Stress Tests - Production Edge Cases', () => {
         ]);
         
         expect(firstCompleted).toBe('urgent');
-      }).rejects.toThrow('Phase 1: Job priority race condition handling not implemented yet');
+      }).rejects.toThrow('Version Job priority race condition handling not implemented yet');
     });
   });
 
@@ -396,7 +396,7 @@ describe('Phase 1: Concurrency Stress Tests - Production Edge Cases', () => {
         
         // Allow 10MB variance, but not linear growth
         expect(lastSnapshot).toBeLessThan(firstSnapshot + 10 * 1024 * 1024);
-      }).rejects.toThrow('Phase 1: Memory leak prevention not implemented yet');
+      }).rejects.toThrow('Version Memory leak prevention not implemented yet');
     });
   });
 
@@ -443,7 +443,7 @@ describe('Phase 1: Concurrency Stress Tests - Production Edge Cases', () => {
         expect(avgLatency).toBeLessThan(20);
         expect(p95Latency).toBeLessThan(25);
         expect(maxLatency).toBeLessThan(30);
-      }).rejects.toThrow('Phase 1: Concurrent load MIDI latency not maintained yet');
+      }).rejects.toThrow('Version Concurrent load MIDI latency not maintained yet');
     });
   });
 });

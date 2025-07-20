@@ -1,5 +1,5 @@
 /**
- * Phase 3: Production Features Integration Tests
+ * Version Production Features Integration Tests
  * 
  * Tests the complete integration of all Phase 3 components:
  * - Web Worker score analysis
@@ -33,7 +33,7 @@ import type { DifficultyMetrics, PracticeSession } from '@/renderer/features/pra
 // Import components (will be created in implementation)
 import { ProductionPracticeMode } from '@/renderer/features/practice-mode/components/ProductionPracticeMode';
 
-describe('Phase 3: Production Features Integration', () => {
+describe('Version Production Features Integration', () => {
   let mockWorker: any;
   let mockPersistence: any;
   let mockAdaptive: any;

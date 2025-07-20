@@ -19,7 +19,7 @@ jest.mock('electron', () => ({
 jest.mock('fs/promises');
 jest.mock('unzipper');
 
-describe('Phase 1: IPC Handlers - Main Process File Operations', () => {
+describe('Version IPC Handlers - Main Process File Operations', () => {
   let mockHandle: jest.Mock;
   let mockShowOpenDialog: jest.Mock;
   let mockFsStat: jest.Mock;
@@ -44,7 +44,7 @@ describe('Phase 1: IPC Handlers - Main Process File Operations', () => {
         // This should fail until main process code is implemented
         const handlers = mockHandle.mock.calls.map(call => call[0]);
         expect(handlers).toContain('dialog:openFile');
-      }).toThrow('Phase 1: IPC handlers not implemented yet');
+      }).toThrow('Version IPC handlers not implemented yet');
     });
 
     test('should implement file operation queue to prevent concurrent access', () => {
@@ -52,7 +52,7 @@ describe('Phase 1: IPC Handlers - Main Process File Operations', () => {
         // Test queue exists and processes operations serially
         const queueImplementation = require('../../../../../src/index.js').fileOperationQueue;
         expect(queueImplementation).toBeDefined();
-      }).toThrow('Phase 1: File operation queue not implemented yet');
+      }).toThrow('Version File operation queue not implemented yet');
     });
   });
 
@@ -73,7 +73,7 @@ describe('Phase 1: IPC Handlers - Main Process File Operations', () => {
             { name: 'All Files', extensions: ['*'] }
           ]
         });
-      }).rejects.toThrow('Phase 1: File dialog handler not implemented yet');
+      }).rejects.toThrow('Version File dialog handler not implemented yet');
     });
 
     test('should return null when user cancels file dialog', async () => {
@@ -83,7 +83,7 @@ describe('Phase 1: IPC Handlers - Main Process File Operations', () => {
         const handler = mockHandle.mock.calls.find(call => call[0] === 'dialog:openFile')?.[1];
         const result = await handler();
         expect(result).toBeNull();
-      }).rejects.toThrow('Phase 1: Dialog cancellation handling not implemented yet');
+      }).rejects.toThrow('Version Dialog cancellation handling not implemented yet');
     });
   });
 
@@ -99,7 +99,7 @@ describe('Phase 1: IPC Handlers - Main Process File Operations', () => {
         // Should use path.resolve and path.normalize
         expect(path.normalize).toHaveBeenCalled();
         expect(path.resolve).toHaveBeenCalled();
-      }).rejects.toThrow('Phase 1: Path security validation not implemented yet');
+      }).rejects.toThrow('Version Path security validation not implemented yet');
     });
 
     test('should enforce 10MB file size limit for compressed files', async () => {
@@ -109,7 +109,7 @@ describe('Phase 1: IPC Handlers - Main Process File Operations', () => {
       expect(async () => {
         const handler = mockHandle.mock.calls.find(call => call[0] === 'dialog:openFile')?.[1];
         await expect(handler()).rejects.toThrow('File too large. Maximum size is 10MB');
-      }).rejects.toThrow('Phase 1: File size validation not implemented yet');
+      }).rejects.toThrow('Version File size validation not implemented yet');
     });
 
     test('should validate file is actually a file and not a directory', async () => {
@@ -119,7 +119,7 @@ describe('Phase 1: IPC Handlers - Main Process File Operations', () => {
       expect(async () => {
         const handler = mockHandle.mock.calls.find(call => call[0] === 'dialog:openFile')?.[1];
         await expect(handler()).rejects.toThrow('Selected path is not a file');
-      }).rejects.toThrow('Phase 1: File type validation not implemented yet');
+      }).rejects.toThrow('Version File type validation not implemented yet');
     });
   });
 
@@ -134,7 +134,7 @@ describe('Phase 1: IPC Handlers - Main Process File Operations', () => {
         await handler();
         
         expect(unzipper.Open.file).toHaveBeenCalledWith('/test/file.mxl');
-      }).rejects.toThrow('Phase 1: MXL async decompression not implemented yet');
+      }).rejects.toThrow('Version MXL async decompression not implemented yet');
     });
 
     test('should find main score file from container.xml in MXL', async () => {
@@ -143,7 +143,7 @@ describe('Phase 1: IPC Handlers - Main Process File Operations', () => {
         const containerXml = '<?xml version="1.0"?><container><rootfiles><rootfile full-path="score.xml"/></rootfiles></container>';
         const scorePath = containerXml.match(/full-path="([^"]+)"/)![1];
         expect(scorePath).toBe('score.xml');
-      }).toThrow('Phase 1: Container.xml parsing not implemented yet');
+      }).toThrow('Version Container.xml parsing not implemented yet');
     });
 
     test('should prevent zip bomb attacks with streaming size check', async () => {
@@ -167,7 +167,7 @@ describe('Phase 1: IPC Handlers - Main Process File Operations', () => {
             }
           }
         };
-      }).toThrow('Phase 1: Zip bomb prevention not implemented yet');
+      }).toThrow('Version Zip bomb prevention not implemented yet');
     });
 
     test('should handle MXL files without container.xml gracefully', async () => {
@@ -183,7 +183,7 @@ describe('Phase 1: IPC Handlers - Main Process File Operations', () => {
           f.path.endsWith('.xml') && !f.path.startsWith('META-INF/')
         );
         expect(scoreFile?.path).toBe('myscore.xml');
-      }).toThrow('Phase 1: MXL fallback logic not implemented yet');
+      }).toThrow('Version MXL fallback logic not implemented yet');
     });
   });
 
@@ -196,7 +196,7 @@ describe('Phase 1: IPC Handlers - Main Process File Operations', () => {
       expect(async () => {
         const handler = mockHandle.mock.calls.find(call => call[0] === 'dialog:openFile')?.[1];
         await expect(handler()).rejects.toThrow('File does not appear to be a valid XML file');
-      }).rejects.toThrow('Phase 1: XML validation not implemented yet');
+      }).rejects.toThrow('Version XML validation not implemented yet');
     });
 
     test('should validate MusicXML format (score-partwise or score-timewise)', async () => {
@@ -207,7 +207,7 @@ describe('Phase 1: IPC Handlers - Main Process File Operations', () => {
       expect(async () => {
         const handler = mockHandle.mock.calls.find(call => call[0] === 'dialog:openFile')?.[1];
         await expect(handler()).rejects.toThrow('File does not appear to be valid MusicXML format');
-      }).rejects.toThrow('Phase 1: MusicXML format validation not implemented yet');
+      }).rejects.toThrow('Version MusicXML format validation not implemented yet');
     });
   });
 
@@ -222,7 +222,7 @@ describe('Phase 1: IPC Handlers - Main Process File Operations', () => {
         
         expect(op1).toHaveProperty('cancel');
         expect(op2).toHaveProperty('cancel');
-      }).toThrow('Phase 1: Queue implementation not found');
+      }).toThrow('Version Queue implementation not found');
     });
 
     test('should support operation cancellation via AbortController', async () => {
@@ -233,7 +233,7 @@ describe('Phase 1: IPC Handlers - Main Process File Operations', () => {
         operation.cancel();
         
         expect(operation).rejects.toThrow('Operation cancelled');
-      }).toThrow('Phase 1: Cancellation support not implemented yet');
+      }).toThrow('Version Cancellation support not implemented yet');
     });
 
     test('should process queue items sequentially', async () => {
@@ -249,7 +249,7 @@ describe('Phase 1: IPC Handlers - Main Process File Operations', () => {
         
         // Should execute in order despite different delays
         expect(results).toEqual([1, 2, 3]);
-      }).rejects.toThrow('Phase 1: Sequential processing not implemented yet');
+      }).rejects.toThrow('Version Sequential processing not implemented yet');
     });
   });
 
@@ -263,7 +263,7 @@ describe('Phase 1: IPC Handlers - Main Process File Operations', () => {
         
         // Should throw, not return {success: false, error: ...}
         await expect(handler()).rejects.toThrow('File access denied');
-      }).rejects.toThrow('Phase 1: Error propagation not implemented yet');
+      }).rejects.toThrow('Version Error propagation not implemented yet');
     });
 
     test('should clean up resources on app shutdown', () => {
@@ -277,7 +277,7 @@ describe('Phase 1: IPC Handlers - Main Process File Operations', () => {
         beforeQuitHandler();
         const queue = require('../../../../../src/index.js').fileOperationQueue;
         expect(queue.length).toBe(0);
-      }).toThrow('Phase 1: Cleanup handler not implemented yet');
+      }).toThrow('Version Cleanup handler not implemented yet');
     });
   });
 
@@ -293,7 +293,7 @@ describe('Phase 1: IPC Handlers - Main Process File Operations', () => {
         const duration = performance.now() - start;
         
         expect(duration).toBeLessThan(5);
-      }).rejects.toThrow('Phase 1: Performance requirements not met yet');
+      }).rejects.toThrow('Version Performance requirements not met yet');
     });
 
     test('should not block main process during MXL decompression', async () => {
@@ -301,7 +301,7 @@ describe('Phase 1: IPC Handlers - Main Process File Operations', () => {
         // Verify async/streaming decompression doesn't block
         const isAsync = require('unzipper').Open.file.constructor.name === 'AsyncFunction';
         expect(isAsync).toBe(true);
-      }).toThrow('Phase 1: Async decompression verification failed');
+      }).toThrow('Version Async decompression verification failed');
     });
   });
 });

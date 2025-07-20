@@ -11,7 +11,7 @@ import { PianoKeyboard } from '@/renderer/components/PianoKeyboard';
 // Mock React to spy on useMemo
 jest.spyOn(React, 'useMemo');
 
-describe('Phase 3: Performance Optimization', () => {
+describe('Version Performance Optimization', () => {
   describe('Memoization Implementation', () => {
     test('should use useMemo for key element generation', () => {
       render(<PianoKeyboard />);

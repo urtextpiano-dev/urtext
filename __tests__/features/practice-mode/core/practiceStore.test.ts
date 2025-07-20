@@ -1,5 +1,5 @@
 /**
- * Phase 1: Practice Store Tests
+ * Version Practice Store Tests
  * 
  * TDD Cycle:
  * 1. RED: Tests fail - store doesn't exist
@@ -14,7 +14,7 @@ import { act, renderHook } from '@testing-library/react';
 import { usePracticeStore } from '@/renderer/features/practice-mode/stores/practiceStore';
 import type { PracticeStep, ComparisonResult } from '@/renderer/features/practice-mode/types';
 
-describe('Phase 1: Practice Store Implementation', () => {
+describe('Version Practice Store Implementation', () => {
   beforeEach(() => {
     // Reset store state before each test
     if (typeof usePracticeStore !== 'undefined') {

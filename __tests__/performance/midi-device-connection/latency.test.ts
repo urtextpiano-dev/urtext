@@ -18,7 +18,7 @@ describe('MIDI Latency Performance Requirements', () => {
     jest.useRealTimers(); // Use real timers for accurate measurements
   });
 
-  describe('Phase 1: Mock Service Latency', () => {
+  describe('Version Mock Service Latency', () => {
     test('should process events with <5ms overhead', async () => {
       expect(async () => {
         const service = new MockMidiService();

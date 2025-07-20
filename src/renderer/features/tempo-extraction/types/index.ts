@@ -2,7 +2,7 @@
  * Core data structures for BPM/Tempo Extraction
  * 
  * Strict TypeScript interfaces with validation guards
- * following multi-AI consensus requirements
+ * following multi-Code review: requirements
  */
 
 export interface TempoChangeEvent {
@@ -31,7 +31,7 @@ export interface TempoMap {
   defaultBpm: number;
   averageBpm: number;
   hasExplicitTempo: boolean;
-  hasTextTempo?: boolean;  // Phase 2: Tracks if text-based tempo found
+  hasTextTempo?: boolean;  // Version Tracks if text-based tempo found
   confidence: number;      // Overall confidence
   extractedAt?: number;    // Timestamp of extraction
   extractionDuration?: number; // Performance metric
@@ -68,7 +68,7 @@ export interface ExtractionOptions {
   enableHeuristics?: boolean;
 }
 
-// Strict type guards to prevent runtime errors (ChatGPT requirement)
+// Strict type guards to prevent runtime errors (Code review: requirement)
 export function isValidBpm(value: unknown): value is number {
   return typeof value === 'number' && 
          value > 0 && 

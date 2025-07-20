@@ -49,7 +49,7 @@ interface SheetMusicState {
   clearRecentFiles: () => void;
 }
 
-describe('Phase 1: SheetMusicStore - Zustand State Management', () => {
+describe('Version SheetMusicStore - Zustand State Management', () => {
   let mockFileLoader: any;
   
   beforeEach(() => {
@@ -121,7 +121,7 @@ describe('Phase 1: SheetMusicStore - Zustand State Management', () => {
         expect(result.current.error).toBeNull();
         
         await loadPromise;
-      }).rejects.toThrow('Phase 1: Loading state management not implemented yet');
+      }).rejects.toThrow('Version Loading state management not implemented yet');
     });
 
     test('should handle successful file load', async () => {
@@ -147,7 +147,7 @@ describe('Phase 1: SheetMusicStore - Zustand State Management', () => {
           loadState: 'success',
           error: null
         });
-      }).rejects.toThrow('Phase 1: File loading not implemented yet');
+      }).rejects.toThrow('Version File loading not implemented yet');
     });
 
     test('should handle user cancellation (null return)', async () => {
@@ -163,7 +163,7 @@ describe('Phase 1: SheetMusicStore - Zustand State Management', () => {
         // Should return to idle state
         expect(result.current.loadState).toBe('idle');
         expect(result.current.musicXML).toBeNull();
-      }).rejects.toThrow('Phase 1: Cancellation handling not implemented yet');
+      }).rejects.toThrow('Version Cancellation handling not implemented yet');
     });
 
     test('should handle file loading errors', async () => {
@@ -181,7 +181,7 @@ describe('Phase 1: SheetMusicStore - Zustand State Management', () => {
           error: 'File too large',
           musicXML: null
         });
-      }).rejects.toThrow('Phase 1: Error handling not implemented yet');
+      }).rejects.toThrow('Version Error handling not implemented yet');
     });
 
     test('should validate file content in renderer', async () => {
@@ -202,7 +202,7 @@ describe('Phase 1: SheetMusicStore - Zustand State Management', () => {
         
         expect(result.current.loadState).toBe('error');
         expect(result.current.error).toContain('valid XML');
-      }).rejects.toThrow('Phase 1: Content validation not implemented yet');
+      }).rejects.toThrow('Version Content validation not implemented yet');
     });
 
     test('should check uncompressed size limit (25MB)', async () => {
@@ -224,7 +224,7 @@ describe('Phase 1: SheetMusicStore - Zustand State Management', () => {
         
         expect(result.current.loadState).toBe('error');
         expect(result.current.error).toContain('exceeds maximum size');
-      }).rejects.toThrow('Phase 1: Uncompressed size check not implemented yet');
+      }).rejects.toThrow('Version Uncompressed size check not implemented yet');
     });
 
     test('should add successfully loaded file to recent files', async () => {
@@ -248,7 +248,7 @@ describe('Phase 1: SheetMusicStore - Zustand State Management', () => {
           name: 'test-score.xml',
           size: 1024
         });
-      }).rejects.toThrow('Phase 1: Recent files tracking not implemented yet');
+      }).rejects.toThrow('Version Recent files tracking not implemented yet');
     });
   });
 
@@ -271,7 +271,7 @@ describe('Phase 1: SheetMusicStore - Zustand State Management', () => {
           fileSize: size,
           loadState: 'success'
         });
-      }).rejects.toThrow('Phase 1: Direct file loading not implemented yet');
+      }).rejects.toThrow('Version Direct file loading not implemented yet');
     });
 
     test('should validate MusicXML format for dropped files', async () => {
@@ -284,7 +284,7 @@ describe('Phase 1: SheetMusicStore - Zustand State Management', () => {
         
         expect(result.current.loadState).toBe('error');
         expect(result.current.error).toContain('Invalid MusicXML');
-      }).rejects.toThrow('Phase 1: Drop validation not implemented yet');
+      }).rejects.toThrow('Version Drop validation not implemented yet');
     });
   });
 
@@ -310,7 +310,7 @@ describe('Phase 1: SheetMusicStore - Zustand State Management', () => {
           loadState: 'idle',
           error: null
         });
-      }).toThrow('Phase 1: Clear score action not implemented yet');
+      }).toThrow('Version Clear score action not implemented yet');
     });
 
     test('should clear error state only', () => {
@@ -330,7 +330,7 @@ describe('Phase 1: SheetMusicStore - Zustand State Management', () => {
         
         expect(result.current.error).toBeNull();
         // Other state should remain unchanged
-      }).toThrow('Phase 1: Clear error action not implemented yet');
+      }).toThrow('Version Clear error action not implemented yet');
     });
   });
 
@@ -352,7 +352,7 @@ describe('Phase 1: SheetMusicStore - Zustand State Management', () => {
         
         expect(result.current.recentFiles).toHaveLength(1);
         expect(result.current.recentFiles[0]).toEqual(recentFile);
-      }).toThrow('Phase 1: Add to recent not implemented yet');
+      }).toThrow('Version Add to recent not implemented yet');
     });
 
     test('should prevent duplicate recent files', () => {
@@ -372,7 +372,7 @@ describe('Phase 1: SheetMusicStore - Zustand State Management', () => {
         });
         
         expect(result.current.recentFiles).toHaveLength(1);
-      }).toThrow('Phase 1: Duplicate prevention not implemented yet');
+      }).toThrow('Version Duplicate prevention not implemented yet');
     });
 
     test('should limit recent files to maxRecentFiles', () => {
@@ -394,7 +394,7 @@ describe('Phase 1: SheetMusicStore - Zustand State Management', () => {
         expect(result.current.recentFiles).toHaveLength(10);
         // Oldest file should be removed
         expect(result.current.recentFiles[0].name).toBe('file10.xml');
-      }).toThrow('Phase 1: Recent files limit not implemented yet');
+      }).toThrow('Version Recent files limit not implemented yet');
     });
 
     test('should remove file from recent list', () => {
@@ -414,7 +414,7 @@ describe('Phase 1: SheetMusicStore - Zustand State Management', () => {
         });
         
         expect(result.current.recentFiles).toHaveLength(0);
-      }).toThrow('Phase 1: Remove from recent not implemented yet');
+      }).toThrow('Version Remove from recent not implemented yet');
     });
 
     test('should clear all recent files', () => {
@@ -442,7 +442,7 @@ describe('Phase 1: SheetMusicStore - Zustand State Management', () => {
         });
         
         expect(result.current.recentFiles).toHaveLength(0);
-      }).toThrow('Phase 1: Clear recent files not implemented yet');
+      }).toThrow('Version Clear recent files not implemented yet');
     });
 
     test('should placeholder for loadFromRecent (Phase 3)', async () => {
@@ -455,7 +455,7 @@ describe('Phase 1: SheetMusicStore - Zustand State Management', () => {
         
         expect(result.current.loadState).toBe('error');
         expect(result.current.error).toContain('not yet implemented');
-      }).rejects.toThrow('Phase 1: Load from recent placeholder not implemented yet');
+      }).rejects.toThrow('Version Load from recent placeholder not implemented yet');
     });
   });
 
@@ -490,7 +490,7 @@ describe('Phase 1: SheetMusicStore - Zustand State Management', () => {
         // Should NOT persist current file data
         expect(parsed.state.musicXML).toBeUndefined();
         expect(parsed.state.fileName).toBeUndefined();
-      }).rejects.toThrow('Phase 1: Persistence not implemented yet');
+      }).rejects.toThrow('Version Persistence not implemented yet');
     });
 
     test('should restore recent files on initialization', () => {
@@ -516,7 +516,7 @@ describe('Phase 1: SheetMusicStore - Zustand State Management', () => {
         
         expect(result.current.recentFiles).toHaveLength(1);
         expect(result.current.recentFiles[0].name).toBe('restored.xml');
-      }).toThrow('Phase 1: Persistence restoration not implemented yet');
+      }).toThrow('Version Persistence restoration not implemented yet');
     });
   });
 
@@ -543,7 +543,7 @@ describe('Phase 1: SheetMusicStore - Zustand State Management', () => {
           
           expect(duration).toBeLessThan(10);
         });
-      }).toThrow('Phase 1: Performance requirements not met yet');
+      }).toThrow('Version Performance requirements not met yet');
     });
 
     test('should initialize store in less than 5ms', () => {
@@ -553,7 +553,7 @@ describe('Phase 1: SheetMusicStore - Zustand State Management', () => {
         const duration = performance.now() - start;
         
         expect(duration).toBeLessThan(5);
-      }).toThrow('Phase 1: Store initialization performance not optimized yet');
+      }).toThrow('Version Store initialization performance not optimized yet');
     });
   });
 });

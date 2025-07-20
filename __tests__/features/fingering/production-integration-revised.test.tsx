@@ -37,7 +37,7 @@ jest.mock('zustand/middleware', () => ({
   persist: jest.fn((config) => config)
 }));
 
-// Performance thresholds (CHATGPT O3: Quantified values)
+// Performance thresholds (CHATGPT Code review:: Quantified values)
 const PERFORMANCE_THRESHOLDS = {
   viewportCalc: 2, // ms per scroll event
   memoryOverhead: 5 * 1024 * 1024, // 5MB for 1000 fingerings
@@ -50,7 +50,7 @@ const PERFORMANCE_THRESHOLDS = {
   defaultFontSize: 12
 };
 
-// Default settings values (CHATGPT O3: Explicit defaults)
+// Default settings values (CHATGPT Code review:: Explicit defaults)
 const DEFAULT_SETTINGS = {
   isEnabled: true,
   showOnAllNotes: false,
@@ -60,7 +60,7 @@ const DEFAULT_SETTINGS = {
   version: 1
 };
 
-describe('Phase 4: Production Integration - Revised Implementation Tests', () => {
+describe('Version Production Integration - Revised Implementation Tests', () => {
   const user = userEvent.setup({ delay: null });
   let cleanupFunctions: Array<() => void> = [];
   let mockOSMD: any;
@@ -140,13 +140,13 @@ describe('Phase 4: Production Integration - Revised Implementation Tests', () =>
             expect(option).toHaveTextContent(colorOptions[index].label);
           });
           
-          // Helper text (CHATGPT O3: Exact copy)
+          // Helper text (CHATGPT Code review:: Exact copy)
           const helperText = screen.getByText(
             'Displays suggested fingerings for unmarked notes'
           );
           expect(helperText).toHaveAttribute('id', 'show-all-help');
           expect(helperText).toHaveClass('small', 'text-muted');
-        }).toThrow('Phase 4: Settings exact specifications - not implemented yet');
+        }).toThrow('Version Settings exact specifications - not implemented yet');
       });
 
       test('should apply settings changes to rendered fingerings immediately', async () => {
@@ -209,7 +209,7 @@ describe('Phase 4: Production Integration - Revised Implementation Tests', () =>
           await waitFor(() => {
             expect(screen.queryAllByTestId(/fingering-/)).toHaveLength(0);
           });
-        }).toThrow('Phase 4: Settings render integration - not implemented yet');
+        }).toThrow('Version Settings render integration - not implemented yet');
       });
 
       test('should handle rapid settings changes without race conditions', async () => {
@@ -237,7 +237,7 @@ describe('Phase 4: Production Integration - Revised Implementation Tests', () =>
           // No memory leaks or excessive timers
           const timers = jest.getTimerCount();
           expect(timers).toBeLessThan(5); // Reasonable timer count
-        }).toThrow('Phase 4: Rapid settings changes - not implemented yet');
+        }).toThrow('Version Rapid settings changes - not implemented yet');
       });
 
       test('should validate and sanitize extreme/malicious settings values', async () => {
@@ -275,7 +275,7 @@ describe('Phase 4: Production Integration - Revised Implementation Tests', () =>
             result.current.updateSettings({ color: '#FFF' });
           });
           expect(result.current.color).toBe('#FFFFFF'); // Normalized
-        }).toThrow('Phase 4: Settings validation and security - not implemented yet');
+        }).toThrow('Version Settings validation and security - not implemented yet');
       });
 
       test('should maintain accessibility with high contrast mode', () => {
@@ -305,7 +305,7 @@ describe('Phase 4: Production Integration - Revised Implementation Tests', () =>
               fontWeight: 'bold'
             });
           });
-        }).toThrow('Phase 4: High contrast accessibility - not implemented yet');
+        }).toThrow('Version High contrast accessibility - not implemented yet');
       });
     });
 
@@ -357,7 +357,7 @@ describe('Phase 4: Production Integration - Revised Implementation Tests', () =>
           });
           
           Storage.prototype.setItem = originalSetItem;
-        }).toThrow('Phase 4: localStorage failure handling - not implemented yet');
+        }).toThrow('Version localStorage failure handling - not implemented yet');
       });
 
       test('should handle cross-tab synchronization correctly', async () => {
@@ -399,12 +399,12 @@ describe('Phase 4: Production Integration - Revised Implementation Tests', () =>
           // Should handle without errors
           expect(tab1.current.fontSize).toBe(17); // Last value
           expect(tab2.current.fontSize).toBe(17);
-        }).toThrow('Phase 4: Cross-tab synchronization - not implemented yet');
+        }).toThrow('Version Cross-tab synchronization - not implemented yet');
       });
 
       test('should migrate settings across versions with specific scenarios', () => {
         expect(() => {
-          // CHATGPT O3: Version migration matrix
+          // CHATGPT Code review:: Version migration matrix
           const migrationTests = [
             {
               from: {
@@ -456,7 +456,7 @@ describe('Phase 4: Production Integration - Revised Implementation Tests', () =>
             
             localStorage.clear();
           });
-        }).toThrow('Phase 4: Version migration scenarios - not implemented yet');
+        }).toThrow('Version Version migration scenarios - not implemented yet');
       });
     });
 
@@ -505,7 +505,7 @@ describe('Phase 4: Production Integration - Revised Implementation Tests', () =>
               top: expect.any(Number),
               bottom: expect.any(Number)
             });
-          }).toThrow('Phase 4: OSMD re-render survival - not implemented yet');
+          }).toThrow('Version OSMD re-render survival - not implemented yet');
         });
 
         test('should handle auto-scroll during practice mode efficiently', async () => {
@@ -543,7 +543,7 @@ describe('Phase 4: Production Integration - Revised Implementation Tests', () =>
             const duration = performance.now() - start;
             
             expect(duration).toBeLessThan(PERFORMANCE_THRESHOLDS.viewportCalc);
-          }).toThrow('Phase 4: Practice auto-scroll optimization - not implemented yet');
+          }).toThrow('Version Practice auto-scroll optimization - not implemented yet');
         });
 
         test('should handle device orientation changes smoothly', async () => {
@@ -579,7 +579,7 @@ describe('Phase 4: Production Integration - Revised Implementation Tests', () =>
             
             // No flicker or multiple recalculations
             expect(mockOSMD.container.getBoundingClientRect).toHaveBeenCalledTimes(2);
-          }).toThrow('Phase 4: Orientation change handling - not implemented yet');
+          }).toThrow('Version Orientation change handling - not implemented yet');
         });
 
         test('should optimize background tab behavior', async () => {
@@ -609,7 +609,7 @@ describe('Phase 4: Production Integration - Revised Implementation Tests', () =>
             await waitFor(() => {
               expect(mockOSMD.container.getBoundingClientRect).toHaveBeenCalledTimes(1);
             });
-          }).toThrow('Phase 4: Background tab optimization - not implemented yet');
+          }).toThrow('Version Background tab optimization - not implemented yet');
         });
 
         test('should handle rapid scroll with 1000+ annotations efficiently', async () => {
@@ -654,7 +654,7 @@ describe('Phase 4: Production Integration - Revised Implementation Tests', () =>
             // Average should be very fast
             const avg = measurements.reduce((a, b) => a + b) / measurements.length;
             expect(avg).toBeLessThan(10);
-          }).toThrow('Phase 4: Rapid scroll performance - not implemented yet');
+          }).toThrow('Version Rapid scroll performance - not implemented yet');
         });
       });
     });
@@ -696,7 +696,7 @@ describe('Phase 4: Production Integration - Revised Implementation Tests', () =>
           expect(screen.getByTestId('sheet-music')).toBeInTheDocument();
           expect(screen.getByRole('button', { name: /play/i })).toBeEnabled();
           expect(screen.getByRole('button', { name: /stop/i })).toBeEnabled();
-        }).toThrow('Phase 4: Feature-scoped error boundary - not implemented yet');
+        }).toThrow('Version Feature-scoped error boundary - not implemented yet');
       });
 
       test('should handle transposition without breaking fingerings', async () => {
@@ -739,7 +739,7 @@ describe('Phase 4: Production Integration - Revised Implementation Tests', () =>
             type: 'info',
             message: 'Fingerings cleared after transposition. Please re-add as needed.'
           });
-        }).toThrow('Phase 4: Transposition interaction - not implemented yet');
+        }).toThrow('Version Transposition interaction - not implemented yet');
       });
 
       test('should handle network-dependent features gracefully', async () => {
@@ -763,7 +763,7 @@ describe('Phase 4: Production Integration - Revised Implementation Tests', () =>
           expect(screen.getByTestId('fingering-layer')).toBeInTheDocument();
           
           global.fetch = originalFetch;
-        }).toThrow('Phase 4: Network failure handling - not implemented yet');
+        }).toThrow('Version Network failure handling - not implemented yet');
       });
     });
 
@@ -796,7 +796,7 @@ describe('Phase 4: Production Integration - Revised Implementation Tests', () =>
           
           // No memory leaks
           expect(jest.getTimerCount()).toBeLessThan(5);
-        }).toThrow('Phase 4: Rapid mode switching - not implemented yet');
+        }).toThrow('Version Rapid mode switching - not implemented yet');
       });
 
       test('should integrate with practice mode auto-scroll and timing', async () => {
@@ -850,7 +850,7 @@ describe('Phase 4: Production Integration - Revised Implementation Tests', () =>
             // Could have highlight class
             expect(el).toHaveClass('fingering--current-step');
           });
-        }).toThrow('Phase 4: Practice mode integration flow - not implemented yet');
+        }).toThrow('Version Practice mode integration flow - not implemented yet');
       });
     });
 
@@ -905,7 +905,7 @@ describe('Phase 4: Production Integration - Revised Implementation Tests', () =>
           expect(avgLatency).toBeLessThan(PERFORMANCE_THRESHOLDS.midiLatencyAddition);
           expect(maxLatency).toBeLessThan(20); // Hard limit
           expect(p95Latency).toBeLessThan(5); // 95th percentile
-        }).toThrow('Phase 4: MIDI latency under stress - not implemented yet');
+        }).toThrow('Version MIDI latency under stress - not implemented yet');
       });
 
       test('should work on low-end devices with reduced features', () => {
@@ -937,7 +937,7 @@ describe('Phase 4: Production Integration - Revised Implementation Tests', () =>
               animation: 'none'
             });
           });
-        }).toThrow('Phase 4: Low-end device optimization - not implemented yet');
+        }).toThrow('Version Low-end device optimization - not implemented yet');
       });
 
       test('should handle touch input edge cases on mobile', async () => {
@@ -985,7 +985,7 @@ describe('Phase 4: Production Integration - Revised Implementation Tests', () =>
           await waitFor(() => {
             expect(screen.getByRole('textbox')).toBeInTheDocument();
           });
-        }).toThrow('Phase 4: Touch input edge cases - not implemented yet');
+        }).toThrow('Version Touch input edge cases - not implemented yet');
       });
 
       test('should validate against malicious input in all user inputs', async () => {
@@ -1034,7 +1034,7 @@ describe('Phase 4: Production Integration - Revised Implementation Tests', () =>
           
           const dangerousElements = document.querySelectorAll('script, iframe, object, embed');
           expect(dangerousElements).toHaveLength(0);
-        }).toThrow('Phase 4: Security input validation - not implemented yet');
+        }).toThrow('Version Security input validation - not implemented yet');
       });
     });
 
@@ -1086,7 +1086,7 @@ describe('Phase 4: Production Integration - Revised Implementation Tests', () =>
             localStorage.getItem('abc-piano-fingering-settings')!
           );
           expect(reloadedSettings.state.color).toBe('#006600');
-        }).toThrow('Phase 4: Full user journey integration - not implemented yet');
+        }).toThrow('Version Full user journey integration - not implemented yet');
       });
 
       test('should handle error propagation from store to UI gracefully', async () => {
@@ -1130,7 +1130,7 @@ describe('Phase 4: Production Integration - Revised Implementation Tests', () =>
           await waitFor(() => {
             expect(screen.queryByText(/unable to save/i)).not.toBeInTheDocument();
           });
-        }).toThrow('Phase 4: Error propagation integration - not implemented yet');
+        }).toThrow('Version Error propagation integration - not implemented yet');
       });
     });
   });

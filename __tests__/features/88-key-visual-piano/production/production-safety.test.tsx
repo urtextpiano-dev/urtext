@@ -10,7 +10,7 @@ import '@testing-library/jest-dom';
 // Components will be imported when implemented
 import { PianoKeyboard, PianoErrorBoundary } from '@/renderer/components/PianoKeyboard';
 
-describe('Phase 3: Production Safety', () => {
+describe('Version Production Safety', () => {
   beforeEach(() => {
     // Clear console mocks
     jest.clearAllMocks();

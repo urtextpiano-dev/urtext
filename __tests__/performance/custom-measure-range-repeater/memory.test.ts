@@ -1,10 +1,6 @@
 /**
  * Performance Tests: Memory Usage and Leak Prevention
  * 
- * TDD CYCLE REMINDER:
- * 1. RED: Run these tests - they should fail with "not implemented" errors
- * 2. GREEN: Implement memory-efficient code
- * 3. REFACTOR: Optimize memory usage while preventing leaks
  * 
  * REQUIREMENT: <2MB memory increase during extended practice sessions
  */
@@ -180,7 +176,7 @@ describe('Performance: Memory Management', () => {
       }).toThrow('Memory: Store history accumulation not prevented');
     });
 
-    // CRITICAL: Detect closure memory leaks (AI: ChatGPT o3)
+    // CRITICAL: Detect closure memory leaks (Code review: Code review: o3)
     test('should detect and prevent closure-based memory leaks', () => {
       expect(() => {
         const { usePracticeController } = require('@/renderer/features/practice-mode/hooks/usePracticeController');
@@ -213,7 +209,7 @@ describe('Performance: Memory Management', () => {
       }).toThrow('Memory: Closure memory leak not prevented');
     });
 
-    // CRITICAL: Detect circular reference leaks (AI: Grok3)
+    // CRITICAL: Detect circular reference leaks (Code review: Code review:)
     test('should prevent circular reference memory leaks', () => {
       expect(() => {
         const { usePracticeStore } = require('@/renderer/features/practice-mode/stores/practiceStore');

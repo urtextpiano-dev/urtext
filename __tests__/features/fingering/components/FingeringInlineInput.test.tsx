@@ -9,7 +9,7 @@ import React from 'react';
 // These imports will fail until implementation
 // import { FingeringInlineInput } from '@/renderer/features/fingering/components/FingeringInlineInput';
 
-// Props interface for clarity (CHATGPT O3)
+// Props interface for clarity (CHATGPT Code review:)
 interface FingeringInlineInputProps {
   position: { x: number; y: number };
   initialValue?: number | null;
@@ -50,7 +50,7 @@ describe('FingeringInlineInput Component - Detailed Tests', () => {
         
         const inputContainer = screen.getByRole('textbox').closest('.fingering-input-container');
         
-        // Positioning (CHATGPT O3: explicit position values)
+        // Positioning (CHATGPT Code review:: explicit position values)
         expect(inputContainer).toHaveStyle({
           position: 'absolute',
           left: '150px',
@@ -157,7 +157,7 @@ describe('FingeringInlineInput Component - Detailed Tests', () => {
           expect(input).toHaveAttribute('aria-invalid', 'false');
         }
         
-        // CHATGPT O3: Clear behavior specification
+        // CHATGPT Code review:: Clear behavior specification
         // Invalid inputs - should not change value OR clear based on setting
         await user.clear(input);
         await user.type(input, '0');
@@ -296,7 +296,7 @@ describe('FingeringInlineInput Component - Detailed Tests', () => {
     });
   });
 
-  describe('Keyboard Handling (CHATGPT O3: explicit behavior)', () => {
+  describe('Keyboard Handling (CHATGPT Code review:: explicit behavior)', () => {
     test('should handle Enter key for submission', async () => {
       expect(async () => {
         render(
@@ -438,7 +438,7 @@ describe('FingeringInlineInput Component - Detailed Tests', () => {
     });
   });
 
-  describe('Click Outside Behavior (CHATGPT O3: specific boundaries)', () => {
+  describe('Click Outside Behavior (CHATGPT Code review:: specific boundaries)', () => {
     test('should submit on click outside with valid value', async () => {
       expect(async () => {
         const { container } = render(
@@ -459,7 +459,7 @@ describe('FingeringInlineInput Component - Detailed Tests', () => {
         await user.clear(input);
         await user.type(input, '4');
         
-        // Click outside (CHATGPT O3: explicit outside element)
+        // Click outside (CHATGPT Code review:: explicit outside element)
         await user.click(screen.getByTestId('outside'));
         
         expect(mockOnSubmit).toHaveBeenCalledWith(4);
@@ -611,7 +611,7 @@ describe('FingeringInlineInput Component - Detailed Tests', () => {
         
         const input = screen.getByRole('textbox');
         
-        // CHATGPT O3: Exact ARIA attributes
+        // CHATGPT Code review:: Exact ARIA attributes
         expect(input).toHaveAttribute('aria-label', 'Fingering number (1-5)');
         expect(input).toHaveAttribute('aria-invalid', 'false');
         expect(input).toHaveAttribute('aria-required', 'false');
