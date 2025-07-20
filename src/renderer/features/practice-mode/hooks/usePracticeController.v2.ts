@@ -1051,6 +1051,20 @@ export function usePracticeControllerV2() {
         practiceStore?.setCurrentStep(nextStep);
         practiceStore?.setCurrentMeasure(targetMeasureIndex);
         
+        // CRITICAL: Sync the optimized sequence index with cursor position
+        const state = usePracticeStore.getState();
+        const targetStepIndex = state.optimizedSequence.findIndex((step: OptimizedPracticeStep) => {
+          return step.measureIndex === actualMeasure;
+        });
+        
+        if (targetStepIndex >= 0) {
+          // Set the index to match cursor position
+          usePracticeStore.setState({ currentOptimizedIndex: targetStepIndex });
+        } else {
+          // If no matching step found, reset to beginning of sequence
+          practiceStore.resetOptimizedSequence();
+        }
+        
         // CRITICAL FIX: Dispatch to state machine to sync practice step
         dispatch({ 
           type: 'ADVANCE_DONE', 
