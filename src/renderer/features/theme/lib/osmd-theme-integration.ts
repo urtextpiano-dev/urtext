@@ -1,0 +1,97 @@
+/**
+ * OSMD Theme Integration
+ * Applies theme colors to OpenSheetMusicDisplay
+ */
+
+import React from 'react';
+import type { OpenSheetMusicDisplay, IOSMDOptions } from 'opensheetmusicdisplay';
+import type { ThemeName } from '../model/types';
+import { perfLogger } from '@/renderer/utils/performance-logger';
+
+/**
+ * Get OSMD options for a specific theme
+ * Extracted from CSS custom properties at runtime
+ */
+export const getOSMDThemeOptions = (): Partial<IOSMDOptions> => {
+  const rootStyle = getComputedStyle(document.documentElement);
+  
+  // Read theme-specific colors from CSS variables
+  const sheetBg = rootStyle.getPropertyValue('--abc-sheet-bg').trim();
+  const sheetInk = rootStyle.getPropertyValue('--abc-sheet-ink').trim();
+  
+  return {
+    // Background color for sheet music area
+    pageBackgroundColor: sheetBg || '#ffffff',
+    
+    // Default color for musical notation
+    defaultColorMusic: sheetInk || '#000000'
+    
+    // No cursor configuration - handled separately for simplicity
+  };
+};
+
+/**
+ * Apply theme to an existing OSMD instance
+ * Triggers re-render with new colors
+ */
+export const applyThemeToOSMD = async (osmd: OpenSheetMusicDisplay): Promise<void> => {
+  if (!osmd) {
+    perfLogger.warn('Cannot apply theme: OSMD instance not provided');
+    return;
+  }
+
+  try {
+    // Save cursor state before re-render
+    const cursor = osmd.cursor;
+    const cursorIterator = cursor?.iterator;
+    const cursorVisible = cursor?.cursorElement && cursor.cursorElement.style.display !== 'none';
+    const measureIndex = cursorIterator?.CurrentMeasureIndex;
+    
+    // Get theme-specific options
+    const themeOptions = getOSMDThemeOptions();
+    
+    // Apply options to OSMD
+    osmd.setOptions(themeOptions);
+    
+    // Re-render to apply new colors
+    osmd.render();
+    
+    // Restore cursor state after re-render
+    if (cursor && cursorVisible && measureIndex !== undefined) {
+      // Force cursor element recreation after render
+      cursor.hide();
+      cursor.show();
+      
+      // Ensure visibility after DOM recreation
+      if (cursor.cursorElement) {
+        cursor.cursorElement.style.display = 'block';
+        cursor.cursorElement.style.opacity = '1';
+      }
+      
+      // Move cursor back to its previous position
+      if (measureIndex >= 0) {
+        cursor.reset();
+        for (let i = 0; i < measureIndex; i++) {
+          cursor.next();
+        }
+      }
+    }
+    
+    perfLogger.debug('Theme applied to OSMD:', themeOptions);
+  } catch (error) {
+    perfLogger.error('Failed to apply theme to OSMD:', error);
+  }
+};
+
+/**
+ * Hook to automatically apply theme changes to OSMD
+ * Should be used in components that manage OSMD instances
+ */
+export const useOSMDTheme = (osmd: OpenSheetMusicDisplay | null, theme: ThemeName) => {
+  // Apply theme whenever it changes or OSMD instance is ready
+  React.useEffect(() => {
+    if (osmd && osmd.GraphicSheet) {
+      applyThemeToOSMD(osmd);
+    }
+  }, [osmd, theme]);
+};

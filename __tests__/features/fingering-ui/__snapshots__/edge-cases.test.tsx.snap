@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`Edge Cases: State Persistence and Race Conditions Initial State Hydration (Gemini Feedback) should correctly show edit mode on initial render when hydrated from storage 1`] = `
+<div>
+  <input
+    aria-label="Toggle fingering edit mode"
+    checked=""
+    readonly=""
+    type="checkbox"
+  />
+  <div>
+    Edit Mode
+  </div>
+</div>
+`;
