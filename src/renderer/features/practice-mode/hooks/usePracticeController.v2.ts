@@ -1053,8 +1053,28 @@ export function usePracticeControllerV2() {
         
         // CRITICAL: Sync the optimized sequence index with cursor position
         const state = usePracticeStore.getState();
+        const cursorTimestamp = cursor.iterator.currentTimeStamp?.RealValue ||
+                               cursor.iterator.currentTimeStamp?.realValue;
+        
+        // Find the step that matches the cursor position
         const targetStepIndex = state.optimizedSequence.findIndex((step: OptimizedPracticeStep) => {
-          return step.measureIndex === actualMeasure;
+          if (step.measureIndex !== actualMeasure) {
+            return false;
+          }
+          
+          // Match by timestamp if available
+          if (step.timestamp !== undefined && cursorTimestamp !== undefined) {
+            const timestampDiff = Math.abs(step.timestamp - cursorTimestamp);
+            return timestampDiff < 1e-6;
+          }
+          
+          // Fallback: First step in measure
+          const stepIndexInSequence = state.optimizedSequence.indexOf(step);
+          const isFirstInMeasure = state.optimizedSequence.findIndex(
+            s => s.measureIndex === actualMeasure
+          ) === stepIndexInSequence;
+          
+          return isFirstInMeasure;
         });
         
         if (targetStepIndex >= 0) {
