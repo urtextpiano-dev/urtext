@@ -411,20 +411,77 @@ function advanceCursor(osmdControls: any, osmd: any, options?: {
             
             if (seekSuccess) {
               // CRITICAL FIX: Reset optimized sequence to target measure
-              if (options.practiceStore) {
+              if (options.practiceStore && cursor?.iterator) {
                 const state = options.practiceStore.getState();
-                const targetStepIndex = state.optimizedSequence.findIndex(
-                  (step: any) => step.measureIndex === targetMeasureIndex
-                );
+                const cursorMeasureIndex = cursor.iterator.currentMeasureIndex;
+                
+                // Find step with precise timestamp matching
+                const targetStepIndex = state.optimizedSequence.findIndex((step: OptimizedPracticeStep) => {
+                  // Must match measure first
+                  if (step.measureIndex !== cursorMeasureIndex) {
+                    return false;
+                  }
+                  
+                  // Get current cursor timestamp
+                  const cursorTimestamp = cursor.iterator.currentTimeStamp?.RealValue ||
+                                         cursor.iterator.currentTimeStamp?.realValue;
+                  
+                  // Try precise timestamp matching if both timestamps available
+                  if (step.timestamp !== undefined && cursorTimestamp !== undefined) {
+                    const timestampDiff = Math.abs(step.timestamp - cursorTimestamp);
+                    
+                    // Log first few comparisons for debugging
+                    if (state.optimizedSequence.indexOf(step) < 3) {
+                      perfLogger.debug('[TimestampSync] Comparing timestamps', {
+                        stepId: step.id,
+                        stepTimestamp: step.timestamp,
+                        cursorTimestamp,
+                        diff: timestampDiff,
+                        willMatch: timestampDiff < 1e-6
+                      });
+                    }
+                    
+                    return timestampDiff < 1e-6; // Epsilon for float precision
+                  }
+                  
+                  // Fallback: Accept first step in measure if no timestamps
+                  const stepIndexInSequence = state.optimizedSequence.indexOf(step);
+                  const isFirstInMeasure = state.optimizedSequence.findIndex(
+                    s => s.measureIndex === cursorMeasureIndex
+                  ) === stepIndexInSequence;
+                  
+                  if (isFirstInMeasure) {
+                    perfLogger.warn('[TimestampSync] Using fallback - no timestamp match', {
+                      stepId: step.id,
+                      measureIndex: cursorMeasureIndex,
+                      stepTimestamp: step.timestamp,
+                      cursorTimestamp
+                    });
+                  }
+                  
+                  return isFirstInMeasure;
+                });
                 
                 if (targetStepIndex >= 0) {
-                  // Directly set the index to the correct position
-                  options.practiceStore.setState({ currentOptimizedIndex: targetStepIndex });
-                  perfLogger.debug('[MeasureRangeDebug] Reset optimized index', { targetStepIndex, targetMeasureIndex });
+                  // Update optimized index and clear current step to force re-evaluation
+                  options.practiceStore.setState({
+                    currentOptimizedIndex: targetStepIndex,
+                    currentStep: null
+                  });
+                  
+                  perfLogger.debug('[MeasureRangeDebug] Synced with cursor position', {
+                    cursorMeasureIndex,
+                    targetStepIndex,
+                    cursorVoiceEntry: cursor.iterator.currentVoiceEntryIndex,
+                    requestedMeasure: targetMeasureIndex
+                  });
                 } else {
-                  // Fallback: Reset to beginning
+                  // Fallback: If no steps found in measure, reset to beginning
                   options.practiceStore.resetOptimizedSequence();
-                  perfLogger.debug('[MeasureRangeDebug] Target measure not found in sequence, reset to beginning');
+                  perfLogger.warn('[MeasureRangeDebug] No steps found in cursor measure', {
+                    cursorMeasureIndex,
+                    sequenceLength: state.optimizedSequence.length
+                  });
                 }
               }
               
@@ -1033,6 +1090,41 @@ export function usePracticeControllerV2() {
         perfLogger.error('[Seek] Cursor position mismatch', new Error(`Expected measure ${targetMeasureIndex}, got ${actualMeasure}`));
         return false;
       }
+      
+      // CRITICAL: Sync the optimized sequence index with cursor position
+      const state = usePracticeStore.getState();
+      const cursorTimestamp = cursor.iterator.currentTimeStamp?.RealValue ||
+                             cursor.iterator.currentTimeStamp?.realValue;
+      
+      // Find the step that matches the cursor position
+      const targetStepIndex = state.optimizedSequence.findIndex((step: OptimizedPracticeStep) => {
+        if (step.measureIndex !== actualMeasure) {
+          return false;
+        }
+        
+        // Match by timestamp if available
+        if (step.timestamp !== undefined && cursorTimestamp !== undefined) {
+          const timestampDiff = Math.abs(step.timestamp - cursorTimestamp);
+          return timestampDiff < 1e-6;
+        }
+        
+        // Fallback: First step in measure
+        const stepIndexInSequence = state.optimizedSequence.indexOf(step);
+        const isFirstInMeasure = state.optimizedSequence.findIndex(
+          s => s.measureIndex === actualMeasure
+        ) === stepIndexInSequence;
+        
+        return isFirstInMeasure;
+      });
+      
+      if (targetStepIndex >= 0) {
+        // Set the index to match cursor position
+        usePracticeStore.setState({ currentOptimizedIndex: targetStepIndex });
+      } else {
+        // If no matching step found, reset to beginning of sequence
+        practiceStore.resetOptimizedSequence();
+      }
+      
       const nextStep = getNextStep(osmdControls, practiceStore);
       if (nextStep && isPracticeStep(nextStep)) {
         // Final staleness check before state mutation
@@ -1050,40 +1142,6 @@ export function usePracticeControllerV2() {
         // Update both Zustand store AND state machine
         practiceStore?.setCurrentStep(nextStep);
         practiceStore?.setCurrentMeasure(targetMeasureIndex);
-        
-        // CRITICAL: Sync the optimized sequence index with cursor position
-        const state = usePracticeStore.getState();
-        const cursorTimestamp = cursor.iterator.currentTimeStamp?.RealValue ||
-                               cursor.iterator.currentTimeStamp?.realValue;
-        
-        // Find the step that matches the cursor position
-        const targetStepIndex = state.optimizedSequence.findIndex((step: OptimizedPracticeStep) => {
-          if (step.measureIndex !== actualMeasure) {
-            return false;
-          }
-          
-          // Match by timestamp if available
-          if (step.timestamp !== undefined && cursorTimestamp !== undefined) {
-            const timestampDiff = Math.abs(step.timestamp - cursorTimestamp);
-            return timestampDiff < 1e-6;
-          }
-          
-          // Fallback: First step in measure
-          const stepIndexInSequence = state.optimizedSequence.indexOf(step);
-          const isFirstInMeasure = state.optimizedSequence.findIndex(
-            s => s.measureIndex === actualMeasure
-          ) === stepIndexInSequence;
-          
-          return isFirstInMeasure;
-        });
-        
-        if (targetStepIndex >= 0) {
-          // Set the index to match cursor position
-          usePracticeStore.setState({ currentOptimizedIndex: targetStepIndex });
-        } else {
-          // If no matching step found, reset to beginning of sequence
-          practiceStore.resetOptimizedSequence();
-        }
         
         // CRITICAL FIX: Dispatch to state machine to sync practice step
         dispatch({ 

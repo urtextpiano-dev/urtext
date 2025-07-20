@@ -193,7 +193,20 @@ export class PracticeSequenceBuilder {
         visualElements,
         measureIndex,
         stepIndex,
+        // CRITICAL: Capture timestamp for precise intra-measure positioning
+        timestamp: cursor.Iterator.currentTimeStamp?.RealValue ||
+                   cursor.Iterator.currentTimeStamp?.realValue,
       };
+      
+      // Debug logging for first 5 steps
+      if (stepIndex < 5) {
+        perfLogger.debug('[PracticeSequenceBuilder] Step timestamp', {
+          stepIndex,
+          measureIndex,
+          timestamp: step.timestamp,
+          midiNotes: Array.from(notes)
+        });
+      }
       
       return step;
       
