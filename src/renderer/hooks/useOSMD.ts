@@ -550,14 +550,12 @@ export const useOSMD = (
                               
                               // Skip rests and non-notes (they don't have noteheads)
                               if (noteheadGroups.length === 0) {
-                                console.log(`[ISSUE #3] Skipping rest/non-note at ${fingeringNoteId}`);
                                 return;
                               }
                               
                               const noteheadElement = noteheadGroups[noteIndex];
                               if (noteheadElement) {
                                 noteheadElement.setAttribute('data-note-id', fingeringNoteId);
-                                console.log(`[ISSUE #3] Injected '${fingeringNoteId}' on notehead ${noteIndex}/${noteheadGroups.length}`);
                               } else {
                                 console.warn(`[ISSUE #3] Notehead mismatch: index ${noteIndex} not found (chord size ${noteheadGroups.length})`);
                               }
@@ -723,8 +721,7 @@ export const useOSMD = (
         const container = containerRef.current;
         const allNoteheads = container.querySelectorAll('.vf-notehead:not([data-note-id])');
         if (allNoteheads.length > 0) {
-          console.warn(`[ISSUE #3] ${allNoteheads.length} orphaned noteheads without data-note-id`);
-          allNoteheads.forEach(el => console.log(`Orphan: ${el.parentElement?.id || 'unknown'}`));
+          // Orphaned noteheads detected: ${allNoteheads.length}
         }
       }
       
@@ -841,6 +838,14 @@ export const useOSMD = (
           if (osmdRef.current?.cursor && autoShowCursor) {
             // Store current position before resize
             const currentPosition = osmdRef.current.cursor.iterator?.currentMeasureIndex || 0;
+            
+            // Set fixed green cursor color
+            osmdRef.current.setOptions({
+              cursorsOptions: [{
+                color: '#33e02f',
+                alpha: 0.5
+              }]
+            });
             
             // Ensure cursor stays visible after resize
             osmdRef.current.cursor.show();
@@ -1153,6 +1158,13 @@ export const useOSMD = (
               perfLogger.debug(' Cursor not ready yet, will retry...');
               setTimeout(() => {
                 if (osmdRef.current?.cursor) {
+                  // Set fixed green cursor color
+                  osmdRef.current.setOptions({
+                    cursorsOptions: [{
+                      color: '#33e02f',
+                      alpha: 0.5
+                    }]
+                  });
                   osmdRef.current.cursor.reset();
                   osmdRef.current.cursor.show();
                   const cursor = osmdRef.current.cursor as any;
@@ -1177,6 +1189,13 @@ export const useOSMD = (
                 }
               }, 100);
             } else {
+              // Set fixed green cursor color
+              osmdRef.current.setOptions({
+                cursorsOptions: [{
+                  color: '#33e02f',
+                  alpha: 0.5
+                }]
+              });
               osmdRef.current.cursor.reset(); // Position at start
               osmdRef.current.cursor.show();  // Make visible
               
@@ -1609,6 +1628,23 @@ export const useOSMD = (
 
   // Enable theme re-rendering with cursor preservation
   useOSMDTheme(osmdRef.current, theme);
+  
+  // Apply cursor color when theme changes
+  useEffect(() => {
+    if (osmdRef.current && autoShowCursor && osmdRef.current.cursor) {
+      // Fixed green cursor tint (usual OSMD default)
+      osmdRef.current.setOptions({
+        cursorsOptions: [{
+          color: '#33e02f', // Green hex
+          alpha: 0.5 // Semi-transparent
+        }]
+      });
+      
+      osmdRef.current.cursor.reset();
+      osmdRef.current.render();
+      osmdRef.current.cursor.show();
+    }
+  }, [theme, autoShowCursor]);
 
   // Add global debug function
   useEffect(() => {

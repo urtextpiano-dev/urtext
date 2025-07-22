@@ -53,27 +53,26 @@ export const applyThemeToOSMD = async (osmd: OpenSheetMusicDisplay): Promise<voi
     // Apply options to OSMD
     osmd.setOptions(themeOptions);
     
+    // Set cursor color to fixed green
+    if (cursor) {
+      osmd.setOptions({
+        cursorsOptions: [{
+          color: '#33e02f',
+          alpha: 0.5
+        }]
+      });
+      
+      cursor.show();
+    }
+    
     // Re-render to apply new colors
     osmd.render();
     
-    // Restore cursor state after re-render
-    if (cursor && cursorVisible && measureIndex !== undefined) {
-      // Force cursor element recreation after render
-      cursor.hide();
-      cursor.show();
-      
-      // Ensure visibility after DOM recreation
-      if (cursor.cursorElement) {
-        cursor.cursorElement.style.display = 'block';
-        cursor.cursorElement.style.opacity = '1';
-      }
-      
-      // Move cursor back to its previous position
-      if (measureIndex >= 0) {
-        cursor.reset();
-        for (let i = 0; i < measureIndex; i++) {
-          cursor.next();
-        }
+    // Restore cursor position after re-render
+    if (cursor && cursorVisible && measureIndex !== undefined && measureIndex >= 0) {
+      cursor.reset();
+      for (let i = 0; i < measureIndex; i++) {
+        cursor.next();
       }
     }
     
