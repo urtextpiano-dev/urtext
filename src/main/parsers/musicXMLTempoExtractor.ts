@@ -15,13 +15,13 @@ export interface XMLTempoEvent {
   beat?: number;       // Calculated from offset
   text?: string;       // "Andantino", "Moderato", etc.
   source: 'direction' | 'sound' | 'metronome';  // Added 'metronome' for metronome elements
-  sourceMeasure?: number;  // Future-proofing (consensus refinement)
-  sourcePart?: string;     // Future-proofing (consensus refinement)
+  sourceMeasure?: number;  // Future-proofing
+  sourcePart?: string;     // Future-proofing
 }
 
 export class MusicXMLTempoExtractor {
   private parser: XMLParser;
-  private readonly MAX_TEMPOS = 1000; // Sanity limit (consensus-validated)
+  private readonly MAX_TEMPOS = 1000; // Sanity limit
   private readonly MAX_OFFSET = 10000; // Reasonable upper bound
   private readonly MAX_BPM = 500;     // Upper tempo limit
   
@@ -39,7 +39,7 @@ export class MusicXMLTempoExtractor {
       const parsed = this.parser.parse(xmlContent);
       const tempos: XMLTempoEvent[] = [];
       
-      // Handle both score-partwise and score-timewise (consensus refinement)
+      // Handle both score-partwise and score-timewise
       const score = parsed['score-partwise'] || parsed['score-timewise'];
       if (!score) {
         return tempos;
@@ -52,7 +52,7 @@ export class MusicXMLTempoExtractor {
         this.extractFromTimewise(score, tempos);
       }
       
-      // Sort by measure then offset (consensus refinement - don't rely on traversal order)
+      // Sort by measure then offset - don't rely on traversal order
       return tempos.sort((a, b) => {
         const measureDiff = a.measureNumber - b.measureNumber;
         if (measureDiff !== 0) return measureDiff;
@@ -86,7 +86,7 @@ export class MusicXMLTempoExtractor {
         
         const measureNumber = parseInt(measure['@_number']) || i + 1;
         
-        // Use break not return to preserve partial data (consensus refinement)
+        // Use break not return to preserve partial data
         if (tempos.length >= this.MAX_TEMPOS) break;
         
         this.extractFromMeasure(measure, measureNumber, partId, tempos);
@@ -116,7 +116,7 @@ export class MusicXMLTempoExtractor {
         
         const partId = part['@_id'];
         
-        // Use break not return to preserve partial data (consensus refinement)
+        // Use break not return to preserve partial data
         if (tempos.length >= this.MAX_TEMPOS) break;
         
         this.extractFromMeasure(part, measureNumber, partId, tempos);

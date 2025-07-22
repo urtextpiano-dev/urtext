@@ -45,89 +45,21 @@ const MAX_FINGERING_RENDER_LIMIT = process.env.MAX_FINGERING_RENDER_LIMIT
 export function getDataNoteId(element: Element | null): string | null {
   if (!element) return null;
   
-  // DEBUG logging from original implementation
-  if (process.env.NODE_ENV === 'development') {
-    perfLogger.debug('[CLICK DEBUG] Starting search from:', {
-      clickedElement: element.tagName,
-      clickedClass: typeof element.className === 'string' ? element.className : (element.className as any)?.baseVal || '',
-      clickedId: element.id,
-    });
-  }
-  
   let current: Element | null = element;
   let level = 0;
-  while (current && level < 10) { // Limit search to prevent infinite loops
-    if (current.hasAttribute('data-note-id')) {
-      const rawNoteIdAttr = current.getAttribute('data-note-id');
-
-      if (!rawNoteIdAttr) return null; // Should be redundant, but safe
-
-      // Fast path for single notes (no comma)
-      if (!rawNoteIdAttr.includes(',')) {
-        const noteId = rawNoteIdAttr.trim();
-        if (process.env.NODE_ENV === 'development') {
-          perfLogger.debug(`[CLICK DEBUG] Found single note ID: ${noteId} on ${current.tagName}`);
-        }
-        return noteId;
-      }
-
-      // Chord logic: Identify the specific note head clicked
-      const ids = rawNoteIdAttr.split(',').map(s => s.trim());
-      // VexFlow puts .vf-notehead on both <g> and child <path> elements
-      // Only select <g> elements to avoid duplicates in the array
-      const noteHeads = Array.from(current.querySelectorAll('g.vf-notehead'));
-
-      // Diagnose why .vf-notehead selector finds 0 elements
-      if (process.env.NODE_ENV === 'development') {
-        const fuzzy = Array.from(current.querySelectorAll('[class*="notehead"]'));
-        perfLogger.debug('[CLICK DEBUG] Notehead selector diagnostic', {
-          currentElementId: current.id,
-          parentClasses: current.getAttribute('class') || '',
-          strictSelectorCount: noteHeads.length,
-          fuzzySelectorCount: fuzzy.length,
-          strictFirst5: noteHeads.slice(0, 5).map(el => `${el.tagName}.${el.getAttribute('class')}`),
-          fuzzyFirst5: fuzzy.slice(0, 5).map(el => `${el.tagName}.${el.getAttribute('class')}`),
-          outerHTMLSnippet: noteHeads.length === 0 ? current.outerHTML.slice(0, 300) + '…' : undefined
-        });
-      }
-
-      // DEV-MODE VALIDATION: Check for mismatches between DOM elements and data IDs.
-      // This validates our assumption that VexFlow/OSMD's DOM element order
-      // corresponds to the data-note-id attribute's order.
-      if (process.env.NODE_ENV === 'development' && noteHeads.length > 0 && noteHeads.length !== ids.length) {
-        perfLogger.warn('getDataNoteId: Mismatch between found note heads and note IDs in chord.', { 
-          countOfNoteHeads: noteHeads.length, 
-          countOfIds: ids.length, 
-          rawId: rawNoteIdAttr,
-          element: current,
-        });
-      }
-
-      const clickedNoteHead = element.closest('.vf-notehead');
-      const idx = clickedNoteHead ? noteHeads.indexOf(clickedNoteHead) : -1;
-
-      // If a specific note head was clicked and its index is valid, return the corresponding ID.
-      // Otherwise, fall back to the first ID (e.g., for clicks on the stem or if noteheads aren't found).
-      const finalNoteId = (idx !== -1 && idx < ids.length) ? ids[idx] : ids[0];
-
-      if (process.env.NODE_ENV === 'development') {
-        perfLogger.debug(`[CLICK DEBUG] Found chord note ID: ${finalNoteId} on ${current.tagName}`, {
-          method: idx !== -1 ? 'Direct Notehead Match' : 'Fallback (e.g., stem click)',
-          index: idx,
-          totalNotesInChord: ids.length,
-        });
-      }
-      return finalNoteId;
+  
+  // SIMPLIFIED: Direct traversal to find data-note-id (now on individual noteheads)
+  while (current && level < 10) {
+    const dataNoteId = current.getAttribute('data-note-id');
+    if (dataNoteId) {
+      const noteId = dataNoteId.trim(); // Now single, unique ID
+      console.log(`[ISSUE #3] FOUND NOTE at level ${level}: '${noteId}' on ${current.tagName}.${(current.className as any)?.baseVal || ''}`);
+      return noteId;
     }
-    
-    if (current === document.body) break;
     current = current.parentElement;
     level++;
   }
   
-  if (process.env.NODE_ENV === 'development') {
-    perfLogger.debug(`[CLICK DEBUG] No data-note-id found in ${level} levels of DOM tree`);
-  }
   return null;
 }
 
@@ -613,59 +545,52 @@ export const FingeringLayer: React.FC<FingeringLayerProps> = ({
         perfLogger.debug('Note click detected, trying detection methods...');
       }
 
-      // PRIMARY: Try data-note-id first (most reliable for chords)
+
+      // Simplified click traversal
       let noteId = getDataNoteId(event.target as Element);
       
       if (!noteId) {
-        // SECONDARY: DOM traversal fallback
-        if (process.env.NODE_ENV === 'development') {
-          perfLogger.debug('No data-note-id, trying OSMD DOM traversal...');
-        }
-        noteId = findNoteUsingOSMD(event);
-      }
-      
-      // Removed coordinate detection causing wrong note selection in chords.
-      // Primary data-note-id + secondary OSMD DOM traversal
-      // are sufficient for 95%+ of cases. Coordinate detection caused more bugs than it solved.
-      /*
-      if (!noteId) {
-        // LAST RESORT: Complex coordinate detection (REMOVED - caused wrong chord note selection)
-        if (process.env.NODE_ENV === 'development') {
-          perfLogger.debug('DOM traversal failed, falling back to coordinates...');
-        }
+        // COORDINATE FALLBACK: Use coordinate-based detection
+        updateBoundsCache(); // Ensure bounds are fresh
         noteId = findNoteAtCoordinates(event.clientX, event.clientY);
+        if (noteId) {
+          console.log(`[ISSUE #3] FALLBACK: Found '${noteId}' via coords`);
+        } else {
+          console.error(`[ISSUE #3] TOTAL FAILURE: No note via traversal or coords`);
+          return;
+        }
       }
-      */
       
-      // REMOVED: O(n) fallback scan - causes >20ms delays on large scores
-      // Primary data-note-id and secondary OSMD DOM traversal should handle most cases
+      // TODO: Handle ties - Map to start of tie chain
+      // For now, use the noteId as-is since selectNoteFromTies has different signature
+      const finalNoteId = noteId;
 
-      if (noteId) {
+      if (finalNoteId) {
         if (process.env.NODE_ENV === 'development') {
           perfLogger.debug('CLICK: Found note with ID:', {
-            noteId,
-            format: noteId.split('-').length + ' parts',
-            parts: noteId.split('-')
+            noteId: finalNoteId,
+            format: finalNoteId.split('-').length + ' parts',
+            parts: finalNoteId.split('-')
           });
         }
         event.stopPropagation();
         
         // Get position for the input - use adjusted position from chord groupings
-        const adjustedPos = chordGroupings.get(noteId);
-        const position = adjustedPos || (graphicalNoteMap ? getPosition(noteId) : getFingeringPosition(noteId));
+        const adjustedPos = chordGroupings.get(finalNoteId);
+        const position = adjustedPos || (graphicalNoteMap ? getPosition(finalNoteId) : getFingeringPosition(finalNoteId));
         if (position) {
           // DEBUG: Log what we're getting from annotations (global click)
-          const rawValue = annotations[noteId];
+          const rawValue = annotations[finalNoteId];
           if (process.env.NODE_ENV === 'development') {
             perfLogger.debug('DEBUG currentValue access (global click):', {
-              noteId,
+              noteId: finalNoteId,
               rawValue,
               isArray: Array.isArray(rawValue),
               type: typeof rawValue
             });
           }
           const currentValue = rawValue || null;
-          setActiveInput(noteId, position, currentValue);
+          setActiveInput(finalNoteId, position, currentValue);
         }
       } else {
         if (process.env.NODE_ENV === 'development') {

@@ -28,7 +28,7 @@ export const useViewportOptimization = () => {
   const updateTimeoutRef = useRef<number | null>(null);
   const retryAttempts = useRef(0);
 
-  // AI Consensus Fix: Use frame-aligned throttling instead of 100ms debounce
+  // Use frame-aligned throttling instead of 100ms debounce
   useEffect(() => {
     if (!osmd?.container) return;
 
@@ -40,7 +40,7 @@ export const useViewportOptimization = () => {
         cancelAnimationFrame(updateTimeoutRef.current);
       }
 
-      // AI Consensus Fix: Use requestAnimationFrame for frame-aligned updates
+      // Use requestAnimationFrame for frame-aligned updates
       updateTimeoutRef.current = requestAnimationFrame(() => {
         try {
           if (!scrollContainer) return;
@@ -71,7 +71,7 @@ export const useViewportOptimization = () => {
 
     // Throttled update function using lodash-style throttling pattern
     let lastUpdateTime = 0;
-    const throttleDelay = 16; // AI Consensus Fix: 16ms = 60fps frame rate
+    const throttleDelay = 16; // 16ms = 60fps frame rate
     
     const throttledUpdate = () => {
       const now = performance.now();

@@ -2,7 +2,7 @@
 
 /**
  * Telemetry Validation Test
- * Multi-AI Consensus - Validate our telemetry fix works
+ * Validate telemetry implementation
  */
 
 import { Worker } from 'worker_threads';

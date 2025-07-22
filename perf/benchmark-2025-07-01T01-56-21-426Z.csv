@@ -1,3 +1,0 @@
-filename,fileSize,loadTimeMs,memoryUsedMB,gcPauses,workerUsed,streaming,timestamp
-medium.xml,512513,61.03,0.51,0,false,false,2025-07-01T01:56:15.390Z
-small.xml,51239,7.55,0.06,0,false,false,2025-07-01T01:56:15.504Z

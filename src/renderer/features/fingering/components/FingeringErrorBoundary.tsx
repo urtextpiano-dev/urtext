@@ -14,7 +14,7 @@ interface State {
 }
 
 export class FingeringErrorBoundary extends Component<Props, State> {
-  private maxRetries = 3; // AI Consensus: Limit retry attempts
+  private maxRetries = 3; // Limit retry attempts
 
   constructor(props: Props) {
     super(props);
@@ -26,17 +26,17 @@ export class FingeringErrorBoundary extends Component<Props, State> {
   }
 
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
-    // AI Consensus: Simplified error logging without risky side effects
+    // Simplified error logging without risky side effects
     perfLogger.error('Fingering component error:', error instanceof Error ? error : new Error(String(error)));
     
-    // AI Consensus: Categorize errors for better debugging
+    // Categorize errors for better debugging
     const errorCategory = this.categorizeError(error);
     perfLogger.warn('Error category:', { category: errorCategory });
     
     // Error logging handled by perfLogger which writes to main process via IPC
   }
 
-  // AI Consensus: Helper to categorize errors for debugging
+  // Helper to categorize errors for debugging
   private categorizeError(error: Error): string {
     if (error.message.includes('OSMD') || error.message.includes('graphic')) {
       return 'OSMD_INTEGRATION';
@@ -53,7 +53,7 @@ export class FingeringErrorBoundary extends Component<Props, State> {
   private handleRetry = () => {
     const newRetryCount = this.state.retryCount + 1;
     
-    // AI Consensus: Implement retry limit to prevent infinite loops
+    // Implement retry limit to prevent infinite loops
     if (newRetryCount <= this.maxRetries) {
       this.setState({ 
         hasError: false, 

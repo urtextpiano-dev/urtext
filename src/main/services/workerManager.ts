@@ -19,7 +19,7 @@ export class WorkerManager extends EventEmitter {
     large: 60000    // 60s for files > 5MB
   };
   
-  // Multi-AI Consensus: Back-pressure control for streaming stability
+  // Back-pressure control for streaming stability
   private chunkQueues = new Map<string, unknown[]>(); // jobId -> chunk queue
   private readonly maxQueueSize = parseInt(process.env.BP_QUEUE_MAX || '4');
   private requestCache = new Map<string, Promise<void>>(); // file hash -> promise (request coalescing)
@@ -38,7 +38,7 @@ export class WorkerManager extends EventEmitter {
   }
   
   async processFile(filePath: string, jobId: string, fileSize?: number): Promise<void> {
-    // Multi-AI Consensus: Request coalescing to prevent redundant work
+    // Request coalescing to prevent redundant work
     const fileHash = await this.getFileHash(filePath);
     if (this.requestCache.has(fileHash)) {
       perfLogger.debug(`[WorkerManager] Coalescing request for ${filePath}`);
@@ -102,7 +102,7 @@ export class WorkerManager extends EventEmitter {
     // Handle worker events
     worker.on('message', (result) => {
       
-      // Handle telemetry messages (Version Multi-AI Visibility Strategy - FIXED)
+      // Handle telemetry messages
       if (result.__telemetry) {
         // Forward telemetry to main process console if in development
         if (process.env.NODE_ENV === 'development' || process.env.ENABLE_WORKER_TELEMETRY === 'true') {
@@ -116,7 +116,7 @@ export class WorkerManager extends EventEmitter {
         return;
       }
       
-      // Multi-AI Consensus: Back-pressure control for chunk messages
+      // Back-pressure control for chunk messages
       if (result.type === 'chunk') {
         const queue = this.chunkQueues.get(jobId) || [];
         
@@ -145,7 +145,7 @@ export class WorkerManager extends EventEmitter {
       clearTimeout(timeout);
       perfLogger.error(`Worker error for job ${jobId}:`, error);
       
-      // Multi-AI Consensus: Enhanced error recovery with fallback
+      // Enhanced error recovery with fallback
       this.handleWorkerError(jobId, error);
       this.cleanupJob(jobId);
     });
@@ -186,7 +186,7 @@ export class WorkerManager extends EventEmitter {
     this.requestCache.clear();
   }
 
-  // Multi-AI Consensus: Back-pressure queue processing
+  // Back-pressure queue processing
   private processChunkQueue(jobId: string): void {
     const queue = this.chunkQueues.get(jobId);
     if (!queue || queue.length === 0) return;
@@ -207,7 +207,7 @@ export class WorkerManager extends EventEmitter {
     }
   }
 
-  // Multi-AI Consensus: Request coalescing file hash
+  // Request coalescing file hash
   private async getFileHash(filePath: string): Promise<string> {
     const crypto = require('crypto');
     const fs = require('fs');
@@ -222,7 +222,7 @@ export class WorkerManager extends EventEmitter {
     }
   }
 
-  // Multi-AI Consensus: Enhanced error recovery with fallback
+  // Enhanced error recovery with fallback
   private handleWorkerError(jobId: string, error: Error): void {
     const job = this.activeJobs.get(jobId);
     if (!job) return;
@@ -241,7 +241,7 @@ export class WorkerManager extends EventEmitter {
     // In a future phase, we could retry with main thread processing
   }
 
-  // Multi-AI Consensus: Enhanced cleanup with back-pressure queues
+  // Enhanced cleanup with back-pressure queues
   private cleanupJob(jobId: string): void {
     const job = this.activeJobs.get(jobId);
     if (job) {

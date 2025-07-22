@@ -61,7 +61,20 @@ export const parseFingeringId = (id: string): {
   timestamp?: number;
   midiValue: number;
 } | null => {
-  // Try full format first
+  // Try new timestamped format first
+  const timestampedMatch = id.match(/^m(\d+)-s(\d+)-v(\d+)-n(\d+)-ts(.+)-midi(\d+)$/);
+  if (timestampedMatch) {
+    return {
+      measureIndex: parseInt(timestampedMatch[1]),
+      staffIndex: parseInt(timestampedMatch[2]),
+      voiceIndex: parseInt(timestampedMatch[3]),
+      noteIndex: parseInt(timestampedMatch[4]),
+      timestamp: parseFloat(timestampedMatch[5].replace('_', '.')),
+      midiValue: parseInt(timestampedMatch[6])
+    };
+  }
+
+  // Try original full format for backward compatibility
   const fullMatch = id.match(/^m(\d+)-s(\d+)-v(\d+)-n(\d+)-midi(\d+)$/);
   if (fullMatch) {
     return {

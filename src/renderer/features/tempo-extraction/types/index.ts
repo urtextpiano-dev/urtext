@@ -89,7 +89,7 @@ export function isValidConfidence(value: unknown): value is number {
          Number.isFinite(value);
 }
 
-// Defensive OSMD property checker (Gemini requirement)
+// Defensive OSMD property checker
 export function getOSMDProperty(obj: any, propertyPaths: string[]): unknown {
   if (!obj || typeof obj !== 'object') return undefined;
   

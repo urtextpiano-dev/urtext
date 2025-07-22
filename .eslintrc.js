@@ -1,7 +1,7 @@
 /**
  * ESLint Configuration for Console Usage
  * 
- * Based on consensus recommendations from Phase 3 review.
+ * Configuration to prevent console.* usage except for specific allowed cases.
  * Prevents future console.* usage except for specific allowed cases.
  */
 

@@ -11,9 +11,9 @@ export const usePracticeModeIntegration = (scoreId: string | null = null) => {
   const isActive = false;
   const currentStep = null;
   
-  const fingeringEnabled = useFingeringEnabled(); // AI Consensus: Performance-optimized selector
+  const fingeringEnabled = useFingeringEnabled(); // Performance-optimized selector
 
-  // AI Consensus: Add state transition debouncing
+  // Add state transition debouncing
   const [transitioning, setTransitioning] = useState(false);
   
   useEffect(() => {
@@ -27,20 +27,20 @@ export const usePracticeModeIntegration = (scoreId: string | null = null) => {
     }
   }, [isActive]);
 
-  // AI Consensus: Ensure complete isolation during practice mode
+  // Ensure complete isolation during practice mode
   const shouldShowFingeringEdit = useCallback(() => {
     return !isActive && fingeringEnabled;
   }, [isActive, fingeringEnabled]);
 
-  // AI Consensus: Ensure note ID consistency 
+  // Ensure note ID consistency 
   const getCurrentStepFingerings = useCallback(() => {
     if (!isActive || !fingeringEnabled || !currentStep || !scoreId) {
       return [];
     }
 
-    // AI Consensus: Guard against undefined notes
+    // Guard against undefined notes
     return currentStep.notes?.map((note: any) => {
-      // AI Consensus: Critical - ensure exact note ID format consistency
+      // Critical - ensure exact note ID format consistency
       const noteId = `t${currentStep.timestamp}-m${note.midiValue}`;
       return { noteId, midiValue: note.midiValue };
     }).filter(Boolean) || [];

@@ -8,7 +8,7 @@ import { perfLogger } from '@/renderer/utils/performance-logger';
  * NO file paths stored - only metadata (name, size, date) for security.
  * 
  * Pattern: Component → Store → Service → localStorage
- * AI Validated:  Gemini, Code review:, Code review: approved approach
+ * Validated approach for recent files management
  */
 
 export interface RecentFileMetadata {

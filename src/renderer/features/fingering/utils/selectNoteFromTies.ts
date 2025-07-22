@@ -27,6 +27,7 @@ export function selectNoteFromTies(
   tiedNotes: TiedNote[], 
   relativeY: number
 ): TiedNote | undefined {
+  
   // Defensive checks
   if (!tiedNotes || tiedNotes.length === 0) {
     return undefined;
@@ -60,14 +61,23 @@ export function selectNoteFromTies(
   const clampedY = Math.max(0, Math.min(1, relativeY));
 
   // Select note based on click position
+  let selectedNote: TiedNote;
+  let selectionReason: string;
+  
   if (clampedY < lowerZoneThreshold) {
     // Lower zone - select lowest pitch
-    return sortedByMidi[0];
+    selectedNote = sortedByMidi[0];
+    selectionReason = `Lower zone (Y < ${lowerZoneThreshold}) - selected lowest pitch`;
   } else if (clampedY > upperZoneThreshold) {
     // Upper zone - select highest pitch
-    return sortedByMidi[sortedByMidi.length - 1];
+    selectedNote = sortedByMidi[sortedByMidi.length - 1];
+    selectionReason = `Upper zone (Y > ${upperZoneThreshold}) - selected highest pitch`;
   } else {
     // Middle zone - default to lowest pitch for predictable behavior
-    return sortedByMidi[0];
+    selectedNote = sortedByMidi[0];
+    selectionReason = `Middle zone (${lowerZoneThreshold} <= Y <= ${upperZoneThreshold}) - defaulted to lowest pitch`;
   }
+  
+  
+  return selectedNote;
 }

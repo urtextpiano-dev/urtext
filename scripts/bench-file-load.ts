@@ -2,7 +2,7 @@
 
 /**
  * File Loading Performance Benchmark Harness
- * Multi-AI Consensus Implementation - Phase 0
+ * Performance benchmark implementation
  * 
  * Measures file loading performance with repeatable baseline metrics
  * for validating worker thread + streaming optimizations

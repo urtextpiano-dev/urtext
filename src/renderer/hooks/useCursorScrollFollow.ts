@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { perfLogger } from '@/renderer/utils/performance-logger';
 
 /**
- * AI Consensus Fix: Cursor Scroll Following
+ * Cursor Scroll Following
  * 
  * Implements the "follow the cursor" feature for scrollable sheet music.
  * When cursor moves out of view, smoothly scrolls to keep it visible.

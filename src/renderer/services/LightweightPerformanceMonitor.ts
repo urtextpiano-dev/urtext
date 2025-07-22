@@ -3,7 +3,7 @@ import { perfLogger } from '@/renderer/utils/performance-logger';
  * Lightweight Performance Monitor
  * 
  * High-performance, non-blocking latency monitoring for real-time MIDI processing.
- * Based on Gemini Pro's recommendation: circular buffer + requestIdleCallback
+ * Implementation: circular buffer + requestIdleCallback
  * 
  * ZERO React overhead - operates completely outside React render cycle.
  */

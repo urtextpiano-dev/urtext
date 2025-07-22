@@ -31,7 +31,7 @@ export const SheetMusic: React.FC<SheetMusicProps> = ({ musicXML, scoreId, class
   const diagnosticsRunRef = useRef(false); // Prevent duplicate diagnostics
   const osmdSetRef = useRef(false); // CRITICAL: Prevent double OSMD instance setting
   
-  // AI Consensus: Performance-optimized selectors for Phase 4
+  // Performance-optimized selectors
   const fingeringEnabled = useFingeringEnabled();
   const { shouldShowFingeringEdit } = usePracticeModeIntegration(scoreId || null);
   
@@ -317,13 +317,13 @@ export const SheetMusic: React.FC<SheetMusicProps> = ({ musicXML, scoreId, class
                 position: 'absolute',
                 top: 0,
                 left: 0,
-                pointerEvents: 'none', // AI CONSENSUS FIX: Always none to allow clicks to pass through to OSMD notes
+                pointerEvents: 'none', // Always none to allow clicks to pass through to OSMD notes
                 zIndex: 10
               }}
               // Force remount on score change for state consistency
               key={scoreId}
             >
-              {/* AI Consensus: Phase 4 integration with settings, practice mode, and error boundary */}
+              {/* Integration with settings, practice mode, and error boundary */}
               {fingeringEnabled && (
                 <FingeringErrorBoundary>
                   <FingeringLayer 

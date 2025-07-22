@@ -11,7 +11,7 @@
  * - Comprehensive test coverage
  * - <20ms MIDI latency maintained
  * 
- * Architecture: Code review: Code review:'s design with Gemini Pro's implementation pattern
+ * Architecture: Modular design with efficient implementation pattern
  */
 
 import { useCallback, useEffect, useReducer, useMemo, useRef } from 'react';

@@ -10,7 +10,7 @@
  * - Do NOT use this hook without a proper containerRef
  * 
  * Combines architectural patterns from multi-AI collaboration:
- * - Gemini: Component lifecycle + hybrid state management
+ * - Component lifecycle + hybrid state management
  * - Code review:: Velocity-based visual feedback + innovation patterns  
  * - Code review:: Robust error handling + testing strategies
  */
@@ -107,7 +107,7 @@ export const useOSMD = (
   const { setOptimizedSequence } = usePracticeStore();
   // Access zoom level from OSMD store
   const { zoomLevel } = useOSMDStore();
-  // Core OSMD instance (Gemini's lifecycle pattern)
+  // Core OSMD instance
   const osmdRef = useRef<OpenSheetMusicDisplay | null>(null);
   const noteMappingRef = useRef<NoteMappingRef>({
     noteMapping: new Map(),
@@ -140,6 +140,7 @@ export const useOSMD = (
     const graphicalNoteMap = noteMappingRef.current.graphicalNoteMap;
     if (!graphicalNoteMap || graphicalNoteMap.size === 0) return;
     
+    
     let injected = 0;
     
     // Re-inject attributes for all notes with correct musical relationships
@@ -147,7 +148,7 @@ export const useOSMD = (
       try {
         const svgElement = graphicalNote.getSVGGElement?.();
         if (svgElement) {
-          // AI CONSENSUS FIX: Use comma-separated IDs to handle shared SVG elements in chords
+          // Use comma-separated IDs to handle shared SVG elements in chords
           const existingIds = svgElement.getAttribute('data-note-id');
           if (!existingIds) {
             svgElement.setAttribute('data-note-id', fingeringNoteId);
@@ -167,12 +168,13 @@ export const useOSMD = (
       }
     }
     
+    
     if (process.env.NODE_ENV === 'development') {
       perfLogger.debug('Re-injected data-note-id attributes', { injected, total: graphicalNoteMap.size });
     }
   }, []);
 
-  // Render with zoom support (following o3's advice on stabilization)
+  // Render with zoom support
   const renderWithZoom = useCallback(() => {
     if (!osmdRef.current || !isReady) return;
     
@@ -359,20 +361,25 @@ export const useOSMD = (
             return;
           }
           
+          
           // Process each staff entry in the measure
           measure.staffEntries.forEach((staffEntry: any, entryIndex: number) => {
             // Add more defensive checks for different possible structures
             const sourceStaffEntry = staffEntry.sourceStaffEntry || staffEntry.SourceStaffEntry;
-            if (!sourceStaffEntry) return;
+            if (!sourceStaffEntry) {
+              return;
+            }
             
             const absoluteTimestamp = sourceStaffEntry.absoluteTimestamp || sourceStaffEntry.AbsoluteTimestamp;
-            if (!absoluteTimestamp) return;
+            if (!absoluteTimestamp) {
+              return;
+            }
             
             const timestamp = absoluteTimestamp.realValue || absoluteTimestamp.RealValue || 0;
             const svgElements: SVGGElement[] = [];
             const midiNotes: number[] = [];
             
-            // 🚨 GROK DEBUG: Track chord detection
+            // Track chord detection
             const notesAtThisTimestamp: number[] = [];
             
             // Log first few timestamps for development debugging
@@ -390,6 +397,7 @@ export const useOSMD = (
               graphicalVoiceEntries.forEach((voiceEntry: any, voiceIndex: number) => {
                 const notes = voiceEntry.notes || voiceEntry.Notes;
                 if (notes && Array.isArray(notes)) {
+                  
                   notes.forEach((note: any, noteIndex: number) => {
                     // Debug note processing in development
                     if (process.env.NODE_ENV === 'development' && mappingCount < 10) {
@@ -441,21 +449,26 @@ export const useOSMD = (
                       });
                     }
                     
+                    if (!svgElement) {
+                      return; // Skip this note - no SVG element
+                    }
+                    
                     if (svgElement) {
                       // Extract MIDI note number early to create note ID
                       // REVERTED: Using sourceNote approach that was working
                       const sourceNote = note.sourceNote || note.SourceNote;
                       const halfTone = sourceNote?.halfTone ?? sourceNote?.HalfTone;
                       
-                      
+                      if (halfTone === null || typeof halfTone !== 'number') {
+                        return; // Skip this note - invalid halfTone
+                      }
                         
                       if (halfTone !== null && typeof halfTone === 'number') {
                           const midiNote = halfTone + 12; // OSMD uses C4=48, MIDI uses C4=60
                           
-                          // Create fingering note ID for data attribute
-                          const fingeringNoteId = createFullFingeringId(
-                            measureIndex, staffIndex, voiceIndex, noteIndex, midiNote
-                          );
+                          // Create fingering note ID for data attribute with timestamp to prevent collisions
+                          const timestampStr = timestamp.toFixed(2).replace('.', '_');
+                          const fingeringNoteId = `m${measureIndex}-s${staffIndex}-v${voiceIndex}-n${noteIndex}-ts${timestampStr}-midi${midiNote}`;
                           
                           
                           // Visual debugging for chord notes (development only)
@@ -528,26 +541,29 @@ export const useOSMD = (
                             svgElement.setAttribute('data-debug-note-index', noteIndex.toString());
                           }
                           
-                          // AI CONSENSUS FIX: Handle shared SVG elements by appending IDs
-                          const existingIds = svgElement.getAttribute('data-note-id');
-                          if (!existingIds) {
-                            svgElement.setAttribute('data-note-id', fingeringNoteId);
-                          } else if (!existingIds.split(',').includes(fingeringNoteId)) {
-                            // Append new ID if not already present (prevents duplicates)
-                            svgElement.setAttribute('data-note-id', `${existingIds},${fingeringNoteId}`);
-                          }
-                          
-                          // Check for shared SVG elements in chords (development debugging)
-                          if (process.env.NODE_ENV === 'development' && isChord && noteIndex > 0) {
-                            const prevNoteId = svgElement.getAttribute('data-note-id');
-                            if (prevNoteId) {
-                              perfLogger.debug('Shared SVG element detected in chord', {
-                                notePosition: `${noteIndex + 1}/${notes.length}`,
-                                previousId: prevNoteId,
-                                newId: fingeringNoteId,
-                                warning: 'Previous note ID will be overwritten'
-                              });
+                          // Inject data-note-id on individual noteheads instead of shared stavenote
+                          const staveNoteElement = svgElement; // <g class="vf-stavenote">
+                          if (staveNoteElement) {
+                            const noteGroup = staveNoteElement.querySelector('.vf-note'); // <g class="vf-note">
+                            if (noteGroup) {
+                              const noteheadGroups = Array.from(noteGroup.querySelectorAll('.vf-notehead')); // Per-note <g>
+                              
+                              // Skip rests and non-notes (they don't have noteheads)
+                              if (noteheadGroups.length === 0) {
+                                console.log(`[ISSUE #3] Skipping rest/non-note at ${fingeringNoteId}`);
+                                return;
+                              }
+                              
+                              const noteheadElement = noteheadGroups[noteIndex];
+                              if (noteheadElement) {
+                                noteheadElement.setAttribute('data-note-id', fingeringNoteId);
+                                console.log(`[ISSUE #3] Injected '${fingeringNoteId}' on notehead ${noteIndex}/${noteheadGroups.length}`);
+                              } else {
+                                console.warn(`[ISSUE #3] Notehead mismatch: index ${noteIndex} not found (chord size ${noteheadGroups.length})`);
+                              }
                             }
+                          } else {
+                            console.warn(`[ISSUE #3] No SVGGElement for ${fingeringNoteId} – possible orphan`);
                           }
                           
                           
@@ -663,6 +679,7 @@ export const useOSMD = (
                     sharedByNotes: notes.length,
                     warning: 'Only last note data-note-id will persist'
                   });
+                  
                 }
               });
             }
@@ -690,6 +707,7 @@ export const useOSMD = (
       // Mark as built to prevent rebuilds
       noteMappingBuiltRef.current = true;
       
+      
       if (process.env.NODE_ENV === 'development') {
         perfLogger.debug('buildNoteMapping completed successfully');
       }
@@ -699,6 +717,16 @@ export const useOSMD = (
         fingeringNotes: graphicalNoteMap.size,
         mappingDifference: mappingCount - graphicalNoteMap.size
       });
+
+      // Post-injection orphan detection
+      if (osmdInstance && containerRef.current) {
+        const container = containerRef.current;
+        const allNoteheads = container.querySelectorAll('.vf-notehead:not([data-note-id])');
+        if (allNoteheads.length > 0) {
+          console.warn(`[ISSUE #3] ${allNoteheads.length} orphaned noteheads without data-note-id`);
+          allNoteheads.forEach(el => console.log(`Orphan: ${el.parentElement?.id || 'unknown'}`));
+        }
+      }
       
       if (process.env.NODE_ENV === 'development') {
         perfLogger.debug('Chord SVG element analysis completed', {
@@ -897,7 +925,7 @@ export const useOSMD = (
       debouncedZoomRender();
     }
     
-    // Cleanup on unmount (following o3's advice)
+    // Cleanup on unmount
     return () => {
       debouncedZoomRender.cancel();
     };
@@ -1089,6 +1117,7 @@ export const useOSMD = (
         // Build note-to-MIDI mapping for fast path (critical for <30ms latency)
         buildNoteMapping();
         
+        
         // IMMEDIATE DOM CHECK - What exists right after render?
         if (process.env.NODE_ENV === 'development') {
           perfLogger.debug('Post-render DOM check', {
@@ -1096,14 +1125,16 @@ export const useOSMD = (
             containerChildren: containerRef.current?.children.length,
             svgExists: !!containerRef.current?.querySelector('svg'),
             noteHeads: containerRef.current?.querySelectorAll('.vf-notehead').length || 0,
-            anyG: containerRef.current?.querySelectorAll('g').length || 0
+            anyG: containerRef.current?.querySelectorAll('g').length || 0,
+            totalStaveNotes: containerRef.current?.querySelectorAll('.vf-stavenote').length || 0
           });
         }
         
-        // AI CONSENSUS FIX: Inject data-note-id attributes after initial render
+        // Inject data-note-id attributes after initial render
         // Use nested requestAnimationFrame to ensure DOM is fully committed
         requestAnimationFrame(() => {
           injectNoteIdAttributes();
+          
         });
         
         //  MINIMAL CURSOR IMPLEMENTATION
