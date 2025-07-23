@@ -469,6 +469,7 @@ export const FingeringLayer: React.FC<FingeringLayerProps> = ({
     }
   }, [interactive, isEditingMode, graphicalNoteMap, getPosition, getFingeringPosition, annotations, setActiveInput, chordGroupings]);
 
+
   // Enable editing mode by default for interactive mode
   useEffect(() => {
     if (interactive && !isEditingMode) {
@@ -482,10 +483,26 @@ export const FingeringLayer: React.FC<FingeringLayerProps> = ({
       if (process.env.NODE_ENV === 'development') {
         perfLogger.debug('Updating bounds cache for coordinate detection...');
       }
-      // Small delay to ensure DOM is ready
-      setTimeout(() => {
-        updateBoundsCache();
-      }, 100);
+      
+      // Wait for noteheads to appear in DOM before building cache
+      let attempts = 0;
+      const maxAttempts = 20; // 2 seconds max
+      
+      const checkAndBuildCache = () => {
+        if (!containerRef?.current) return;
+        
+        const noteheads = containerRef.current.querySelectorAll('g.vf-notehead[data-note-id]');
+        
+        if (noteheads.length > 0) {
+          updateBoundsCache();
+        } else if (attempts < maxAttempts) {
+          attempts++;
+          setTimeout(checkAndBuildCache, 100);
+        }
+      };
+      
+      // Start checking immediately
+      checkAndBuildCache();
     }
   }, [graphicalNoteMap, updateBoundsCache, containerRef]);
 
@@ -545,7 +562,6 @@ export const FingeringLayer: React.FC<FingeringLayerProps> = ({
         perfLogger.debug('Note click detected, trying detection methods...');
       }
 
-
       // Simplified click traversal
       let noteId = getDataNoteId(event.target as Element);
       
@@ -553,10 +569,7 @@ export const FingeringLayer: React.FC<FingeringLayerProps> = ({
         // COORDINATE FALLBACK: Use coordinate-based detection
         updateBoundsCache(); // Ensure bounds are fresh
         noteId = findNoteAtCoordinates(event.clientX, event.clientY);
-        if (noteId) {
-          console.log(`[ISSUE #3] FALLBACK: Found '${noteId}' via coords`);
-        } else {
-          console.error(`[ISSUE #3] TOTAL FAILURE: No note via traversal or coords`);
+        if (!noteId) {
           return;
         }
       }

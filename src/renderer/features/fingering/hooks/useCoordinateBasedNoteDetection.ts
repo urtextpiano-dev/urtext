@@ -38,7 +38,8 @@ export const useCoordinateBasedNoteDetection = (
     const container = containerRef.current;
     
     // Query notehead elements directly for precise bounds
-    const noteheadElements = container.querySelectorAll('.vf-notehead[data-note-id]');
+    // Fixed selector: Matches OSMD/VexFlow noteheads (g.vf-notehead with data-note-id)
+    const noteheadElements = container.querySelectorAll('g.vf-notehead[data-note-id]');
     const containerRect = container.getBoundingClientRect();
     
     // Build bounds cache from notehead elements
@@ -60,7 +61,6 @@ export const useCoordinateBasedNoteDetection = (
         bounds
       });
       
-      console.log(`✅ Bounds for ${id}: {x: ${bounds.x.toFixed(1)}, y: ${bounds.y.toFixed(1)}, w: ${bounds.width.toFixed(1)}, h: ${bounds.height.toFixed(1)}}`);
     });
     
     // Chord grouping with ±5px tolerance
@@ -80,11 +80,8 @@ export const useCoordinateBasedNoteDetection = (
     chords.forEach((group, yKey) => {
       if (group.length > 1) {
         group.sort((a, b) => a.bounds.y - b.bounds.y); // Sort by Y position
-        console.log(`🎹 CHORD DETECTED at Y≈${yKey}: {notes: ${group.map(g => g.id).join(', ')}}`);
       }
     });
-    
-    console.log(`📍 Coordinate detection: Cached bounds for ${boundsCache.current.size} notes`);
   }, [containerRef, graphicalNoteMap]);
   
   // Simplified findNoteAtCoordinates with closest-match fallback
