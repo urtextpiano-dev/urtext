@@ -45,21 +45,34 @@ const MAX_FINGERING_RENDER_LIMIT = process.env.MAX_FINGERING_RENDER_LIMIT
 export function getDataNoteId(element: Element | null): string | null {
   if (!element) return null;
   
+  console.log('[DEBUG #9] getDataNoteId called on element:', element.tagName, 'class:', (element.className as any)?.baseVal || element.className || 'no-class');
+  
   let current: Element | null = element;
   let level = 0;
   
   // SIMPLIFIED: Direct traversal to find data-note-id (now on individual noteheads)
   while (current && level < 10) {
     const dataNoteId = current.getAttribute('data-note-id');
+    
+    console.log(`[DEBUG #9] Level ${level}: Checking ${current.tagName}.${(current.className as any)?.baseVal || current.className || ''} - data-note-id: ${dataNoteId || 'none'}`);
+    
     if (dataNoteId) {
       const noteId = dataNoteId.trim(); // Now single, unique ID
-      console.log(`[ISSUE #3] FOUND NOTE at level ${level}: '${noteId}' on ${current.tagName}.${(current.className as any)?.baseVal || ''}`);
+      console.log(`[DEBUG #9] FOUND NOTE at level ${level}: '${noteId}' on ${current.tagName}.${(current.className as any)?.baseVal || ''}`);
+      
+      // Check if this is a comma-separated chord ID
+      if (noteId.includes(',')) {
+        console.log('[DEBUG #9] WARNING: Found comma-separated IDs (chord):', noteId);
+        console.log('[DEBUG #9] This means multiple notes share this element!');
+      }
+      
       return noteId;
     }
     current = current.parentElement;
     level++;
   }
   
+  console.log('[DEBUG #9] No data-note-id found after traversing', level, 'levels');
   return null;
 }
 
@@ -557,6 +570,10 @@ export const FingeringLayer: React.FC<FingeringLayerProps> = ({
       }
 
       // DEBUG: Log click coordinates
+      console.log('[DEBUG #9] ===== CLICK EVENT =====');
+      console.log('[DEBUG #9] Click coordinates:', { x: event.clientX, y: event.clientY });
+      console.log('[DEBUG #9] Click target:', event.target);
+      
       if (process.env.NODE_ENV === 'development') {
         perfLogger.debug('Click at:', { x: event.clientX, y: event.clientY });
         perfLogger.debug('Note click detected, trying detection methods...');
@@ -566,19 +583,33 @@ export const FingeringLayer: React.FC<FingeringLayerProps> = ({
       let noteId = getDataNoteId(event.target as Element);
       
       if (!noteId) {
+        console.log('[DEBUG #9] DOM traversal failed, trying coordinate fallback...');
         // COORDINATE FALLBACK: Use coordinate-based detection
         updateBoundsCache(); // Ensure bounds are fresh
         noteId = findNoteAtCoordinates(event.clientX, event.clientY);
         if (!noteId) {
+          console.log('[DEBUG #9] Coordinate fallback also failed - no note found');
           return;
         }
+        console.log('[DEBUG #9] Coordinate fallback succeeded, found:', noteId);
+      } else {
+        console.log('[DEBUG #9] DOM traversal succeeded, found:', noteId);
       }
       
       // TODO: Handle ties - Map to start of tie chain
       // For now, use the noteId as-is since selectNoteFromTies has different signature
-      const finalNoteId = noteId;
+      let finalNoteId = noteId;
+      
+      // Handle comma-separated chord IDs (backwards compatibility fallback)
+      if (noteId && noteId.includes(',')) {
+        console.log('[DEBUG #9] WARNING: Found comma-separated IDs (old format):', noteId);
+        // Take the first ID as fallback
+        finalNoteId = noteId.split(',')[0].trim();
+      }
 
       if (finalNoteId) {
+        console.log('[DEBUG #9] Final note ID for dialog:', finalNoteId);
+        
         if (process.env.NODE_ENV === 'development') {
           perfLogger.debug('CLICK: Found note with ID:', {
             noteId: finalNoteId,

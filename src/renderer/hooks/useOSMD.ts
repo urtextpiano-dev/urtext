@@ -140,34 +140,61 @@ export const useOSMD = (
     const graphicalNoteMap = noteMappingRef.current.graphicalNoteMap;
     if (!graphicalNoteMap || graphicalNoteMap.size === 0) return;
     
+    console.log('[DEBUG #9] Starting ID injection, total notes:', graphicalNoteMap.size);
     
     let injected = 0;
+    let chordCount = 0;
     
     // Re-inject attributes for all notes with correct musical relationships
     for (const [fingeringNoteId, graphicalNote] of graphicalNoteMap) {
       try {
         const svgElement = graphicalNote.getSVGGElement?.();
         if (svgElement) {
-          // Use comma-separated IDs to handle shared SVG elements in chords
-          const existingIds = svgElement.getAttribute('data-note-id');
-          if (!existingIds) {
-            svgElement.setAttribute('data-note-id', fingeringNoteId);
-          } else if (!existingIds.split(',').includes(fingeringNoteId)) {
-            // Append new ID if not already present (prevents duplicates)
-            svgElement.setAttribute('data-note-id', `${existingIds},${fingeringNoteId}`);
-          }
+          // Extract noteIndex from fingeringNoteId (format: m0-s0-v0-n{noteIndex}-...)
+          const noteIndexMatch = fingeringNoteId.match(/-n(\d+)-/);
+          const noteIndex = noteIndexMatch ? parseInt(noteIndexMatch[1], 10) : 0;
           
-          // Set pointer-events for better click detection
-          svgElement.style.pointerEvents = 'auto';
-          svgElement.style.cursor = 'pointer';
+          // Check if this is part of a chord
+          const noteheadElements = svgElement.querySelectorAll('g.vf-notehead');
+          
+          if (noteheadElements.length > 1) {
+            // CHORD: Inject ID on individual notehead
+            chordCount++;
+            console.log('[DEBUG #9] Re-injecting chord note:', fingeringNoteId, 'noteIndex:', noteIndex);
+            
+            // Sort noteheads by Y position and reverse to match MIDI order
+            const sortedNoteheads = Array.from(noteheadElements).sort((a, b) => {
+              const aRect = a.getBoundingClientRect();
+              const bRect = b.getBoundingClientRect();
+              return aRect.top - bRect.top;
+            }).reverse();
+            
+            if (sortedNoteheads[noteIndex]) {
+              sortedNoteheads[noteIndex].setAttribute('data-note-id', fingeringNoteId);
+              sortedNoteheads[noteIndex].style.pointerEvents = 'auto';
+              sortedNoteheads[noteIndex].style.cursor = 'pointer';
+              console.log('[DEBUG #9] Re-injected on notehead', noteIndex);
+            } else {
+              // Fallback to parent
+              svgElement.setAttribute('data-note-id', fingeringNoteId);
+              svgElement.style.pointerEvents = 'auto';
+              svgElement.style.cursor = 'pointer';
+            }
+          } else {
+            // SINGLE NOTE: Set ID on parent element
+            svgElement.setAttribute('data-note-id', fingeringNoteId);
+            svgElement.style.pointerEvents = 'auto';
+            svgElement.style.cursor = 'pointer';
+          }
           
           injected++;
         }
       } catch (error) {
-        // Silently continue - some notes may not have accessible SVG elements
+        console.log('[DEBUG #9] Error processing note:', fingeringNoteId, error);
       }
     }
     
+    console.log('[DEBUG #9] ID injection complete. Injected:', injected, 'Chords found:', chordCount);
     
     if (process.env.NODE_ENV === 'development') {
       perfLogger.debug('Re-injected data-note-id attributes', { injected, total: graphicalNoteMap.size });
@@ -415,6 +442,9 @@ export const useOSMD = (
                     
                     // 🔴 DEBUG: Track chord note SVG element status
                     const isChord = notes.length > 1;
+                    
+                    console.log('[DEBUG #9] Processing note', noteIndex, 'of', notes.length, '- isChord:', isChord);
+                    
                     const debugInfo = {
                       noteIndex,
                       totalNotes: notes.length,
@@ -470,6 +500,12 @@ export const useOSMD = (
                           const timestampStr = timestamp.toFixed(2).replace('.', '_');
                           const fingeringNoteId = `m${measureIndex}-s${staffIndex}-v${voiceIndex}-n${noteIndex}-ts${timestampStr}-midi${midiNote}`;
                           
+                          console.log('[DEBUG #9] Note details:', { 
+                            fingeringNoteId, 
+                            hasGetSVGGElement: !!note.getSVGGElement,
+                            svgElement: svgElement ? svgElement.tagName : 'none',
+                            midiNote
+                          });
                           
                           // Visual debugging for chord notes (development only)
                           if (process.env.NODE_ENV === 'development' && isChord) {
@@ -479,6 +515,15 @@ export const useOSMD = (
                             
                             // Check for VexFlow noteheads
                             const vfNoteheads = svgElement.querySelectorAll('.vf-notehead');
+                            const vfNoteheadElements = svgElement.querySelectorAll('g.vf-notehead');
+                            
+                            console.log('[DEBUG #9] Chord note visual debug:', { 
+                              notePosition: `${noteIndex + 1}/${notes.length}`, 
+                              vfNoteheads: vfNoteheads.length,
+                              vfNoteheadElements: vfNoteheadElements.length,
+                              totalPaths: svgElement.querySelectorAll('path').length,
+                              childrenCount: svgElement.children.length
+                            });
                             const pathNoteheads = svgElement.querySelectorAll('path[class*="notehead"]');
                             const allPaths = svgElement.querySelectorAll('path');
                             
@@ -541,27 +586,35 @@ export const useOSMD = (
                             svgElement.setAttribute('data-debug-note-index', noteIndex.toString());
                           }
                           
-                          // Inject data-note-id on individual noteheads instead of shared stavenote
-                          const staveNoteElement = svgElement; // <g class="vf-stavenote">
-                          if (staveNoteElement) {
-                            const noteGroup = staveNoteElement.querySelector('.vf-note'); // <g class="vf-note">
-                            if (noteGroup) {
-                              const noteheadGroups = Array.from(noteGroup.querySelectorAll('.vf-notehead')); // Per-note <g>
-                              
-                              // Skip rests and non-notes (they don't have noteheads)
-                              if (noteheadGroups.length === 0) {
-                                return;
-                              }
-                              
-                              const noteheadElement = noteheadGroups[noteIndex];
-                              if (noteheadElement) {
-                                noteheadElement.setAttribute('data-note-id', fingeringNoteId);
-                              } else {
-                                console.warn(`[ISSUE #3] Notehead mismatch: index ${noteIndex} not found (chord size ${noteheadGroups.length})`);
-                              }
+                          // Check if this is a chord (multiple notes at same timestamp)
+                          const noteheadElements = svgElement.querySelectorAll('g.vf-notehead');
+                          
+                          if (noteheadElements.length > 1) {
+                            // CHORD: Inject ID on individual notehead
+                            console.log('[DEBUG #9] CHORD: Setting ID on individual notehead', noteIndex, 'of', noteheadElements.length);
+                            
+                            // Sort noteheads by Y position (top to bottom = high to low pitch)
+                            const sortedNoteheads = Array.from(noteheadElements).sort((a, b) => {
+                              const aRect = a.getBoundingClientRect();
+                              const bRect = b.getBoundingClientRect();
+                              return aRect.top - bRect.top;
+                            });
+                            
+                            // Reverse to match MIDI order (index 0 = lowest pitch = bottom notehead)
+                            sortedNoteheads.reverse();
+                            
+                            if (sortedNoteheads[noteIndex]) {
+                              sortedNoteheads[noteIndex].setAttribute('data-note-id', fingeringNoteId);
+                              console.log('[DEBUG #9] Set data-note-id on notehead', noteIndex, ':', fingeringNoteId);
+                            } else {
+                              // Fallback to parent if notehead not found
+                              console.warn('[DEBUG #9] No notehead at index', noteIndex, '- using parent');
+                              svgElement.setAttribute('data-note-id', fingeringNoteId);
                             }
                           } else {
-                            console.warn(`[ISSUE #3] No SVGGElement for ${fingeringNoteId} – possible orphan`);
+                            // SINGLE NOTE: Set ID on parent element as before
+                            svgElement.setAttribute('data-note-id', fingeringNoteId);
+                            console.log('[DEBUG #9] Single note - set ID on parent:', fingeringNoteId);
                           }
                           
                           
@@ -608,6 +661,7 @@ export const useOSMD = (
                             });
                           }
                           graphicalNoteMap.set(fingeringNoteId, note);
+                          console.log('[DEBUG #9] Setting graphicalNoteMap for', fingeringNoteId);
                           
                           // Only process MIDI-specific logic if in valid range
                           if (midiNote >= 0 && midiNote <= 127) { // Valid MIDI range
@@ -641,17 +695,26 @@ export const useOSMD = (
             }
             
             // Comprehensive chord analysis (development debugging)
-            if (process.env.NODE_ENV === 'development' && notesAtThisTimestamp.length > 1) {
+            if (notesAtThisTimestamp.length > 1) {
               const svgElementsFound = svgElements.filter(Boolean).length;
               const uniqueSvgElements = new Set(svgElements.filter(Boolean)).size;
               
-              perfLogger.debug('Chord analysis summary', {
-                timestamp,
-                totalNotes: notesAtThisTimestamp.length,
+              console.log('[DEBUG #9] Chord analysis summary for timestamp', timestamp, ':', { 
+                totalNotes: notesAtThisTimestamp.length, 
                 svgElementsFound,
                 uniqueSvgElements,
                 hasSharedElements: svgElementsFound !== uniqueSvgElements
               });
+              
+              if (process.env.NODE_ENV === 'development') {
+                perfLogger.debug('Chord analysis summary', {
+                  timestamp,
+                  totalNotes: notesAtThisTimestamp.length,
+                  svgElementsFound,
+                  uniqueSvgElements,
+                  hasSharedElements: svgElementsFound !== uniqueSvgElements
+                });
+              }
               
               // Check if multiple notes share the same SVG element
               const svgToNotes = new Map();
@@ -705,6 +768,7 @@ export const useOSMD = (
       // Mark as built to prevent rebuilds
       noteMappingBuiltRef.current = true;
       
+      console.log('[DEBUG #9] Note mapping complete. Total entries:', graphicalNoteMap.size);
       
       if (process.env.NODE_ENV === 'development') {
         perfLogger.debug('buildNoteMapping completed successfully');
