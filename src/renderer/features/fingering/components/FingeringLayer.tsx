@@ -690,14 +690,14 @@ export const FingeringLayer: React.FC<FingeringLayerProps> = ({
               role="img"
               style={{
                 // Damped scaling: text scales WITH zoom but slower
-                fontSize: `${Math.min(20, Math.max(9, 12 / Math.sqrt(Math.max(0.25, zoomLevel ?? 1))))}px`,
+                fontSize: `${Math.min(20, Math.max(9, 12 * Math.sqrt(Math.max(0.25, zoomLevel ?? 1))))}px`,
                 fontFamily: 'Arial, sans-serif',
                 fontWeight: 'bold',
                 // Theme-aware colors with fallbacks
                 fill: isEditing ? 'var(--abc-accent-primary, #0066cc)' : 'var(--abc-sheet-ink, #000080)',
                 // Contrast stroke with background color
                 stroke: 'var(--abc-bg-primary, #ffffff)',
-                strokeWidth: `${Math.min(2.5, Math.max(0.75, 1.5 / Math.sqrt(Math.max(0.25, zoomLevel ?? 1))))}px`,
+                strokeWidth: `${Math.min(2.5, Math.max(0.75, 1.5 * Math.sqrt(Math.max(0.25, zoomLevel ?? 1))))}px`,
                 paintOrder: 'stroke',
                 textAnchor: 'middle',
                 dominantBaseline: 'central',
