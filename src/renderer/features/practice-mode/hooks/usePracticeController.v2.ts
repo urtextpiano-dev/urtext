@@ -171,43 +171,72 @@ const TIMING_CONFIG = {
  * For chords: ALL notes must be held simultaneously
  */
 function evaluateActiveNotes(activeNotes: Set<number>, currentStep: PracticeStep | null): 'SUCCESS' | 'FAIL' | 'PARTIAL' {
+  if (process.env.NODE_ENV === 'development') {
+    perfLogger.debug('[TIED_NOTES] Stage: Evaluation Start', {
+      stage: 'practice_evaluation_start',
+      currentStep: currentStep ? {
+        measureIndex: currentStep.measureIndex,
+        expectedNotes: currentStep.notes.map(n => n.midiValue),
+        isChord: currentStep.isChord,
+        stepIndex: currentStep.timestamp
+      } : 'null',
+      activeNotes: Array.from(activeNotes),
+      timestamp: Date.now()
+    });
+  }
+  
   if (!currentStep) return 'FAIL';
+  
+  let result: 'SUCCESS' | 'FAIL' | 'PARTIAL';
   
   // Single note evaluation - avoid Set creation for performance
   if (!currentStep.isChord) {
     // For single notes, only one key should be pressed and it must match
     if (activeNotes.size === 1 && currentStep.notes.length > 0 && activeNotes.has(currentStep.notes[0].midiValue)) {
-      return 'SUCCESS';
+      result = 'SUCCESS';
+    } else {
+      result = 'FAIL';
     }
-    return 'FAIL';
-  }
-  
-  // Chord evaluation - avoid spreads, use Set iteration for performance
-  const expectedNotes = new Set(currentStep.notes.map(n => n.midiValue));
-  
-  // Check all expected notes are present using Set.has() directly
-  let allNotesPresent = expectedNotes.size <= activeNotes.size;
-  if (allNotesPresent) {
-    for (const note of expectedNotes) {
-      if (!activeNotes.has(note)) {
-        allNotesPresent = false;
-        break;
+  } else {
+    // Chord evaluation - avoid spreads, use Set iteration for performance
+    const expectedNotes = new Set(currentStep.notes.map(n => n.midiValue));
+    
+    // Check all expected notes are present using Set.has() directly
+    let allNotesPresent = expectedNotes.size <= activeNotes.size;
+    if (allNotesPresent) {
+      for (const note of expectedNotes) {
+        if (!activeNotes.has(note)) {
+          allNotesPresent = false;
+          break;
+        }
       }
     }
+    
+    // Check no extra notes - both sets must be equal size if all expected are present
+    const noExtraNotes = allNotesPresent && activeNotes.size === expectedNotes.size;
+    
+    if (allNotesPresent && noExtraNotes) {
+      result = 'SUCCESS';
+    } else if (allNotesPresent && !noExtraNotes) {
+      // All required notes are present but there are extra notes
+      result = 'FAIL'; // Could be 'PARTIAL' if we want to be more lenient
+    } else {
+      // Missing some required notes
+      result = 'PARTIAL';
+    }
   }
   
-  // Check no extra notes - both sets must be equal size if all expected are present
-  const noExtraNotes = allNotesPresent && activeNotes.size === expectedNotes.size;
-  
-  if (allNotesPresent && noExtraNotes) {
-    return 'SUCCESS';
-  } else if (allNotesPresent && !noExtraNotes) {
-    // All required notes are present but there are extra notes
-    return 'FAIL'; // Could be 'PARTIAL' if we want to be more lenient
-  } else {
-    // Missing some required notes
-    return 'PARTIAL';
+  if (process.env.NODE_ENV === 'development') {
+    perfLogger.debug('[TIED_NOTES] Stage: Evaluation Result', {
+      stage: 'practice_evaluation_result',
+      result,
+      expected: currentStep.notes.map(n => n.midiValue),
+      played: Array.from(activeNotes),
+      isChord: currentStep.isChord
+    });
   }
+  
+  return result;
 }
 
 /**

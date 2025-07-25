@@ -16,7 +16,9 @@ import { PracticeSequenceBuilder, OptimizedPracticeStep, SequenceBuildResult } f
 interface MockNote {
   halfTone?: number;
   HalfTone?: number;
-  IsTiedFromPrevious?: boolean;
+  NoteTie?: {
+    StartNote: MockNote;
+  };
   IsGrace?: boolean;
   graphicalNote?: { id: string };
 }
@@ -339,12 +341,23 @@ describe('PracticeSequenceBuilder', () => {
 
     test('should skip grace notes and tied notes', () => {
       // Set up initial state with mixed note types
+      const tieStartNote: MockNote = { halfTone: 62 }; // Start of tie
+      // In OSMD, the start note also has NoteTie pointing to itself
+      tieStartNote.NoteTie = { StartNote: tieStartNote };
+      
+      const tiedContinuation: MockNote = { 
+        halfTone: 62, 
+        NoteTie: { StartNote: tieStartNote } // References the start note
+      };
+      
+      // Set up with a single voice entry containing mixed note types
       mockIterator.EndReached = false;
       mockIterator.CurrentVoiceEntries = [
-        { IsGrace: true, Notes: [{ halfTone: 60 }] }, // Grace note - skip
         { 
           Notes: [
-            { halfTone: 62, IsTiedFromPrevious: true }, // Tied note - skip
+            { halfTone: 60, IsGrace: true }, // Grace note - skip (but at note level)
+            tieStartNote, // Tie start - include
+            tiedContinuation, // Tied continuation - skip
             { halfTone: 64 }, // Regular note - include
           ]
         }
@@ -357,13 +370,21 @@ describe('PracticeSequenceBuilder', () => {
         mockIterator.EndReached = true; // End after first step
         mockIterator.CurrentVoiceEntries = [];
       });
-
+      
+      // Add timestamp to iterator
+      mockIterator.currentTimeStamp = { RealValue: 0 };
+      
       const result = PracticeSequenceBuilder.build(mockOSMD as any);
 
       expect(result.steps.length).toBe(1);
-      expect(result.steps[0].midiNotes.has(72)).toBe(false); // Grace note excluded
-      expect(result.steps[0].midiNotes.has(74)).toBe(false); // Tied note excluded
-      expect(result.steps[0].midiNotes.has(76)).toBe(true);  // Regular note included
+      
+      // Only check midi notes if we have a step
+      if (result.steps.length > 0) {
+        expect(result.steps[0].midiNotes.has(72)).toBe(false); // Grace note excluded (60+12=72)
+        expect(result.steps[0].midiNotes.has(74)).toBe(true);  // Tie start included (62+12=74)
+        expect(result.steps[0].midiNotes.has(76)).toBe(true);  // Regular note included (64+12=76)
+        expect(result.steps[0].midiNotes.size).toBe(2);        // Only 2 notes (tie start + regular)
+      }
     });
 
     test('should handle both halfTone and HalfTone properties', () => {

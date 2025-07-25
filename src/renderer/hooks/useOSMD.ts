@@ -140,7 +140,6 @@ export const useOSMD = (
     const graphicalNoteMap = noteMappingRef.current.graphicalNoteMap;
     if (!graphicalNoteMap || graphicalNoteMap.size === 0) return;
     
-    console.log('[DEBUG #9] Starting ID injection, total notes:', graphicalNoteMap.size);
     
     let injected = 0;
     let chordCount = 0;
@@ -160,7 +159,6 @@ export const useOSMD = (
           if (noteheadElements.length > 1) {
             // CHORD: Inject ID on individual notehead
             chordCount++;
-            console.log('[DEBUG #9] Re-injecting chord note:', fingeringNoteId, 'noteIndex:', noteIndex);
             
             // Sort noteheads by Y position and reverse to match MIDI order
             const sortedNoteheads = Array.from(noteheadElements).sort((a, b) => {
@@ -173,7 +171,6 @@ export const useOSMD = (
               sortedNoteheads[noteIndex].setAttribute('data-note-id', fingeringNoteId);
               sortedNoteheads[noteIndex].style.pointerEvents = 'auto';
               sortedNoteheads[noteIndex].style.cursor = 'pointer';
-              console.log('[DEBUG #9] Re-injected on notehead', noteIndex);
             } else {
               // Fallback to parent
               svgElement.setAttribute('data-note-id', fingeringNoteId);
@@ -190,11 +187,9 @@ export const useOSMD = (
           injected++;
         }
       } catch (error) {
-        console.log('[DEBUG #9] Error processing note:', fingeringNoteId, error);
       }
     }
     
-    console.log('[DEBUG #9] ID injection complete. Injected:', injected, 'Chords found:', chordCount);
     
     if (process.env.NODE_ENV === 'development') {
       perfLogger.debug('Re-injected data-note-id attributes', { injected, total: graphicalNoteMap.size });
@@ -443,7 +438,6 @@ export const useOSMD = (
                     // 🔴 DEBUG: Track chord note SVG element status
                     const isChord = notes.length > 1;
                     
-                    console.log('[DEBUG #9] Processing note', noteIndex, 'of', notes.length, '- isChord:', isChord);
                     
                     const debugInfo = {
                       noteIndex,
@@ -500,12 +494,6 @@ export const useOSMD = (
                           const timestampStr = timestamp.toFixed(2).replace('.', '_');
                           const fingeringNoteId = `m${measureIndex}-s${staffIndex}-v${voiceIndex}-n${noteIndex}-ts${timestampStr}-midi${midiNote}`;
                           
-                          console.log('[DEBUG #9] Note details:', { 
-                            fingeringNoteId, 
-                            hasGetSVGGElement: !!note.getSVGGElement,
-                            svgElement: svgElement ? svgElement.tagName : 'none',
-                            midiNote
-                          });
                           
                           // Visual debugging for chord notes (development only)
                           if (process.env.NODE_ENV === 'development' && isChord) {
@@ -517,13 +505,6 @@ export const useOSMD = (
                             const vfNoteheads = svgElement.querySelectorAll('.vf-notehead');
                             const vfNoteheadElements = svgElement.querySelectorAll('g.vf-notehead');
                             
-                            console.log('[DEBUG #9] Chord note visual debug:', { 
-                              notePosition: `${noteIndex + 1}/${notes.length}`, 
-                              vfNoteheads: vfNoteheads.length,
-                              vfNoteheadElements: vfNoteheadElements.length,
-                              totalPaths: svgElement.querySelectorAll('path').length,
-                              childrenCount: svgElement.children.length
-                            });
                             const pathNoteheads = svgElement.querySelectorAll('path[class*="notehead"]');
                             const allPaths = svgElement.querySelectorAll('path');
                             
@@ -591,7 +572,6 @@ export const useOSMD = (
                           
                           if (noteheadElements.length > 1) {
                             // CHORD: Inject ID on individual notehead
-                            console.log('[DEBUG #9] CHORD: Setting ID on individual notehead', noteIndex, 'of', noteheadElements.length);
                             
                             // Sort noteheads by Y position (top to bottom = high to low pitch)
                             const sortedNoteheads = Array.from(noteheadElements).sort((a, b) => {
@@ -605,16 +585,13 @@ export const useOSMD = (
                             
                             if (sortedNoteheads[noteIndex]) {
                               sortedNoteheads[noteIndex].setAttribute('data-note-id', fingeringNoteId);
-                              console.log('[DEBUG #9] Set data-note-id on notehead', noteIndex, ':', fingeringNoteId);
                             } else {
                               // Fallback to parent if notehead not found
-                              console.warn('[DEBUG #9] No notehead at index', noteIndex, '- using parent');
                               svgElement.setAttribute('data-note-id', fingeringNoteId);
                             }
                           } else {
                             // SINGLE NOTE: Set ID on parent element as before
                             svgElement.setAttribute('data-note-id', fingeringNoteId);
-                            console.log('[DEBUG #9] Single note - set ID on parent:', fingeringNoteId);
                           }
                           
                           
@@ -660,8 +637,13 @@ export const useOSMD = (
                               hasSourceNote: !!sourceNote
                             });
                           }
+                          
+                          // Preserve tie information from sourceNote
+                          if (sourceNote?.NoteTie) {
+                            (note as any).NoteTie = sourceNote.NoteTie;
+                          }
+                          
                           graphicalNoteMap.set(fingeringNoteId, note);
-                          console.log('[DEBUG #9] Setting graphicalNoteMap for', fingeringNoteId);
                           
                           // Only process MIDI-specific logic if in valid range
                           if (midiNote >= 0 && midiNote <= 127) { // Valid MIDI range
@@ -699,12 +681,6 @@ export const useOSMD = (
               const svgElementsFound = svgElements.filter(Boolean).length;
               const uniqueSvgElements = new Set(svgElements.filter(Boolean)).size;
               
-              console.log('[DEBUG #9] Chord analysis summary for timestamp', timestamp, ':', { 
-                totalNotes: notesAtThisTimestamp.length, 
-                svgElementsFound,
-                uniqueSvgElements,
-                hasSharedElements: svgElementsFound !== uniqueSvgElements
-              });
               
               if (process.env.NODE_ENV === 'development') {
                 perfLogger.debug('Chord analysis summary', {
@@ -768,7 +744,6 @@ export const useOSMD = (
       // Mark as built to prevent rebuilds
       noteMappingBuiltRef.current = true;
       
-      console.log('[DEBUG #9] Note mapping complete. Total entries:', graphicalNoteMap.size);
       
       if (process.env.NODE_ENV === 'development') {
         perfLogger.debug('buildNoteMapping completed successfully');
@@ -1542,8 +1517,27 @@ export const useOSMD = (
     }
     
     for (const note of voiceEntry.Notes) {
+      // Log tie information for debugging
+      if (process.env.NODE_ENV === 'development') {
+        const sourceNote = note.sourceNote || note.SourceNote;
+        const halfTone = sourceNote?.halfTone ?? sourceNote?.HalfTone;
+        perfLogger.debug('[TIED_NOTES] Stage: OSMD Parsing', {
+          stage: 'osmd_tie_parsing',
+          halfTone,
+          hasTie: !!note.Tie,
+          isStartNote: note.Tie ? note.Tie.StartNote === note : 'no_tie',
+          tieStartNote: note.Tie ? (note.Tie.StartNote ? 'exists' : 'null') : 'no_tie',
+          noteType: note.constructor?.name || 'unknown'
+        });
+      }
+      
       // Skip tied note continuations
-      if (note.Tie && note.Tie.StartNote !== note) continue;
+      if ((note as any).NoteTie && (note as any).NoteTie.StartNote !== note) {
+        if (process.env.NODE_ENV === 'development') {
+          perfLogger.debug('[TIED_NOTES] Skipping tied continuation in OSMD parsing');
+        }
+        continue;
+      }
       
       const pitch = note.Pitch;
       if (!pitch) continue;

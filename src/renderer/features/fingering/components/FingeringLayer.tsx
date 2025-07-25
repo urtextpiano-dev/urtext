@@ -45,7 +45,6 @@ const MAX_FINGERING_RENDER_LIMIT = process.env.MAX_FINGERING_RENDER_LIMIT
 export function getDataNoteId(element: Element | null): string | null {
   if (!element) return null;
   
-  console.log('[DEBUG #9] getDataNoteId called on element:', element.tagName, 'class:', (element.className as any)?.baseVal || element.className || 'no-class');
   
   let current: Element | null = element;
   let level = 0;
@@ -54,16 +53,12 @@ export function getDataNoteId(element: Element | null): string | null {
   while (current && level < 10) {
     const dataNoteId = current.getAttribute('data-note-id');
     
-    console.log(`[DEBUG #9] Level ${level}: Checking ${current.tagName}.${(current.className as any)?.baseVal || current.className || ''} - data-note-id: ${dataNoteId || 'none'}`);
     
     if (dataNoteId) {
       const noteId = dataNoteId.trim(); // Now single, unique ID
-      console.log(`[DEBUG #9] FOUND NOTE at level ${level}: '${noteId}' on ${current.tagName}.${(current.className as any)?.baseVal || ''}`);
       
       // Check if this is a comma-separated chord ID
       if (noteId.includes(',')) {
-        console.log('[DEBUG #9] WARNING: Found comma-separated IDs (chord):', noteId);
-        console.log('[DEBUG #9] This means multiple notes share this element!');
       }
       
       return noteId;
@@ -72,7 +67,6 @@ export function getDataNoteId(element: Element | null): string | null {
     level++;
   }
   
-  console.log('[DEBUG #9] No data-note-id found after traversing', level, 'levels');
   return null;
 }
 

@@ -26,37 +26,56 @@ export function compareNotes(
       isRest: expected.isRest,
       isChord: expected.isChord
     });
+    
+    // Add tied notes specific logging
+    console.log('[TIED_NOTES] Stage: Comparison', {
+      stage: 'note_comparison',
+      played: played,
+      expected: expected.notes.map(n => n.midiValue),
+      timestamp: Date.now()
+    });
   }
 
+  let result: ComparisonResult;
+  
   // Auto-advance on rests
   if (expected.isRest) {
-    return { type: 'CORRECT' };
+    result = { type: 'CORRECT' };
+  } else {
+    // Create sets for efficient comparison
+    const playedSet = new Set(played);
+    const expectedSet = new Set(expected.notes.map(n => n.midiValue));
+    
+    // Fast path: perfect match
+    if (playedSet.size === expectedSet.size && 
+        [...playedSet].every(note => expectedSet.has(note))) {
+      result = { type: 'CORRECT' };
+    } else {
+      // Detailed analysis for feedback
+      const missing = [...expectedSet].filter(n => !playedSet.has(n));
+      const extra = [...playedSet].filter(n => !expectedSet.has(n));
+      
+      // Determine the type of error
+      if (missing.length > 0 && extra.length === 0) {
+        result = { type: 'MISSING_NOTES', missing };
+      } else if (extra.length > 0) {
+        result = { type: 'WRONG_NOTES', wrong: extra, expected: [...expectedSet] };
+      } else {
+        // Shouldn't reach here, but for completeness
+        result = { type: 'CORRECT' };
+      }
+    }
   }
-
-  // Create sets for efficient comparison
-  const playedSet = new Set(played);
-  const expectedSet = new Set(expected.notes.map(n => n.midiValue));
   
-  // Fast path: perfect match
-  if (playedSet.size === expectedSet.size && 
-      [...playedSet].every(note => expectedSet.has(note))) {
-    return { type: 'CORRECT' };
+  if (process.env.NODE_ENV === 'development') {
+    console.log('[TIED_NOTES] Comparison Result', {
+      stage: 'note_comparison_result',
+      result: result.type,
+      extra: result.type === 'WRONG_NOTES' ? result.wrong : undefined,
+      missing: result.type === 'MISSING_NOTES' ? result.missing : undefined
+    });
   }
   
-  // Detailed analysis for feedback
-  const missing = [...expectedSet].filter(n => !playedSet.has(n));
-  const extra = [...playedSet].filter(n => !expectedSet.has(n));
-  
-  // Determine the type of error
-  if (missing.length > 0 && extra.length === 0) {
-    return { type: 'MISSING_NOTES', missing };
-  }
-  
-  if (extra.length > 0) {
-    return { type: 'WRONG_NOTES', wrong: extra, expected: [...expectedSet] };
-  }
-  
-  // Shouldn't reach here, but for completeness
-  return { type: 'CORRECT' };
+  return result;
 }
 

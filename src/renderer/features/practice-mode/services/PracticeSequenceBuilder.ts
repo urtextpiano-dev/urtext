@@ -55,6 +55,9 @@ export class PracticeSequenceBuilder {
     
     // Starting sequence generation
     
+    let tiedNotesDetected = 0;
+    let tiedContinuationsFiltered = 0;
+    
     try {
       const sequence: OptimizedPracticeStep[] = [];
       let totalNotes = 0;
@@ -109,6 +112,21 @@ export class PracticeSequenceBuilder {
       
       // Sequence generation complete
       
+      if (process.env.NODE_ENV === 'development') {
+        perfLogger.debug('[TIED_NOTES] Sequence Build Summary', {
+          stage: 'sequence_build_summary',
+          totalSteps: sequence.length,
+          totalNotes,
+          tiedNotesDetected,
+          tiedContinuationsFiltered,
+          sampleSteps: sequence.slice(0, 5).map(step => ({ 
+            measure: step.measureIndex, 
+            stepIdx: step.stepIndex,
+            notes: Array.from(step.midiNotes) 
+          })),
+          fullSequenceLength: sequence.length
+        });
+      }
       
       return {
         steps: sequence,
@@ -137,9 +155,21 @@ export class PracticeSequenceBuilder {
       // Get current measure index
       const measureIndex = cursor.Iterator.currentMeasureIndex || 0;
       
+      if (process.env.NODE_ENV === 'development') {
+        perfLogger.debug('[PracticeSequenceBuilder] extractStepFromCursor start', {
+          stepIndex,
+          measureIndex,
+          hasIterator: !!cursor.Iterator,
+          hasVoiceEntries: !!cursor.Iterator?.CurrentVoiceEntries
+        });
+      }
+      
       // Extract notes from all voice entries at current position
       const voiceEntries = cursor.Iterator.CurrentVoiceEntries;
       if (!voiceEntries || voiceEntries.length === 0) {
+        if (process.env.NODE_ENV === 'development') {
+          perfLogger.debug('[PracticeSequenceBuilder] No voice entries at step', stepIndex);
+        }
         return null;
       }
       
@@ -155,8 +185,38 @@ export class PracticeSequenceBuilder {
         for (let noteIndex = 0; noteIndex < entryNotes.length; noteIndex++) {
           const note = entryNotes[noteIndex];
           
-          // Skip tied notes from previous
-          if (note.IsTiedFromPrevious) continue;
+          // Skip grace notes at note level
+          if (note.IsGrace) continue;
+          
+          if (process.env.NODE_ENV === 'development') {
+            perfLogger.debug('[TIED_NOTES] Stage: Detection', {
+              stage: 'sequence_build_detection',
+              noteIndex,
+              halfTone: note.halfTone !== undefined ? note.halfTone : note.HalfTone,
+              hasTie: !!(note as any).NoteTie,
+              isStartNote: (note as any).NoteTie ? (note as any).NoteTie.StartNote === note : 'no_tie',
+              tieStartNote: (note as any).NoteTie ? ((note as any).NoteTie.StartNote ? 'exists' : 'null') : 'no_tie',
+              isGrace: !!note.IsGrace,
+              measureIndex,
+              stepIndex,
+              voiceIndex
+            });
+          }
+          
+          // Skip tied notes from previous - use OSMD's native tie handling
+          if ((note as any).NoteTie && (note as any).NoteTie.StartNote !== note) {
+            if (process.env.NODE_ENV === 'development') {
+              perfLogger.debug('[TIED_NOTES] Decision: Skip tied continuation', {
+                stage: 'sequence_build_skip',
+                halfTone: note.halfTone !== undefined ? note.halfTone : note.HalfTone,
+                reason: 'tied_continuation',
+                measureIndex,
+                stepIndex,
+                noteIndex
+              });
+            }
+            continue;
+          }
           
           // Calculate MIDI value
           const halfTone = note.halfTone !== undefined ? note.halfTone : note.HalfTone;
@@ -171,6 +231,17 @@ export class PracticeSequenceBuilder {
               // Store visual element ID for highlighting
               const elementId = note.graphicalNote?.id || `note_${measureIndex}_${stepIndex}_${midiValue}`;
               visualElements.push(elementId);
+              
+              if (process.env.NODE_ENV === 'development') {
+                perfLogger.debug('[TIED_NOTES] Decision: Include note', {
+                  stage: 'sequence_build_include',
+                  midiValue,
+                  isTieStart: !!(note as any).NoteTie,
+                  measureIndex,
+                  stepIndex,
+                  noteIndex
+                });
+              }
             }
           }
         }
