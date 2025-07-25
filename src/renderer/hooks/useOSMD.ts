@@ -1094,7 +1094,9 @@ export const useOSMD = (
         
         // Render phase with zoom
         const renderStart = performance.now();
-        osmdRef.current.zoom = zoomLevel;
+        const { isFirstFileOpen } = useOSMDStore.getState();
+        // For first file, render at 100% initially
+        osmdRef.current.zoom = isFirstFileOpen ? 1.0 : zoomLevel;
         osmdRef.current.render();
         renderTime = performance.now() - renderStart;
         
@@ -1294,6 +1296,24 @@ export const useOSMD = (
         // Mark as loaded in the store to trigger tempo extraction
         perfLogger.debug(' Marking OSMD as loaded in store to trigger tempo extraction...');
         setIsLoadedInStore(true);
+        
+        // Apply saved zoom after initial render (one frame at 100% for stable layout) - only for first file
+        const { targetZoomLevel, zoomLevel: currentZoomLevel, setZoomLevel, isFirstFileOpen } = useOSMDStore.getState();
+        if (isFirstFileOpen && targetZoomLevel !== currentZoomLevel && osmdRef.current) {
+          // Mark that we've handled the first file
+          useOSMDStore.setState({ isFirstFileOpen: false });
+          
+          requestAnimationFrame(() => {
+            if (osmdRef.current) {
+              osmdRef.current.zoom = targetZoomLevel;
+              osmdRef.current.render();
+              setZoomLevel(targetZoomLevel);
+            }
+          });
+        } else if (isFirstFileOpen) {
+          // Even if zoom doesn't need transition, mark first file as handled
+          useOSMDStore.setState({ isFirstFileOpen: false });
+        }
         
         // Phase 1 optimization: Generate pre-computed practice sequence
         if (Flags.preComputedSequence && osmdRef.current) {

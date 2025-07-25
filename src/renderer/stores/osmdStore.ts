@@ -29,6 +29,8 @@ interface OSMDState extends OSMDTempoData {
   
   // Zoom state
   zoomLevel: number;
+  targetZoomLevel: number; // Saved zoom to apply after initial render
+  isFirstFileOpen: boolean; // Track if this is the first file opened in session
   
   // Actions - Core
   setOSMD: (osmd: any) => void;
@@ -50,6 +52,20 @@ interface OSMDState extends OSMDTempoData {
   clearTempoData: () => void;
 }
 
+// Load saved zoom separately to set as target
+const savedZoom = (() => {
+  try {
+    const stored = localStorage.getItem('osmd-store');
+    if (stored) {
+      const parsed = JSON.parse(stored);
+      return parsed.state?.zoomLevel || 1.0;
+    }
+  } catch (e) {
+    // Ignore parse errors
+  }
+  return 1.0;
+})();
+
 export const useOSMDStore = create<OSMDState>()(
   persist(
     (set, get) => ({
@@ -60,7 +76,9 @@ export const useOSMDStore = create<OSMDState>()(
   error: null,
   
   // Zoom state
-  zoomLevel: 1.0, // Default 100%
+  zoomLevel: 1.0, // Always start at 100%
+  targetZoomLevel: savedZoom, // Saved zoom to apply after initial render
+  isFirstFileOpen: true, // First file in session gets zoom transition
   
   // Tempo extraction state
   tempoMap: null,
@@ -115,10 +133,12 @@ export const useOSMDStore = create<OSMDState>()(
     isLoaded: false,
     error: null,
     zoomLevel: 1.0,
+    targetZoomLevel: 1.0,
     tempoMap: null,
     isExtracting: false,
     extractionError: null,
     lastExtractedAt: null
+    // Note: isFirstFileOpen is NOT reset - it tracks the session
   }),
   
   // Zoom actions
@@ -289,6 +309,7 @@ export const useOSMDStore = create<OSMDState>()(
       name: 'osmd-store',
       partialize: (state) => ({ 
         zoomLevel: state.zoomLevel // Only persist zoom level
+        // isFirstFileOpen is NOT persisted - resets on app restart
       }),
     }
   )
