@@ -264,7 +264,7 @@ describe('Version Practice Controller Custom Range Integration', () => {
       }).toThrow('Version Seek failure handling not implemented');
     });
 
-    // CRITICAL: Race condition protection (Code review: Gemini pro)
+    // CRITICAL: Race condition protection ()
     test('should handle custom range being disabled mid-loop', () => {
       expect(() => {
         const { usePracticeController } = require('@/renderer/features/practice-mode/hooks/usePracticeController');

@@ -130,7 +130,7 @@ jest.mock('@/renderer/hooks/useOSMD', () => ({
 }));
 // jest.mock('@/renderer/features/fingering/db/fingeringDatabase'); // Not needed for Phase 3
 
-// Test utilities for selector abstraction (CHATGPT 4.1)
+// Test utilities for selector abstraction (review 4.1)
 const selectors = {
   note: (id: string) => `[data-note-id="${id}"]`,
   fingering: (id: string) => `[data-testid="fingering-${id}"]`,
@@ -138,7 +138,7 @@ const selectors = {
   inputContainer: () => '.fingering-input-container'
 };
 
-// Helper to calculate position with tolerance (CHATGPT Code review:)
+// Helper to calculate position with tolerance (review Code review:)
 const expectPositionWithinTolerance = (
   actual: { x: number; y: number },
   expected: { x: number; y: number },
@@ -148,7 +148,7 @@ const expectPositionWithinTolerance = (
   expect(Math.abs(actual.y - expected.y)).toBeLessThanOrEqual(tolerance);
 };
 
-// TypeScript interfaces for clarity (CHATGPT Code review:)
+// TypeScript interfaces for clarity (review Code review:)
 interface FingeringInteractionState {
   selectedNoteId: string | null;
   isInputOpen: boolean;
@@ -170,7 +170,7 @@ describe('Version User Interaction - Implementation Tests', () => {
   
   beforeEach(() => {
     jest.clearAllMocks();
-    jest.useFakeTimers(); // For debounce control (CHATGPT Code review:)
+    jest.useFakeTimers(); // For debounce control (review Code review:)
     mockOSMDContext.graphicalNoteMap.clear();
     
     // Reset mock states
@@ -241,7 +241,7 @@ describe('Version User Interaction - Implementation Tests', () => {
             result.current.handleNoteClick(clickEvent, noteElement);
           });
           
-          // CHATGPT Code review:: tolerance check
+          // review Code review:: tolerance check
           expectPositionWithinTolerance(
             result.current.inputPosition!,
             { x: 160, y: 250 }, // Above note
@@ -290,7 +290,7 @@ describe('Version User Interaction - Implementation Tests', () => {
       });
     });
 
-    describe('OSMD Re-render Resilience (GEMINI)', () => {
+    describe('OSMD Re-render Resilience (review)', () => {
       test('should close input when OSMD re-renders', async () => {
         // expect(async () => {
           const { result } = renderHook(() => useFingeringInteraction());
@@ -350,7 +350,7 @@ describe('Version User Interaction - Implementation Tests', () => {
             }
           });
           
-          // Simulate orientation change (GROK3)
+          // Simulate orientation change (review)
           act(() => {
             window.dispatchEvent(new Event('orientationchange'));
           });
@@ -360,7 +360,7 @@ describe('Version User Interaction - Implementation Tests', () => {
       });
     });
 
-    describe('Viewport Scrolling Edge Cases (GEMINI)', () => {
+    describe('Viewport Scrolling Edge Cases (review)', () => {
       test('should position input correctly in scrolled container', async () => {
         // expect(async () => {
           // Setup scrollable container
@@ -402,7 +402,7 @@ describe('Version User Interaction - Implementation Tests', () => {
           const input = await screen.findByRole('textbox');
           const inputContainer = input.closest(selectors.inputContainer());
           
-          // CHATGPT Code review:: Input positioned relative to viewport, not document
+          // review Code review:: Input positioned relative to viewport, not document
           const inputRect = inputContainer!.getBoundingClientRect();
           expectPositionWithinTolerance(
             { x: inputRect.left, y: inputRect.top },
@@ -446,7 +446,7 @@ describe('Version User Interaction - Implementation Tests', () => {
       });
     });
 
-    describe('Complex Interaction Sequences (GEMINI)', () => {
+    describe('Complex Interaction Sequences (review)', () => {
       test('should handle rapid note switching correctly', async () => {
         // expect(async () => {
           const notes = ['t1-m60', 't2-m62', 't3-m64'].map((id, i) => {
@@ -530,7 +530,7 @@ describe('Version User Interaction - Implementation Tests', () => {
       });
     });
 
-    describe('Touch Support (GROK3)', () => {
+    describe('Touch Support (review)', () => {
       test('should handle touch events on mobile devices', async () => {
         // expect(async () => {
           const noteElement = document.createElement('div');
@@ -599,7 +599,7 @@ describe('Version User Interaction - Implementation Tests', () => {
       });
     });
 
-    describe('Input Validation Edge Cases (GROK3)', () => {
+    describe('Input Validation Edge Cases (review)', () => {
       test('should handle paste events with various content', async () => {
         // expect(async () => {
           const onSubmit = jest.fn();
@@ -652,7 +652,7 @@ describe('Version User Interaction - Implementation Tests', () => {
       });
     });
 
-    describe('Store Update Failures (GROK3)', () => {
+    describe('Store Update Failures (review)', () => {
       test('should recover from network or store failures', async () => {
         // expect(async () => {
           const store = useFingeringStore.getState();
@@ -688,7 +688,7 @@ describe('Version User Interaction - Implementation Tests', () => {
       });
     });
 
-    describe('Focus Management (GEMINI)', () => {
+    describe('Focus Management (review)', () => {
       test('should return focus to original element after input closes', async () => {
         // expect(async () => {
           const noteElement = document.createElement('button'); // Focusable
@@ -725,7 +725,7 @@ describe('Version User Interaction - Implementation Tests', () => {
       });
     });
 
-    describe('Concurrent UI Interactions (GROK3)', () => {
+    describe('Concurrent UI Interactions (review)', () => {
       test('should handle clicks while other UI elements are active', async () => {
         // expect(async () => {
           // Mock a modal/dropdown being open
@@ -756,7 +756,7 @@ describe('Version User Interaction - Implementation Tests', () => {
       });
     });
 
-    describe('Accessibility Under Stress (GROK3)', () => {
+    describe('Accessibility Under Stress (review)', () => {
       test('should handle rapid keyboard input for screen readers', async () => {
         // expect(async () => {
           const liveRegion = document.createElement('div');
@@ -809,7 +809,7 @@ describe('Version User Interaction - Implementation Tests', () => {
       });
     });
 
-    describe('End-to-End Integration (CHATGPT 4.1)', () => {
+    describe('End-to-End Integration (review 4.1)', () => {
       test('should complete full roundtrip: click → store → persist → render', async () => {
         // expect(async () => {
           // Setup complete integration
@@ -874,7 +874,7 @@ describe('Version User Interaction - Implementation Tests', () => {
       });
     });
 
-    describe('Performance with Realistic Data (CHATGPT 4.1)', () => {
+    describe('Performance with Realistic Data (review 4.1)', () => {
       test('should maintain <20ms interaction with 300 annotations', async () => {
         // expect(async () => {
           const store = useFingeringStore.getState();

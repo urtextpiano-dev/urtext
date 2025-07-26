@@ -346,7 +346,7 @@ describe('Version MeasureTimeline Service - Implementation Tests', () => {
     });
   });
 
-  describe('Score Structure Edge Cases (Gemini Additions)', () => {
+  describe('Score Structure Edge Cases', () => {
     test('should handle scores with D.C. al Fine instructions as linear', () => {
       // Mock score with Da Capo instruction and measures
       mockOSMD.GraphicSheet.MeasureList = [

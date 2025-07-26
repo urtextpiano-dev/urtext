@@ -3,7 +3,7 @@
 
 const AppConfig = {
   limits: {
-    // File size limits (as validated by AI team)
+    // File size limits
     MAX_COMPRESSED_FILE_SIZE_BYTES: 10 * 1024 * 1024,    // 10MB compressed
     MAX_UNCOMPRESSED_FILE_SIZE_BYTES: 25 * 1024 * 1024,  // 25MB uncompressed
     

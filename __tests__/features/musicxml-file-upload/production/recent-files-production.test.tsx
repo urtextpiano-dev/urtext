@@ -9,7 +9,7 @@
  * - Performance monitoring (dev-only)
  * - Production safety and edge cases
  * 
- * AI Validation: ✅ Gemini, Code review:, Code review: approved approach
+ * Code Validation: ✅ Code review: approved approach
  */
 
 import React from 'react';

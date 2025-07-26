@@ -629,7 +629,7 @@ function advanceCursor(osmdControls: any, osmd: any, options?: {
 
 /**
  * Extract note duration from practice step for tempo-based timing
- * PHASE 1: Critical missing function identified by multi-AI validation
+ * PHASE 1: Critical missing function identified by code review
  * 
  * @param practiceStep Current practice step with note information
  * @returns Beat fraction (1.0 = quarter note, 2.0 = half note, 0.5 = eighth note)

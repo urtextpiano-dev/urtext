@@ -13,7 +13,7 @@ import { generateFingeringId, parseFingeringId } from '@/renderer/features/finge
 jest.mock('@/renderer/features/fingering/stores/fingeringStore');
 jest.mock('@/renderer/contexts/OSMDContext');
 
-// TypeScript interface for hook return type (CHATGPT Code review:)
+// TypeScript interface for hook return type (review Code review:)
 interface UseFingeringInteractionReturn {
   // State
   selectedNoteId: string | null;
@@ -57,7 +57,7 @@ describe('Version useFingeringInteraction Hook Tests', () => {
     cleanupFunctions = [];
   });
 
-  describe('Hook API (CHATGPT Code review:: explicit interface)', () => {
+  describe('Hook API (review Code review:: explicit interface)', () => {
     test('should provide complete interaction API', () => {
       expect(() => {
         const { result } = renderHook(() => useFingeringInteraction());
@@ -87,7 +87,7 @@ describe('Version useFingeringInteraction Hook Tests', () => {
     });
   });
 
-  describe('Click Handling with ID Validation (CHATGPT 4.1)', () => {
+  describe('Click Handling with ID Validation (review 4.1)', () => {
     test('should handle note clicks with canonical ID format validation', async () => {
       expect(async () => {
         const { result } = renderHook(() => useFingeringInteraction());
@@ -188,7 +188,7 @@ describe('Version useFingeringInteraction Hook Tests', () => {
     });
   });
 
-  describe('Input Position Calculation (CHATGPT Code review: + GEMINI)', () => {
+  describe('Input Position Calculation (review Code review: + review)', () => {
     test('should calculate position with viewport awareness', async () => {
       expect(async () => {
         const { result } = renderHook(() => useFingeringInteraction());
@@ -301,7 +301,7 @@ describe('Version useFingeringInteraction Hook Tests', () => {
       }).toThrow('Input submission with parsing - not implemented yet');
     });
 
-    test('should handle store update failures gracefully (GROK3)', async () => {
+    test('should handle store update failures gracefully (review)', async () => {
       expect(async () => {
         const mockError = new Error('IndexedDB quota exceeded');
         const mockSetFingering = jest.fn().mockRejectedValue(mockError);
@@ -367,7 +367,7 @@ describe('Version useFingeringInteraction Hook Tests', () => {
     });
   });
 
-  describe('Keyboard Shortcuts (CHATGPT Code review:: specific navigation)', () => {
+  describe('Keyboard Shortcuts (review Code review:: specific navigation)', () => {
     test('should handle number key shortcuts when note selected', async () => {
       expect(async () => {
         const mockSetFingering = jest.fn();
@@ -458,7 +458,7 @@ describe('Version useFingeringInteraction Hook Tests', () => {
   });
 
   describe('Performance Optimizations', () => {
-    test('should debounce rapid clicks with 150ms interval (CHATGPT Code review:)', async () => {
+    test('should debounce rapid clicks with 150ms interval (review Code review:)', async () => {
       expect(async () => {
         const { result } = renderHook(() => useFingeringInteraction());
         
@@ -598,7 +598,7 @@ describe('Version useFingeringInteraction Hook Tests', () => {
       }).toThrow('Screen reader announcements - not implemented yet');
     });
 
-    test('should handle rapid keyboard input gracefully (GROK3)', async () => {
+    test('should handle rapid keyboard input gracefully (review)', async () => {
       expect(async () => {
         const { result } = renderHook(() => useFingeringInteraction());
         
@@ -700,7 +700,7 @@ describe('Version useFingeringInteraction Hook Tests', () => {
       }).toThrow('Store sync - not implemented yet');
     });
 
-    test('should handle multi-score scenarios (CHATGPT 4.1)', async () => {
+    test('should handle multi-score scenarios (review 4.1)', async () => {
       expect(async () => {
         const mockStore = {
           annotations: {
@@ -738,7 +738,7 @@ describe('Version useFingeringInteraction Hook Tests', () => {
     });
   });
 
-  describe('Touch Support (GROK3)', () => {
+  describe('Touch Support (review)', () => {
     test('should handle touch events with proper coordinates', async () => {
       expect(async () => {
         const { result } = renderHook(() => useFingeringInteraction());
@@ -786,7 +786,7 @@ describe('Version useFingeringInteraction Hook Tests', () => {
     });
   });
 
-  describe('Focus Management (GEMINI)', () => {
+  describe('Focus Management (review)', () => {
     test('should track and restore focus after input closes', async () => {
       expect(async () => {
         const { result } = renderHook(() => useFingeringInteraction());

@@ -7,7 +7,7 @@
  * - Async flushing during idle time
  * - Compile-time stripping for production
  * 
- * Based on consensus from performance analysis:
+ * Based on performance analysis:
  * - No string formatting in audio callbacks
  * - No object allocation in hot paths
  * - Deferred logging only

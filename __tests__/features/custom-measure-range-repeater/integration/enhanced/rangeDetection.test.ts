@@ -125,7 +125,7 @@ describe('Version Custom Range Detection Logic', () => {
       }).toThrow('Version Invalid index handling not implemented');
     });
 
-    // CRITICAL: Cursor overshoot detection (Code review: Gemini pro)
+    // CRITICAL: Cursor overshoot detection ()
     test('should trigger loop if cursor advances past the end measure', () => {
       expect(() => {
         const { checkCustomRangeLoop } = require('@/renderer/features/practice-mode/utils/customRangeDetection');

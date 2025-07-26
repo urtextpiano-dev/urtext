@@ -68,7 +68,7 @@ describe('Version MeasureRangeSelector Component', () => {
     });
 
     test('should use required totalMeasures prop (Code review:)', () => {
-      // All AI models agreed: totalMeasures should be required, not optional
+      // Code review: totalMeasures should be required, not optional
       expect(() => {
         const { MeasureRangeSelector } = require('@/renderer/features/practice-mode/components/MeasureRangeSelector');
         
@@ -162,7 +162,7 @@ describe('Version MeasureRangeSelector Component', () => {
       }).toThrow('Version Store action integration not implemented');
     });
 
-    // CRITICAL: Multiple components synchronization (Code review: Code review: o3)
+    // CRITICAL: Multiple components synchronization
     test('should synchronize multiple components to same store', () => {
       expect(async () => {
         const { MeasureRangeSelector } = require('@/renderer/features/practice-mode/components/MeasureRangeSelector');
@@ -212,7 +212,7 @@ describe('Version MeasureRangeSelector Component', () => {
     });
   });
 
-  describe('Input Validation (AI Consensus)', () => {
+  describe('Input Validation', () => {
     test('should validate range boundaries in real-time', async () => {
       expect(async () => {
         const { MeasureRangeSelector } = require('@/renderer/features/practice-mode/components/MeasureRangeSelector');
@@ -268,7 +268,7 @@ describe('Version MeasureRangeSelector Component', () => {
       }).toThrow('Version Toggle button validation state not implemented');
     });
 
-    // CRITICAL: Blank/NaN state handling (Code review: Code review: o3)
+    // CRITICAL: Blank/NaN state handling
     test('should handle empty input on blur without causing NaN', async () => {
       expect(async () => {
         const { MeasureRangeSelector } = require('@/renderer/features/practice-mode/components/MeasureRangeSelector');

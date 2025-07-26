@@ -2,7 +2,7 @@
  * Core data structures for BPM/Tempo Extraction
  * 
  * Strict TypeScript interfaces with validation guards
- * following multi-Code review: requirements
+ * following code review: requirements
  */
 
 export interface TempoChangeEvent {

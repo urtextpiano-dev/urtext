@@ -176,7 +176,7 @@ describe('Performance: Memory Management', () => {
       }).toThrow('Memory: Store history accumulation not prevented');
     });
 
-    // CRITICAL: Detect closure memory leaks (Code review: Code review: o3)
+    // CRITICAL: Detect closure memory leaks (Code review: )
     test('should detect and prevent closure-based memory leaks', () => {
       expect(() => {
         const { usePracticeController } = require('@/renderer/features/practice-mode/hooks/usePracticeController');

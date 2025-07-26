@@ -1,5 +1,5 @@
 /**
- * CRITICAL EDGE CASES - Based on Multi-AI Consensus
+ * CRITICAL EDGE CASES - Based on Code Consensus
  * 
  * These tests address production-breaking scenarios identified by:
  * - Code review:: Implementation ambiguity and clarity issues
@@ -23,7 +23,7 @@ try {
   // Not implemented yet - expected for TDD
 }
 
-describe('Critical Edge Cases - Multi-AI Consensus', () => {
+describe('Critical Edge Cases - Code Consensus', () => {
   describe('Error Handling Clarity (Code review:)', () => {
     it('should return default BPM when OSMD properties are undefined', async () => {
       await expect(async () => {

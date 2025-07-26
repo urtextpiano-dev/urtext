@@ -253,7 +253,7 @@ describe('Version Accessibility Compliance', () => {
       }).toThrow('Version Focus loss prevention not implemented');
     });
 
-    // CRITICAL: Focus order preservation (Code review: Gemini pro)
+    // CRITICAL: Focus order preservation ()
     test('should maintain logical focus order in all states', async () => {
       expect(() => {
         const { MeasureRangeSelector } = require('@/renderer/features/practice-mode/components/MeasureRangeSelector');

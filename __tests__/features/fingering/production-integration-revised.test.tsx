@@ -1,4 +1,4 @@
-// Phase 4 Production Integration Tests - REVISED after AI Review
+// Phase 4 Production Integration Tests - REVISED after Code Review
 // TDD Cycle Reminder:
 // 1. RED: Run these tests - they should fail
 // 2. GREEN: Write minimum code to make tests pass
@@ -20,7 +20,7 @@ import React from 'react';
 // import { useFingeringStore } from '@/renderer/features/fingering/stores/fingeringStore';
 // import { perfLogger } from '@/renderer/utils/performance-logger';
 
-// Shared test utilities (CHATGPT 4.1: Centralized helpers)
+// Shared test utilities (review 4.1: Centralized helpers)
 import { 
   generateFingeringId,
   parseFingeringId,
@@ -37,7 +37,7 @@ jest.mock('zustand/middleware', () => ({
   persist: jest.fn((config) => config)
 }));
 
-// Performance thresholds (CHATGPT Code review:: Quantified values)
+// Performance thresholds (review Code review:: Quantified values)
 const PERFORMANCE_THRESHOLDS = {
   viewportCalc: 2, // ms per scroll event
   memoryOverhead: 5 * 1024 * 1024, // 5MB for 1000 fingerings
@@ -50,7 +50,7 @@ const PERFORMANCE_THRESHOLDS = {
   defaultFontSize: 12
 };
 
-// Default settings values (CHATGPT Code review:: Explicit defaults)
+// Default settings values (review Code review:: Explicit defaults)
 const DEFAULT_SETTINGS = {
   isEnabled: true,
   showOnAllNotes: false,
@@ -78,7 +78,7 @@ describe('Version Production Integration - Revised Implementation Tests', () => 
     Object.defineProperty(window, 'innerWidth', { value: 1024, writable: true });
     Object.defineProperty(window, 'innerHeight', { value: 768, writable: true });
     
-    // Setup shared mock OSMD (GEMINI: OSMD integration)
+    // Setup shared mock OSMD (review: OSMD integration)
     mockOSMD = {
       container: document.createElement('div'),
       render: jest.fn().mockResolvedValue(undefined),
@@ -140,7 +140,7 @@ describe('Version Production Integration - Revised Implementation Tests', () => 
             expect(option).toHaveTextContent(colorOptions[index].label);
           });
           
-          // Helper text (CHATGPT Code review:: Exact copy)
+          // Helper text (review Code review:: Exact copy)
           const helperText = screen.getByText(
             'Displays suggested fingerings for unmarked notes'
           );
@@ -151,7 +151,7 @@ describe('Version Production Integration - Revised Implementation Tests', () => 
 
       test('should apply settings changes to rendered fingerings immediately', async () => {
         expect(async () => {
-          // GEMINI: Settings changes actually render on score
+          // review: Settings changes actually render on score
           const { result: settingsResult } = renderHook(() => useFingeringSettings());
           const store = useFingeringStore.getState();
           
@@ -214,7 +214,7 @@ describe('Version Production Integration - Revised Implementation Tests', () => 
 
       test('should handle rapid settings changes without race conditions', async () => {
         expect(async () => {
-          // GROK3: Rapid settings changes
+          // review: Rapid settings changes
           render(<FingeringSettings />);
           const fontSlider = screen.getByRole('slider', { name: /font size/i });
           
@@ -242,7 +242,7 @@ describe('Version Production Integration - Revised Implementation Tests', () => 
 
       test('should validate and sanitize extreme/malicious settings values', async () => {
         expect(async () => {
-          // GROK3: Extreme values and security
+          // review: Extreme values and security
           const { result } = renderHook(() => useFingeringSettingsStore());
           
           // Test extreme font sizes
@@ -280,7 +280,7 @@ describe('Version Production Integration - Revised Implementation Tests', () => 
 
       test('should maintain accessibility with high contrast mode', () => {
         expect(() => {
-          // GROK3: Accessibility conflicts
+          // review: Accessibility conflicts
           window.matchMedia = jest.fn().mockImplementation(query => ({
             matches: query === '(prefers-contrast: high)',
             media: query,
@@ -312,7 +312,7 @@ describe('Version Production Integration - Revised Implementation Tests', () => 
     describe('Task 4.2: Settings Store with localStorage Edge Cases', () => {
       test('should handle localStorage unavailable or full gracefully', async () => {
         expect(async () => {
-          // GEMINI & GROK3: Storage failure handling
+          // review & review: Storage failure handling
           const originalSetItem = Storage.prototype.setItem;
           
           // Test localStorage disabled
@@ -362,7 +362,7 @@ describe('Version Production Integration - Revised Implementation Tests', () => 
 
       test('should handle cross-tab synchronization correctly', async () => {
         expect(async () => {
-          // GROK3: Cross-tab conflicts
+          // review: Cross-tab conflicts
           const { result: tab1 } = renderHook(() => useFingeringSettingsStore());
           const { result: tab2 } = renderHook(() => useFingeringSettingsStore());
           
@@ -404,7 +404,7 @@ describe('Version Production Integration - Revised Implementation Tests', () => 
 
       test('should migrate settings across versions with specific scenarios', () => {
         expect(() => {
-          // CHATGPT Code review:: Version migration matrix
+          // review Code review:: Version migration matrix
           const migrationTests = [
             {
               from: {
@@ -464,7 +464,7 @@ describe('Version Production Integration - Revised Implementation Tests', () => 
       describe('OSMD Integration and Re-render Handling', () => {
         test('should survive OSMD re-render and maintain fingering positions', async () => {
           expect(async () => {
-            // GEMINI: OSMD re-render integration
+            // review: OSMD re-render integration
             jest.mocked(useOSMDContext).mockReturnValue({
               osmd: mockOSMD,
               isReady: true
@@ -510,7 +510,7 @@ describe('Version Production Integration - Revised Implementation Tests', () => 
 
         test('should handle auto-scroll during practice mode efficiently', async () => {
           expect(async () => {
-            // GEMINI: Auto-scroll during practice
+            // review: Auto-scroll during practice
             const mockPracticeStore = {
               isActive: true,
               currentMeasure: 5,
@@ -548,7 +548,7 @@ describe('Version Production Integration - Revised Implementation Tests', () => 
 
         test('should handle device orientation changes smoothly', async () => {
           expect(async () => {
-            // GROK3: Device orientation
+            // review: Device orientation
             const { result } = renderHook(() => useViewportOptimization());
             
             // Portrait orientation
@@ -584,7 +584,7 @@ describe('Version Production Integration - Revised Implementation Tests', () => 
 
         test('should optimize background tab behavior', async () => {
           expect(async () => {
-            // GROK3: Background tab optimization
+            // review: Background tab optimization
             const { result } = renderHook(() => useViewportOptimization());
             
             // Simulate background tab
@@ -614,7 +614,7 @@ describe('Version Production Integration - Revised Implementation Tests', () => 
 
         test('should handle rapid scroll with 1000+ annotations efficiently', async () => {
           expect(async () => {
-            // GROK3: Large dataset performance
+            // review: Large dataset performance
             const annotations = {};
             for (let i = 0; i < 1000; i++) {
               annotations[generateFingeringId(i * 0.5, 60 + (i % 12))] = (i % 5) + 1;
@@ -662,7 +662,7 @@ describe('Version Production Integration - Revised Implementation Tests', () => 
     describe('Task 4.4: Enhanced Error Handling', () => {
       test('should scope errors to fingering feature only', async () => {
         expect(async () => {
-          // GEMINI: Feature-scoped failure
+          // review: Feature-scoped failure
           const ThrowingFingeringComponent = () => {
             throw new Error('Fingering render error');
           };
@@ -701,7 +701,7 @@ describe('Version Production Integration - Revised Implementation Tests', () => 
 
       test('should handle transposition without breaking fingerings', async () => {
         expect(async () => {
-          // GEMINI: Cross-feature interaction
+          // review: Cross-feature interaction
           const store = useFingeringStore.getState();
           store.annotations['test-score'] = {
             't1-m60': 1, // C4
@@ -744,7 +744,7 @@ describe('Version Production Integration - Revised Implementation Tests', () => 
 
       test('should handle network-dependent features gracefully', async () => {
         expect(async () => {
-          // GROK3: Network failures
+          // review: Network failures
           // Mock font loading failure
           const originalFetch = global.fetch;
           global.fetch = jest.fn().mockRejectedValue(new Error('Network error'));
@@ -770,7 +770,7 @@ describe('Version Production Integration - Revised Implementation Tests', () => 
     describe('Task 4.5: Enhanced Practice Mode Integration', () => {
       test('should handle rapid mode switching without state corruption', async () => {
         expect(async () => {
-          // GROK3: Rapid mode switching
+          // review: Rapid mode switching
           const practiceStore = {
             isActive: false,
             setActive: jest.fn()
@@ -801,7 +801,7 @@ describe('Version Production Integration - Revised Implementation Tests', () => 
 
       test('should integrate with practice mode auto-scroll and timing', async () => {
         expect(async () => {
-          // CHATGPT 4.1: End-to-end practice flow
+          // review 4.1: End-to-end practice flow
           const mockPractice = {
             isActive: true,
             currentStep: {
@@ -857,7 +857,7 @@ describe('Version Production Integration - Revised Implementation Tests', () => 
     describe('Task 4.6: Production Performance & Stress Tests', () => {
       test('should maintain MIDI latency under stress with fingerings', async () => {
         expect(async () => {
-          // GROK3: MIDI latency under stress
+          // review: MIDI latency under stress
           // Setup high load scenario
           const annotations = {};
           for (let i = 0; i < 500; i++) {
@@ -910,7 +910,7 @@ describe('Version Production Integration - Revised Implementation Tests', () => 
 
       test('should work on low-end devices with reduced features', () => {
         expect(() => {
-          // GROK3: Low-end device support
+          // review: Low-end device support
           // Simulate low-end device
           navigator.hardwareConcurrency = 2; // 2 CPU cores
           performance.memory = { 
@@ -942,7 +942,7 @@ describe('Version Production Integration - Revised Implementation Tests', () => 
 
       test('should handle touch input edge cases on mobile', async () => {
         expect(async () => {
-          // GROK3: Touch edge cases
+          // review: Touch edge cases
           render(<FingeringLayer scoreId="test-score" />);
           
           const noteElement = screen.getByTestId('note-t1-m60');
@@ -990,7 +990,7 @@ describe('Version Production Integration - Revised Implementation Tests', () => 
 
       test('should validate against malicious input in all user inputs', async () => {
         expect(async () => {
-          // GROK3: Security validation
+          // review: Security validation
           const maliciousInputs = [
             '<script>alert("xss")</script>',
             '"><script>alert("xss")</script>',
@@ -1041,7 +1041,7 @@ describe('Version Production Integration - Revised Implementation Tests', () => 
     describe('Cross-Phase Integration Tests', () => {
       test('should complete full user journey from settings to persistence', async () => {
         expect(async () => {
-          // CHATGPT 4.1: Cross-phase integration
+          // review 4.1: Cross-phase integration
           // 1. User opens settings
           render(<FingeringSettings />);
           
@@ -1091,7 +1091,7 @@ describe('Version Production Integration - Revised Implementation Tests', () => 
 
       test('should handle error propagation from store to UI gracefully', async () => {
         expect(async () => {
-          // CHATGPT 4.1: Error propagation
+          // review 4.1: Error propagation
           const mockDexie = setupMockDexie();
           
           // Inject failure at database level

@@ -138,7 +138,7 @@ describe('Version TopControlsMenu Integration', () => {
       }).toThrow('Version Measure count integration not implemented');
     });
 
-    // CRITICAL: State updates from UI (Code review: Gemini pro)
+    // CRITICAL: State updates from UI ()
     test('should update practice store when user changes measure range', async () => {
       const { TopControlsMenu } = require('@/renderer/components/TopControlsMenu/TopControlsMenu');
       const user = userEvent.setup();
@@ -365,7 +365,7 @@ describe('Version TopControlsMenu Integration', () => {
     });
   });
 
-  // CRITICAL: Keyboard navigation (Code review: Gemini pro)
+  // CRITICAL: Keyboard navigation ()
   describe('Keyboard Accessibility', () => {
     test('should support Tab navigation through all controls', async () => {
       const { TopControlsMenu } = require('@/renderer/components/TopControlsMenu/TopControlsMenu');

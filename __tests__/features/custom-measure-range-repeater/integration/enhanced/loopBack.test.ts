@@ -106,7 +106,7 @@ describe('Version Custom Range Loop Back Navigation', () => {
       }).toThrow('Version Successful seek handling not implemented');
     });
 
-    // CRITICAL: Performance budget clarification (Code review: Code review: o3)
+    // CRITICAL: Performance budget clarification (Code review: )
     // Loop navigation alone: <10ms
     // Total MIDI latency with range: <20ms
     test('should complete within 10ms performance budget', async () => {

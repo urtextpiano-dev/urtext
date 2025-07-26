@@ -9,7 +9,7 @@ import { renderHook } from '@testing-library/react';
 import React from 'react';
 
 // These imports will fail initially, driving TDD implementation
-// CRITICAL: Multi-AI validation identified proper service lifecycle as essential
+// CRITICAL: Code validation identified proper service lifecycle as essential
 import { TempoServicesProvider, useTempoServices } from '@/renderer/features/practice-mode/providers/TempoServicesProvider';
 
 // Mock the services that will be created by the provider
@@ -147,7 +147,7 @@ describe('TempoServicesProvider - Service Lifecycle Management', () => {
 
   describe('Service Lifecycle Management (CRITICAL)', () => {
     test('should initialize services on mount', () => {
-      // MULTI-AI VALIDATION: Proper lifecycle management was identified as critical
+      // CODE VALIDATION: Proper lifecycle management was identified as critical
       render(
         <TempoServicesProvider>
           <div>Test</div>

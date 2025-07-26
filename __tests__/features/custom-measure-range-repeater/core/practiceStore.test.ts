@@ -42,7 +42,7 @@ describe('Version Practice Store Custom Range Extension', () => {
         const { usePracticeStore } = require('@/renderer/features/practice-mode/stores/practiceStore');
         const store = usePracticeStore.getState();
         
-        // AI Consensus requirements: safe defaults to prevent undefined errors
+        // Code review requirements: safe defaults to prevent undefined errors
         expect(store).toHaveProperty('customRangeActive', false);
         expect(store).toHaveProperty('customStartMeasure', 1);
         expect(store).toHaveProperty('customEndMeasure', 1);
@@ -122,7 +122,7 @@ describe('Version Practice Store Custom Range Extension', () => {
       }).toThrow('Version Store-level validation not implemented');
     });
 
-    // CRITICAL: Store guard against invalid range activation (Code review: Code review: o3)
+    // CRITICAL: Store guard against invalid range activation
     test('should prevent activating invalid range programmatically', () => {
       expect(() => {
         const { usePracticeStore } = require('@/renderer/features/practice-mode/stores/practiceStore');

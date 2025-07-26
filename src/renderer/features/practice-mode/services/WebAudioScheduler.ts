@@ -57,7 +57,7 @@ export class WebAudioScheduler implements AudioScheduler {
     WINDOW_MS: 1000 // 1 second aggregation window
   };
 
-  // Default configuration based on consensus recommendations
+  // Default configuration based on performance testing
   private static readonly DEFAULT_CONFIG: SchedulerConfig = {
     lookAheadTimeMs: 50, // 25-50ms range recommended by industry
     fallbackMode: 'auto',

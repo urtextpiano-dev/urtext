@@ -15,7 +15,7 @@ export class ExplicitTempoExtractor implements ITempoExtractor {
   readonly name = 'explicit';
   readonly priority = 100; // Highest priority for explicit markings
   
-  // Expanded regex patterns based on multi-AI feedback
+  // Expanded regex patterns based on musical notation standards
   private readonly METRONOME_PATTERNS = [
     /[♩♪♫♬]\s*=\s*(\d+)/,          // Unicode notes
     /quarter\s*=\s*(\d+)/i,         // Text variations

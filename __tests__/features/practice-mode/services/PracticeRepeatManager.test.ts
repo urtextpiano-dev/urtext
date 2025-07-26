@@ -357,7 +357,7 @@ describe('Version PracticeRepeatManager Service - Implementation Tests', () => {
     });
   });
 
-  describe('Integration Edge Cases (Gemini Additions)', () => {
+  describe('Integration Edge Cases', () => {
     test('should deactivate repeat on external seek', async () => {
       // Start repeat at measure 4
         mockAdapter.getCurrentMeasure.mockReturnValue(4);

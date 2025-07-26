@@ -7,7 +7,7 @@ import { describe, test, expect, beforeEach, jest } from '@jest/globals';
 import { renderHook, act } from '@testing-library/react';
 
 // Critical latency measurement for Urtext Piano's <20ms requirement
-// MULTI-AI VALIDATION: End-to-end latency tests need careful framing
+// CODE VALIDATION: End-to-end latency tests need careful framing
 
 describe('MIDI Latency Performance - Tempo Cursor Advancement', () => {
   beforeEach(() => {

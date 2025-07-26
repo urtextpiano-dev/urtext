@@ -89,7 +89,7 @@ describe('WebAudioScheduler - Precise Timing Implementation', () => {
     });
 
     test('should handle suspended AudioContext state (CRITICAL FIX)', () => {
-      // MULTI-AI VALIDATION: This was identified as a critical missing feature
+      // CODE VALIDATION: This was identified as a critical missing feature
       mockAudioContext.state = 'suspended';
       
       new WebAudioScheduler();

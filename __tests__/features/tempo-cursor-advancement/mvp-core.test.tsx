@@ -8,7 +8,7 @@ import { renderHook, act } from '@testing-library/react';
 import { render, screen } from '@testing-library/react';
 
 // These imports will fail initially, driving TDD implementation
-// CRITICAL: Multi-AI validation identified these exact integration points
+// CRITICAL: Code validation identified these exact integration points
 import { TempoServiceImpl } from '@/renderer/features/practice-mode/services/TempoService';
 import { WebAudioScheduler } from '@/renderer/features/practice-mode/services/WebAudioScheduler';
 import { TempoServicesProvider, useTempoServices } from '@/renderer/features/practice-mode/providers/TempoServicesProvider';
@@ -120,7 +120,7 @@ describe('Version MVP Core - Basic Tempo-Aware Advancement', () => {
 
     test('should compute musical delays correctly (CRITICAL: Fixed note duration units)', () => {
       // Drive correct musical timing calculation
-      // MULTI-AI VALIDATION: This was identified as a critical units issue
+      // CODE VALIDATION: This was identified as a critical units issue
       const mockOSMDStore = { tempoMap: { defaultBpm: 120 } };
       const tempoService = new TempoServiceImpl(mockOSMDStore);
       
@@ -257,7 +257,7 @@ describe('Version MVP Core - Basic Tempo-Aware Advancement', () => {
 
   describe('Task 1.3: Practice Controller Integration (CRITICAL)', () => {
     test('should implement extractNoteDuration function (MISSING IMPLEMENTATION)', () => {
-      // MULTI-AI VALIDATION: This function was completely missing
+      // CODE VALIDATION: This function was completely missing
       expect(() => {
         // This should be available in the practice controller
         const { result } = renderHook(() => usePracticeController());
@@ -289,7 +289,7 @@ describe('Version MVP Core - Basic Tempo-Aware Advancement', () => {
     });
 
     test('should use FEEDBACK_TIMEOUT action not ADVANCE_CURSOR (CRITICAL FIX)', () => {
-      // MULTI-AI VALIDATION: ADVANCE_CURSOR doesn't exist
+      // CODE VALIDATION: ADVANCE_CURSOR doesn't exist
       const { result } = renderHook(() => usePracticeController());
       
       act(() => {

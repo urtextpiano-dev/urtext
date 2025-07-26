@@ -9,10 +9,10 @@
  * - Use useOSMDContext() instead
  * - Do NOT use this hook without a proper containerRef
  * 
- * Combines architectural patterns from multi-AI collaboration:
+ * Architectural patterns:
  * - Component lifecycle + hybrid state management
- * - Code review:: Velocity-based visual feedback + innovation patterns  
- * - Code review:: Robust error handling + testing strategies
+ * - Velocity-based visual feedback + innovation patterns  
+ * - Robust error handling + testing strategies
  */
 
 // BUILD VERIFICATION - Development only
@@ -228,6 +228,9 @@ export const useOSMD = (
           scrollContainer.scrollTop = scrollPercent * scrollContainer.scrollHeight;
         }
         
+        // Build cache after render completes
+        buildMeasureCache();
+        
         // Re-inject note attributes after render
         injectNoteIdAttributes();
         drawPracticeRangeBorder();
@@ -436,7 +439,6 @@ export const useOSMD = (
                     // Check for SVG element getter - OSMD 1.9.0 might use different method names
                     let svgElement = null;
                     
-                    // 🔴 DEBUG: Track chord note SVG element status
                     const isChord = notes.length > 1;
                     
                     
@@ -465,13 +467,15 @@ export const useOSMD = (
                       svgElement = note.svgElement || note.SVGElement;
                     }
                     
-                    // 🔴 DEBUG: Log SVG element status for each chord note
-                    debugInfo.hasSvgElement = !!svgElement;
-                    if (isChord && process.env.NODE_ENV === 'development') {
-                      perfLogger.debug(`🎵 CHORD NOTE ${noteIndex + 1}/${notes.length}:`, {
-                        ...debugInfo,
-                        svgElementId: svgElement?.id || 'NO_ELEMENT'
-                      });
+                    // Only log in development with debug flag
+                    if (process.env.NODE_ENV === 'development' && process.env.DEBUG_CHORDS) {
+                      debugInfo.hasSvgElement = !!svgElement;
+                      if (isChord) {
+                        perfLogger.debug(`🎵 CHORD NOTE ${noteIndex + 1}/${notes.length}:`, {
+                          ...debugInfo,
+                          svgElementId: svgElement?.id || 'NO_ELEMENT'
+                        });
+                      }
                     }
                     
                     if (!svgElement) {
@@ -496,72 +500,12 @@ export const useOSMD = (
                           const fingeringNoteId = `m${measureIndex}-s${staffIndex}-v${voiceIndex}-n${noteIndex}-ts${timestampStr}-midi${midiNote}`;
                           
                           
-                          // Visual debugging for chord notes (development only)
-                          if (process.env.NODE_ENV === 'development' && isChord) {
+                          // Visual debugging for chord notes - only with explicit debug flag
+                          if (process.env.NODE_ENV === 'development' && process.env.DEBUG_CHORDS_VISUAL && isChord) {
                             // Color code based on position in chord
                             const colors = ['#ff0000', '#00ff00', '#0000ff', '#ff00ff', '#ffff00'];
                             const debugColor = colors[noteIndex % colors.length];
                             
-                            // Check for VexFlow noteheads
-                            const vfNoteheads = svgElement.querySelectorAll('.vf-notehead');
-                            const vfNoteheadElements = svgElement.querySelectorAll('g.vf-notehead');
-                            
-                            const pathNoteheads = svgElement.querySelectorAll('path[class*="notehead"]');
-                            const allPaths = svgElement.querySelectorAll('path');
-                            
-                            perfLogger.debug('Chord note visual debug', {
-                              fingeringNoteId,
-                              notePosition: `${noteIndex + 1}/${notes.length}`,
-                              vfNoteheads: vfNoteheads.length,
-                              pathNoteheads: pathNoteheads.length,
-                              totalPaths: allPaths.length,
-                              svgElementTag: svgElement.tagName,
-                              svgElementId: svgElement.id || 'NO_ID'
-                            });
-                            
-                            // TEMPORARY: Enhanced DOM structure inspection for chord debugging
-                            if (noteIndex === 0) { // Only log once per chord
-                              perfLogger.debug('🔍 CHORD DOM STRUCTURE ANALYSIS:', {
-                                svgElement: {
-                                  tag: svgElement.tagName,
-                                  className: svgElement.className?.baseVal || svgElement.className || 'NO_CLASS',
-                                  id: svgElement.id || 'NO_ID',
-                                  childCount: svgElement.children.length
-                                },
-                                children: Array.from(svgElement.children).map((child, i) => ({
-                                  index: i,
-                                  tag: child.tagName,
-                                  className: child.className?.baseVal || child.className || 'NO_CLASS',
-                                  id: child.id || 'NO_ID',
-                                  attributes: Object.fromEntries(
-                                    Array.from(child.attributes).map(attr => [attr.name, attr.value])
-                                  ),
-                                  hasChildren: child.children.length > 0,
-                                  childTags: child.children.length > 0 ? 
-                                    Array.from(child.children).map(c => c.tagName) : []
-                                })),
-                                vfNoteheadElements: Array.from(vfNoteheads).map((el, i) => ({
-                                  index: i,
-                                  tag: el.tagName,
-                                  className: el.className?.baseVal || el.className,
-                                  attributes: Object.fromEntries(
-                                    Array.from(el.attributes).map(attr => [attr.name, attr.value])
-                                  )
-                                })),
-                                allPathElements: Array.from(allPaths).map((el, i) => ({
-                                  index: i,
-                                  className: el.className?.baseVal || el.className || 'NO_CLASS',
-                                  d: el.getAttribute('d')?.substring(0, 50) + '...', // Truncate path data
-                                  attributes: Object.fromEntries(
-                                    Array.from(el.attributes)
-                                      .filter(attr => attr.name !== 'd') // Skip long path data
-                                      .map(attr => [attr.name, attr.value])
-                                  )
-                                }))
-                              });
-                            }
-                            
-                            // Visual debugging - color the SVG element
                             svgElement.setAttribute('fill', debugColor);
                             svgElement.setAttribute('stroke', debugColor);
                             svgElement.setAttribute('data-debug-color', debugColor);
@@ -834,6 +778,132 @@ export const useOSMD = (
     }
   }, []);
 
+  // Cache for measure bounding boxes - built after render
+  const measureCacheRef = useRef<Map<number, Array<{
+    systemIndex: number;
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+  }>>>(new Map());
+  const cacheBuiltRef = useRef(false);
+
+  // Build measure cache after OSMD render completes
+  const buildMeasureCache = useCallback(() => {
+    const osmdInstance = osmdRef.current;
+    if (!osmdInstance || !osmdInstance.graphic) return;
+
+    const cache = new Map<number, Array<{ systemIndex: number; x: number; y: number; width: number; height: number }>>();
+    const graphic = osmdInstance.graphic;
+
+    // Access GraphicalMeasureParent objects (spans all staves)
+    // Try different property names as OSMD API may vary
+    const graphicalMeasures = 
+      graphic.GraphicalMeasureParents ||
+      graphic.VerticalGraphicalStaffEntryContainers ||
+      graphic.MeasureList;
+
+    if (!graphicalMeasures) {
+      console.warn('[Practice Range Cache] No GraphicalMeasureParents found');
+      return;
+    }
+
+    // If we have MeasureList, we need to iterate differently
+    if (graphic.MeasureList && !graphic.GraphicalMeasureParents) {
+      // Fallback: Build from MeasureList
+      const measureList = graphic.MeasureList;
+      const isStaffFirst = measureList.length <= 4; // Assume max 4 staves
+      
+      if (isStaffFirst) {
+        // [staff][measure] format
+        measureList.forEach((staffMeasures: any[]) => {
+          staffMeasures.forEach((measure: any) => {
+            if (!measure || !measure.parentSourceMeasure) return;
+            
+            const measureNumber = measure.parentSourceMeasure.MeasureNumber;
+            const systemId = measure.parentMusicSystem?.Id ?? 0;
+            const bbox = measure.PositionAndShape;
+            
+            if (!bbox) return;
+            
+            if (!cache.has(measureNumber)) {
+              cache.set(measureNumber, []);
+            }
+            
+            cache.get(measureNumber)!.push({
+              systemIndex: systemId,
+              x: bbox.AbsolutePosition?.x ?? bbox.absolutePosition?.x ?? 0,
+              y: bbox.AbsolutePosition?.y ?? bbox.absolutePosition?.y ?? 0,
+              width: bbox.Size?.width ?? bbox.size?.width ?? 0,
+              height: bbox.Size?.height ?? bbox.size?.height ?? 0
+            });
+          });
+        });
+      } else {
+        // [measure][staff] format - transpose first
+        const staffCount = measureList[0]?.length ?? 0;
+        for (let m = 0; m < measureList.length; m++) {
+          for (let s = 0; s < staffCount; s++) {
+            const measure = measureList[m]?.[s];
+            if (!measure || !measure.parentSourceMeasure) continue;
+            
+            const measureNumber = measure.parentSourceMeasure.MeasureNumber;
+            const systemId = measure.parentMusicSystem?.Id ?? 0;
+            const bbox = measure.PositionAndShape;
+            
+            if (!bbox) continue;
+            
+            if (!cache.has(measureNumber)) {
+              cache.set(measureNumber, []);
+            }
+            
+            cache.get(measureNumber)!.push({
+              systemIndex: systemId,
+              x: bbox.AbsolutePosition?.x ?? bbox.absolutePosition?.x ?? 0,
+              y: bbox.AbsolutePosition?.y ?? bbox.absolutePosition?.y ?? 0,
+              width: bbox.Size?.width ?? bbox.size?.width ?? 0,
+              height: bbox.Size?.height ?? bbox.size?.height ?? 0
+            });
+          }
+        }
+      }
+    } else if (Array.isArray(graphicalMeasures)) {
+      // Direct GraphicalMeasureParent array
+      graphicalMeasures.forEach((measureParent: any) => {
+        if (!measureParent?.sourceMeasure) return;
+        
+        const measureNumber = measureParent.sourceMeasure.MeasureNumber; // 1-based
+        const systemIndex = measureParent.parentMusicSystem?.Id ?? 0;
+        const bbox = measureParent.PositionAndShape;
+        
+        if (!bbox) return;
+        
+        if (!cache.has(measureNumber)) {
+          cache.set(measureNumber, []);
+        }
+        
+        cache.get(measureNumber)!.push({
+          systemIndex,
+          x: bbox.AbsolutePosition?.x ?? bbox.absolutePosition?.x ?? 0,
+          y: bbox.AbsolutePosition?.y ?? bbox.absolutePosition?.y ?? 0,
+          width: bbox.Size?.width ?? bbox.size?.width ?? 0,
+          height: bbox.Size?.height ?? bbox.size?.height ?? 0
+        });
+      });
+    }
+
+    measureCacheRef.current = cache;
+    cacheBuiltRef.current = true;
+
+    if (process.env.NODE_ENV === 'development') {
+      console.log('[Practice Range Cache] Built cache with', cache.size, 'measures');
+      const sampleEntries = Array.from(cache.entries()).slice(0, 3);
+      sampleEntries.forEach(([measureNum, bboxes]) => {
+        console.log(`  Measure ${measureNum}: ${bboxes.length} bbox(es) on system(s) ${bboxes.map(b => b.systemIndex).join(',')}`);        
+      });
+    }
+  }, []);
+
   // Draw practice range border on SVG
   const drawPracticeRangeBorder = useCallback(() => {
     const osmdInstance = osmdRef.current;
@@ -864,177 +934,111 @@ export const useOSMD = (
     const graphicSheet = osmdInstance.GraphicSheet;
     if (!graphicSheet) return;
     
-    const unitInPixels = 10 * (osmdInstance.zoom || 1);
-    const minVisibleWidth = 80 / unitInPixels; // Minimum 80px width for single measures
-    
-    // Group bounding boxes by music system using direct MusicSystem.StaffLines.Measures approach
-    const systemBBoxes: Map<number, any[]> = new Map();
-    
-    // First, add diagnostic logging to understand MeasureNumber distribution
-    if (process.env.NODE_ENV === 'development' && graphicSheet.MusicSystems) {
-      graphicSheet.MusicSystems.forEach((system: any, i: number) => {
-        const measureNumbers = system.StaffLines?.flatMap((sl: any) => 
-          sl.Measures?.map((m: any) => m.MeasureNumber) || []
-        ).sort((a: number, b: number) => a - b) || [];
-        
-        console.log(`[Practice Range Debug] System ${i} MeasureNumbers:`, measureNumbers);
-      });
-      console.log(`[Practice Range Debug] Requested range: ${customStartMeasure}-${customEndMeasure}`);
+    // Check if cache is built
+    if (!cacheBuiltRef.current || measureCacheRef.current.size === 0) {
+      console.error('[Practice Range] Measure cache not built - cannot draw practice range');
+      return;
     }
+
+    // When appending to the transformed group, we don't need to multiply by zoom
+    // as the group's transform handles it
+    const minVisibleWidth = 8; // Minimum width in OSMD units (80px at 100% zoom)
     
-    // Try the new MusicSystem approach first
-    if (graphicSheet.MusicSystems) {
-      const musicSystems = graphicSheet.MusicSystems;
-      
-      // Iterate through each music system
-      musicSystems.forEach((system: any, systemIndex: number) => {
-        if (!system.StaffLines || system.StaffLines.length === 0) return;
-        
-        // Collect all in-range measures from all staff lines in this system
-        const inRangeBBoxes = system.StaffLines.flatMap((staffLine: any) => {
-          if (!staffLine.Measures) return [];
-          
-          return staffLine.Measures.filter((measure: any) => {
-            // OSMD MeasureNumber is 1-based
-            return measure.MeasureNumber >= customStartMeasure && measure.MeasureNumber <= customEndMeasure;
-          }).map((measure: any) => measure.PositionAndShape);
-        }).filter((bbox: any) => bbox != null);
-        
-        if (inRangeBBoxes.length > 0) {
-          // Sort by X position to ensure correct ordering
-          inRangeBBoxes.sort((a: any, b: any) => {
-            const aX = a.AbsolutePosition?.x ?? a.absolutePosition?.x ?? 0;
-            const bX = b.AbsolutePosition?.x ?? b.absolutePosition?.x ?? 0;
-            return aX - bX;
-          });
-          
-          systemBBoxes.set(systemIndex, inRangeBBoxes);
-          
-          // Debug logging
-          if (process.env.NODE_ENV === 'development') {
-            const firstX = inRangeBBoxes[0].AbsolutePosition?.x ?? inRangeBBoxes[0].absolutePosition?.x ?? 0;
-            const lastBBox = inRangeBBoxes[inRangeBBoxes.length - 1];
-            const lastX = lastBBox.AbsolutePosition?.x ?? lastBBox.absolutePosition?.x ?? 0;
-            const lastWidth = lastBBox.Size?.width ?? lastBBox.size?.width ?? 0;
-            
-            console.log(`[Practice Range] System ${systemIndex}: ${inRangeBBoxes.length} measures, X range: ${firstX.toFixed(2)} to ${(lastX + lastWidth).toFixed(2)}`);
-          }
-        } else if (process.env.NODE_ENV === 'development') {
-          console.log(`[Practice Range] System ${systemIndex}: No measures found in range`);
-        }
-      });
-    }
+    // Group selected measures by system using cache
+    const measuresBySystem = new Map<number, Array<{ x: number; y: number; width: number; height: number }>>();
     
-    // Fallback: If no boxes found via MusicSystem approach, use MeasureList
-    if (systemBBoxes.size === 0 && graphicSheet.MeasureList) {
-      console.warn('[Practice Range] No measures found via MusicSystem approach, falling back to MeasureList');
-      
-      const measureList = graphicSheet.MeasureList;
-      const startIdx = customStartMeasure - 1; // Convert to 0-based
-      const endIdx = customEndMeasure - 1;
-      
-      // Detect if MeasureList is [measure][staff] instead of [staff][measure]
-      const isStaffFirst = measureList.length <= 4; // Assume max 4 staves for most scores
-      let staffCount = measureList.length;
-      
-      if (!isStaffFirst && measureList[0]) {
-        // Transpose to get [staff][measure] format
-        staffCount = measureList[0].length;
-      }
-      
-      // Collect all bounding boxes for fallback
-      const fallbackBBoxes: any[] = [];
-      
-      for (let staffIdx = 0; staffIdx < staffCount; staffIdx++) {
-        for (let mIdx = startIdx; mIdx <= endIdx; mIdx++) {
-          let gMeasure;
-          if (isStaffFirst) {
-            gMeasure = measureList[staffIdx]?.[mIdx];
-          } else {
-            gMeasure = measureList[mIdx]?.[staffIdx];
-          }
-          
-          if (gMeasure?.PositionAndShape) {
-            fallbackBBoxes.push(gMeasure.PositionAndShape);
-          }
-        }
-      }
-      
-      if (fallbackBBoxes.length > 0) {
-        // Sort by X position
-        fallbackBBoxes.sort((a: any, b: any) => {
-          const aX = a.AbsolutePosition?.x ?? a.absolutePosition?.x ?? 0;
-          const bX = b.AbsolutePosition?.x ?? b.absolutePosition?.x ?? 0;
-          return aX - bX;
-        });
-        
-        // Use single system for fallback
-        systemBBoxes.set(0, fallbackBBoxes);
-        
+    for (let m = customStartMeasure; m <= customEndMeasure; m++) {
+      const bboxes = measureCacheRef.current.get(m);
+      if (!bboxes) {
         if (process.env.NODE_ENV === 'development') {
-          console.log(`[Practice Range] Fallback: Found ${fallbackBBoxes.length} measures via MeasureList`);
+          console.warn(`[Practice Range] Measure ${m} not found in cache`);
         }
+        continue;
+      }
+      
+      for (const bbox of bboxes) {
+        if (!measuresBySystem.has(bbox.systemIndex)) {
+          measuresBySystem.set(bbox.systemIndex, []);
+        }
+        measuresBySystem.get(bbox.systemIndex)!.push(bbox);
       }
     }
 
-    if (systemBBoxes.size === 0) return;
+    if (measuresBySystem.size === 0) {
+      console.warn('[Practice Range] No measures found in selected range');
+      return;
+    }
 
-    // Find the main content group in SVG that contains the actual music notation
-    let contentGroup = svg.querySelector('g');
+    // Find the OSMD canvas group that contains transforms
+    // This ensures our rectangles inherit the same zoom scaling as the music notation
+    let contentGroup = svg.querySelector('#osmdCanvas') || svg.querySelector('g#osmdCanvas');
     if (!contentGroup) {
-      contentGroup = svg; // Fallback to root SVG
+      // Fallback: look for any g element with scale transform
+      const allGroups = svg.querySelectorAll('g');
+      for (const g of allGroups) {
+        const transform = g.getAttribute('transform');
+        if (transform && transform.includes('scale')) {
+          contentGroup = g;
+          break;
+        }
+      }
+    }
+    if (!contentGroup) {
+      contentGroup = svg.querySelector('g') || svg; // Final fallback
+    }
+
+    if (process.env.NODE_ENV === 'development') {
+      const transform = contentGroup.getAttribute('transform');
+      console.log('[Practice Range] Using content group:', contentGroup.id || contentGroup.tagName, 'transform:', transform);
     }
 
     const fragment = document.createDocumentFragment();
-    const padding = 4; // px for breathing room
+    // Scale padding with zoom to maintain consistent visual spacing
+    const paddingInOSMDUnits = 0.4; // 4px at 100% zoom
 
     // Draw a rectangle for each system
-    systemBBoxes.forEach((bboxes, systemIndex) => {
+    measuresBySystem.forEach((bboxes, systemIndex) => {
       if (bboxes.length === 0) return;
       
-      // Since bboxes are already sorted by X, we can use first and last directly
-      const firstBBox = bboxes[0];
-      const lastBBox = bboxes[bboxes.length - 1];
+      // Sort by X position
+      bboxes.sort((a, b) => a.x - b.x);
       
-      // Get min/max X from sorted array
-      const minX = firstBBox.AbsolutePosition?.x ?? firstBBox.absolutePosition?.x ?? 0;
-      const lastX = lastBBox.AbsolutePosition?.x ?? lastBBox.absolutePosition?.x ?? 0;
-      const lastWidth = lastBBox.Size?.width ?? lastBBox.size?.width ?? 0;
-      const maxX = lastX + lastWidth;
+      const firstBox = bboxes[0];
+      const lastBox = bboxes[bboxes.length - 1];
       
-      // Calculate Y bounds by checking all boxes
-      let minY = Infinity, maxY = -Infinity;
-      bboxes.forEach((b: any) => {
-        const y = b.AbsolutePosition?.y ?? b.absolutePosition?.y ?? 0;
-        const height = b.Size?.height ?? b.size?.height ?? 0;
-        minY = Math.min(minY, y);
-        maxY = Math.max(maxY, y + height);
-      });
-
-      // Calculate width with minimum width constraint
-      let width = maxX - minX;
+      // Calculate union bounds
+      const x = firstBox.x;
+      const y = Math.min(...bboxes.map(b => b.y));
+      const maxX = lastBox.x + lastBox.width;
+      const maxY = Math.max(...bboxes.map(b => b.y + b.height));
+      
+      let width = maxX - x;
+      const height = maxY - y;
+      
+      // Apply minimum width if needed
       if (width < minVisibleWidth) {
         width = minVisibleWidth;
         if (process.env.NODE_ENV === 'development') {
-          console.log(`[Practice Range] System ${systemIndex}: Width extended from ${(maxX - minX).toFixed(2)} to ${minVisibleWidth} units for visibility`);
+          console.log(`[Practice Range] System ${systemIndex}: Width extended to minimum for visibility`);
         }
       }
-      
-      const height = maxY - minY;
 
       // Guard against invalid dimensions
-      if (minX === Infinity || width <= 0 || height <= 0) return;
+      if (width <= 0 || height <= 0) return;
 
-      // Create SVG rect with scaled coordinates for this system
+      // Create SVG rect - when appended to the correct group, transforms are inherited
       const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-      rect.setAttribute('x', ((minX * unitInPixels) - padding).toString());
-      rect.setAttribute('y', ((minY * unitInPixels) - padding).toString());
-      rect.setAttribute('width', ((width * unitInPixels) + 2 * padding).toString());
-      rect.setAttribute('height', ((height * unitInPixels) + 2 * padding).toString());
+      // Since we're in the transformed group, we only multiply by 10 (OSMD's base unit)
+      // The zoom scaling is handled by the group's transform attribute
+      rect.setAttribute('x', ((x - paddingInOSMDUnits) * 10).toString());
+      rect.setAttribute('y', ((y - paddingInOSMDUnits) * 10).toString());
+      rect.setAttribute('width', ((width + 2 * paddingInOSMDUnits) * 10).toString());
+      rect.setAttribute('height', ((height + 2 * paddingInOSMDUnits) * 10).toString());
       rect.setAttribute('class', 'practice-range-border');
       rect.style.fill = 'none';
       rect.style.stroke = '#ff0000'; // Red border
-      rect.style.strokeWidth = '3';
+      // Scale stroke width inversely with zoom to maintain visual consistency
+      rect.style.strokeWidth = (3 / (osmdInstance.zoom || 1)).toString();
       rect.style.pointerEvents = 'none';
       rect.style.zIndex = '1000';
       
@@ -1047,7 +1051,7 @@ export const useOSMD = (
     } else {
       svg.appendChild(fragment);
     }
-  }, [osmdRef]);
+  }, [osmdRef, buildMeasureCache]);
 
   // Handle resize with debouncing and scroll preservation
   const handleResize = useCallback(() => {
@@ -1083,6 +1087,8 @@ export const useOSMD = (
           // Re-inject data-note-id attributes after OSMD re-render
           // Use requestAnimationFrame to ensure DOM is fully updated
           requestAnimationFrame(() => {
+            // Rebuild cache after re-render
+            buildMeasureCache();
             injectNoteIdAttributes();
             drawPracticeRangeBorder();
           });
@@ -1295,6 +1301,9 @@ export const useOSMD = (
         // Log render time to ring buffer
         logRenderLatency(renderTime);
         
+        // Build measure cache after render
+        buildMeasureCache();
+        
         // Debug: Check if render actually happened
         // Measure count captured above
         
@@ -1396,6 +1405,8 @@ export const useOSMD = (
         // Inject data-note-id attributes after initial render
         // Use nested requestAnimationFrame to ensure DOM is fully committed
         requestAnimationFrame(() => {
+          // Build measure cache first
+          buildMeasureCache();
           injectNoteIdAttributes();
           drawPracticeRangeBorder();
         });
@@ -2071,6 +2082,11 @@ export const useOSMD = (
       drawPracticeRangeBorder();
     }
   }, [customRangeActive, customStartMeasure, customEndMeasure, drawPracticeRangeBorder]);
+  
+  // Invalidate cache when needed
+  useEffect(() => {
+    cacheBuiltRef.current = false;
+  }, [osmdRef.current]); // Reset when OSMD instance changes
 
   // Also redraw on zoom changes
   useEffect(() => {
@@ -2138,9 +2154,9 @@ export const useOSMD = (
     };
   }, []);
 
-  // DEBUG: Simplified DOM inspection
+  // DOM inspection for debugging - only with explicit debug flag
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development') {
+    if (process.env.NODE_ENV === 'development' && process.env.DEBUG_DOM_INSPECTION) {
       perfLogger.debug('🎯 DEBUG Effect triggered', { 
         isReady,
         hasGraphicalNoteMap: noteMappingRef.current.graphicalNoteMap.size,

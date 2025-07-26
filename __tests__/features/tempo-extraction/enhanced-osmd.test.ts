@@ -187,7 +187,7 @@ describe('Version Enhanced OSMD Extraction - Implementation Tests', () => {
     });
   });
 
-  describe('Edge Cases from Multi-AI Review', () => {
+  describe('Edge Cases from Code Review', () => {
     test('should validate offset values are non-negative', () => {
       const negativeOffsetMeasure = {
         TempoExpressions: [

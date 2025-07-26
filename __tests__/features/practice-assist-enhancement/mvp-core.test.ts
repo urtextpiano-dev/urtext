@@ -211,7 +211,7 @@ describe('Version MVP Core - Implementation Tests', () => {
       }).toThrow('HandDifferentiationEnhancer empty case not implemented yet');
     });
 
-    // ENHANCED TESTS: Critical edge cases from AI validation
+    // ENHANCED TESTS: Critical edge cases from code validation
     test('should prioritize right hand when note exists in both staves', () => {
       // TDD: Musical edge case - same note in treble and bass clef
       expect(() => {

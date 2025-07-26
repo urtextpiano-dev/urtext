@@ -100,3 +100,10 @@ docs/private/
 plan/
 research/
 .claude/
+
+# Performance and temporary files
+perf/*.csv
+*.tmp
+*.bak
+*_TESTING.md
+*_IMPLEMENTATION.md

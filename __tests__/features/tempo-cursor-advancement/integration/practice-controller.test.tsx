@@ -9,7 +9,7 @@ import { render } from '@testing-library/react';
 import React from 'react';
 
 // These imports will fail initially, driving TDD implementation
-// CRITICAL: Multi-AI validation identified these exact integration issues
+// CRITICAL: Code validation identified these exact integration issues
 import { usePracticeController } from '@/renderer/features/practice-mode/hooks/usePracticeController.v2';
 import { TempoServicesProvider } from '@/renderer/features/practice-mode/providers/TempoServicesProvider';
 
@@ -75,7 +75,7 @@ describe('Practice Controller Integration - Tempo-Aware Advancement', () => {
 
   describe('extractNoteDuration Implementation (CRITICAL MISSING FUNCTION)', () => {
     test('should implement extractNoteDuration function for quarter notes', () => {
-      // MULTI-AI VALIDATION: This function was completely missing
+      // CODE VALIDATION: This function was completely missing
       const wrapper = ({ children }: { children: React.ReactNode }) => (
         <TempoServicesProvider>{children}</TempoServicesProvider>
       );
@@ -162,7 +162,7 @@ describe('Practice Controller Integration - Tempo-Aware Advancement', () => {
 
   describe('State Machine Integration (CRITICAL)', () => {
     test('should use FEEDBACK_TIMEOUT action not ADVANCE_CURSOR', () => {
-      // MULTI-AI VALIDATION: ADVANCE_CURSOR doesn't exist
+      // CODE VALIDATION: ADVANCE_CURSOR doesn't exist
       const wrapper = ({ children }: { children: React.ReactNode }) => (
         <TempoServicesProvider>{children}</TempoServicesProvider>
       );
@@ -241,7 +241,7 @@ describe('Practice Controller Integration - Tempo-Aware Advancement', () => {
     });
 
     test('should remove duplicate timeout effects (CRITICAL FIX)', () => {
-      // MULTI-AI VALIDATION: Duplicate timeouts were identified as critical issue
+      // CODE VALIDATION: Duplicate timeouts were identified as critical issue
       const wrapper = ({ children }: { children: React.ReactNode }) => (
         <TempoServicesProvider>{children}</TempoServicesProvider>
       );

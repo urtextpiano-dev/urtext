@@ -1,7 +1,7 @@
 /**
  * Piano State Store - Real-time MIDI key highlighting
  * 
- * Enhanced based on AI collaboration feedback:
+ * Architectural patterns:
  * - Counter-based note tracking for overlapping events
  * - Performance-optimized with fine-grained selectors
  * - Edge case handling for rapid sequences and disconnections

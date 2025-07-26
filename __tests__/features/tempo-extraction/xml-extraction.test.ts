@@ -356,7 +356,7 @@ describe('Version XML Tempo Extraction - Implementation Tests', () => {
     });
   });
 
-  describe('Edge Cases from Multi-AI Review', () => {
+  describe('Edge Cases from Code Review', () => {
     test('should handle arrays in parsed XML (fast-xml-parser behavior)', () => {
       expect(() => {
         // When multiple elements exist, parser may create arrays

@@ -1,5 +1,5 @@
-// Additional edge case tests based on AI validation feedback
-// These tests address critical scenarios identified by Gemini and Code review:
+// Additional edge case tests based on review validation feedback
+// These tests address critical scenarios identified by code review:
 
 import { describe, test, expect, beforeEach, jest, afterEach } from '@jest/globals';
 import { render, screen, waitFor } from '@testing-library/react';
@@ -35,7 +35,7 @@ describe('Edge Cases: State Persistence and Race Conditions', () => {
       jest.fn(() => mockPracticeStore);
   });
 
-  describe('Initial State Hydration (Gemini Feedback)', () => {
+  describe('Initial State Hydration', () => {
     test('should correctly show edit mode on initial render when hydrated from storage', () => {
       // Simulate state hydrated from localStorage
       mockFingeringStore.isEditingMode = true; // User had edit mode on when they left
@@ -96,7 +96,7 @@ describe('Edge Cases: State Persistence and Race Conditions', () => {
     });
   });
 
-  describe('Practice Mode State Transitions (Gemini Feedback)', () => {
+  describe('Practice Mode State Transitions', () => {
     test('should force disable edit mode when practice mode starts', async () => {
       mockFingeringStore.isEditingMode = true; // User is editing
       
