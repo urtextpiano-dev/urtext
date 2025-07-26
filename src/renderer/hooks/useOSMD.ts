@@ -861,69 +861,51 @@ export const useOSMD = (
       return;
     }
 
-    const startIdx = customStartMeasure - 1; // 1-based to 0-based
-    const endIdx = customEndMeasure - 1;
-
     const graphicSheet = osmdInstance.GraphicSheet;
-    if (!graphicSheet || !graphicSheet.MeasureList) return;
+    if (!graphicSheet || !graphicSheet.MusicSystems) return;
     
-    let measureList = graphicSheet.MeasureList;
+    const musicSystems = graphicSheet.MusicSystems;
+    const unitInPixels = 10 * (osmdInstance.zoom || 1);
+    const minVisibleWidth = 80 / unitInPixels; // Minimum 80px width for single measures
     
-    // Detect if MeasureList is [measure][staff] instead of [staff][measure]
-    // If there are more entries in the first dimension than expected staves (usually 2 for piano)
-    const isStaffFirst = measureList.length <= 4; // Assume max 4 staves for most scores
-    let staffCount = measureList.length;
-    
-    if (!isStaffFirst && measureList[0]) {
-      // Transpose to get [staff][measure] format
-      measureList = measureList[0].map((_, colIndex) => 
-        measureList.map(row => row[colIndex])
-      );
-      staffCount = measureList.length;
-    }
-
-    // Group bounding boxes by music system
+    // Group bounding boxes by music system using direct MusicSystem.StaffLines.Measures approach
     const systemBBoxes: Map<number, any[]> = new Map();
     
-    // Get music systems if available
-    const musicSystems = graphicSheet.MusicSystems;
-    
-    for (let staffIdx = 0; staffIdx < staffCount; staffIdx++) {
-      for (let mIdx = startIdx; mIdx <= endIdx; mIdx++) {
-        const staff = measureList[staffIdx];
-        if (!staff) continue;
+    // Iterate through each music system
+    musicSystems.forEach((system: any, systemIndex: number) => {
+      if (!system.StaffLines || system.StaffLines.length === 0) return;
+      
+      // Collect all in-range measures from all staff lines in this system
+      const inRangeBBoxes = system.StaffLines.flatMap((staffLine: any) => {
+        if (!staffLine.Measures) return [];
         
-        const gMeasure = staff[mIdx];
-        if (!gMeasure || !gMeasure.PositionAndShape) continue;
+        return staffLine.Measures.filter((measure: any) => {
+          // OSMD MeasureNumber is 1-based
+          return measure.MeasureNumber >= customStartMeasure && measure.MeasureNumber <= customEndMeasure;
+        }).map((measure: any) => measure.PositionAndShape);
+      }).filter((bbox: any) => bbox != null);
+      
+      if (inRangeBBoxes.length > 0) {
+        // Sort by X position to ensure correct ordering
+        inRangeBBoxes.sort((a: any, b: any) => {
+          const aX = a.AbsolutePosition?.x ?? a.absolutePosition?.x ?? 0;
+          const bX = b.AbsolutePosition?.x ?? b.absolutePosition?.x ?? 0;
+          return aX - bX;
+        });
         
-        const posShape = gMeasure.PositionAndShape;
-        const measureY = posShape.AbsolutePosition?.y ?? posShape.absolutePosition?.y ?? 0;
+        systemBBoxes.set(systemIndex, inRangeBBoxes);
         
-        // Determine which system this measure belongs to
-        let systemIndex = 0;
-        if (musicSystems && musicSystems.length > 0) {
-          // Find which system contains this measure's Y position
-          for (let i = 0; i < musicSystems.length; i++) {
-            const system = musicSystems[i];
-            if (system.PositionAndShape) {
-              const systemY = system.PositionAndShape.AbsolutePosition?.y ?? system.PositionAndShape.absolutePosition?.y ?? 0;
-              const systemHeight = system.PositionAndShape.Size?.height ?? system.PositionAndShape.size?.height ?? 0;
-              
-              if (measureY >= systemY && measureY < systemY + systemHeight) {
-                systemIndex = i;
-                break;
-              }
-            }
-          }
+        // Debug logging
+        if (process.env.NODE_ENV === 'development') {
+          const firstX = inRangeBBoxes[0].AbsolutePosition?.x ?? inRangeBBoxes[0].absolutePosition?.x ?? 0;
+          const lastBBox = inRangeBBoxes[inRangeBBoxes.length - 1];
+          const lastX = lastBBox.AbsolutePosition?.x ?? lastBBox.absolutePosition?.x ?? 0;
+          const lastWidth = lastBBox.Size?.width ?? lastBBox.size?.width ?? 0;
+          
+          console.log(`[Practice Range] System ${systemIndex}: ${inRangeBBoxes.length} measures, X range: ${firstX.toFixed(2)} to ${(lastX + lastWidth).toFixed(2)}`);
         }
-        
-        if (!systemBBoxes.has(systemIndex)) {
-          systemBBoxes.set(systemIndex, []);
-        }
-        
-        systemBBoxes.get(systemIndex)!.push(posShape);
       }
-    }
+    })
 
     if (systemBBoxes.size === 0) return;
 
@@ -932,11 +914,6 @@ export const useOSMD = (
     if (!contentGroup) {
       contentGroup = svg; // Fallback to root SVG
     }
-    
-    // Get the scaling factor from OSMD
-    // OSMD uses internal units where 1 unit = 10 pixels at zoom level 1
-    const currentZoom = osmdInstance.zoom || 1;
-    const unitInPixels = 10 * currentZoom;
 
     const fragment = document.createDocumentFragment();
     const padding = 4; // px for breathing room
@@ -945,23 +922,34 @@ export const useOSMD = (
     systemBBoxes.forEach((bboxes, systemIndex) => {
       if (bboxes.length === 0) return;
       
-      // Calculate bounding box for this system
-      let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+      // Since bboxes are already sorted by X, we can use first and last directly
+      const firstBBox = bboxes[0];
+      const lastBBox = bboxes[bboxes.length - 1];
       
+      // Get min/max X from sorted array
+      const minX = firstBBox.AbsolutePosition?.x ?? firstBBox.absolutePosition?.x ?? 0;
+      const lastX = lastBBox.AbsolutePosition?.x ?? lastBBox.absolutePosition?.x ?? 0;
+      const lastWidth = lastBBox.Size?.width ?? lastBBox.size?.width ?? 0;
+      const maxX = lastX + lastWidth;
+      
+      // Calculate Y bounds by checking all boxes
+      let minY = Infinity, maxY = -Infinity;
       bboxes.forEach((b: any) => {
-        // Use uppercase property names (OSMD standard)
-        const x = b.AbsolutePosition?.x ?? b.absolutePosition?.x ?? 0;
         const y = b.AbsolutePosition?.y ?? b.absolutePosition?.y ?? 0;
-        const width = b.Size?.width ?? b.size?.width ?? 0;
         const height = b.Size?.height ?? b.size?.height ?? 0;
-        
-        minX = Math.min(minX, x);
         minY = Math.min(minY, y);
-        maxX = Math.max(maxX, x + width);
         maxY = Math.max(maxY, y + height);
       });
 
-      const width = maxX - minX;
+      // Calculate width with minimum width constraint
+      let width = maxX - minX;
+      if (width < minVisibleWidth) {
+        width = minVisibleWidth;
+        if (process.env.NODE_ENV === 'development') {
+          console.log(`[Practice Range] System ${systemIndex}: Width extended from ${(maxX - minX).toFixed(2)} to ${minVisibleWidth} units for visibility`);
+        }
+      }
+      
       const height = maxY - minY;
 
       // Guard against invalid dimensions
