@@ -862,50 +862,120 @@ export const useOSMD = (
     }
 
     const graphicSheet = osmdInstance.GraphicSheet;
-    if (!graphicSheet || !graphicSheet.MusicSystems) return;
+    if (!graphicSheet) return;
     
-    const musicSystems = graphicSheet.MusicSystems;
     const unitInPixels = 10 * (osmdInstance.zoom || 1);
     const minVisibleWidth = 80 / unitInPixels; // Minimum 80px width for single measures
     
     // Group bounding boxes by music system using direct MusicSystem.StaffLines.Measures approach
     const systemBBoxes: Map<number, any[]> = new Map();
     
-    // Iterate through each music system
-    musicSystems.forEach((system: any, systemIndex: number) => {
-      if (!system.StaffLines || system.StaffLines.length === 0) return;
-      
-      // Collect all in-range measures from all staff lines in this system
-      const inRangeBBoxes = system.StaffLines.flatMap((staffLine: any) => {
-        if (!staffLine.Measures) return [];
+    // First, add diagnostic logging to understand MeasureNumber distribution
+    if (process.env.NODE_ENV === 'development' && graphicSheet.MusicSystems) {
+      graphicSheet.MusicSystems.forEach((system: any, i: number) => {
+        const measureNumbers = system.StaffLines?.flatMap((sl: any) => 
+          sl.Measures?.map((m: any) => m.MeasureNumber) || []
+        ).sort((a: number, b: number) => a - b) || [];
         
-        return staffLine.Measures.filter((measure: any) => {
-          // OSMD MeasureNumber is 1-based
-          return measure.MeasureNumber >= customStartMeasure && measure.MeasureNumber <= customEndMeasure;
-        }).map((measure: any) => measure.PositionAndShape);
-      }).filter((bbox: any) => bbox != null);
+        console.log(`[Practice Range Debug] System ${i} MeasureNumbers:`, measureNumbers);
+      });
+      console.log(`[Practice Range Debug] Requested range: ${customStartMeasure}-${customEndMeasure}`);
+    }
+    
+    // Try the new MusicSystem approach first
+    if (graphicSheet.MusicSystems) {
+      const musicSystems = graphicSheet.MusicSystems;
       
-      if (inRangeBBoxes.length > 0) {
-        // Sort by X position to ensure correct ordering
-        inRangeBBoxes.sort((a: any, b: any) => {
+      // Iterate through each music system
+      musicSystems.forEach((system: any, systemIndex: number) => {
+        if (!system.StaffLines || system.StaffLines.length === 0) return;
+        
+        // Collect all in-range measures from all staff lines in this system
+        const inRangeBBoxes = system.StaffLines.flatMap((staffLine: any) => {
+          if (!staffLine.Measures) return [];
+          
+          return staffLine.Measures.filter((measure: any) => {
+            // OSMD MeasureNumber is 1-based
+            return measure.MeasureNumber >= customStartMeasure && measure.MeasureNumber <= customEndMeasure;
+          }).map((measure: any) => measure.PositionAndShape);
+        }).filter((bbox: any) => bbox != null);
+        
+        if (inRangeBBoxes.length > 0) {
+          // Sort by X position to ensure correct ordering
+          inRangeBBoxes.sort((a: any, b: any) => {
+            const aX = a.AbsolutePosition?.x ?? a.absolutePosition?.x ?? 0;
+            const bX = b.AbsolutePosition?.x ?? b.absolutePosition?.x ?? 0;
+            return aX - bX;
+          });
+          
+          systemBBoxes.set(systemIndex, inRangeBBoxes);
+          
+          // Debug logging
+          if (process.env.NODE_ENV === 'development') {
+            const firstX = inRangeBBoxes[0].AbsolutePosition?.x ?? inRangeBBoxes[0].absolutePosition?.x ?? 0;
+            const lastBBox = inRangeBBoxes[inRangeBBoxes.length - 1];
+            const lastX = lastBBox.AbsolutePosition?.x ?? lastBBox.absolutePosition?.x ?? 0;
+            const lastWidth = lastBBox.Size?.width ?? lastBBox.size?.width ?? 0;
+            
+            console.log(`[Practice Range] System ${systemIndex}: ${inRangeBBoxes.length} measures, X range: ${firstX.toFixed(2)} to ${(lastX + lastWidth).toFixed(2)}`);
+          }
+        } else if (process.env.NODE_ENV === 'development') {
+          console.log(`[Practice Range] System ${systemIndex}: No measures found in range`);
+        }
+      });
+    }
+    
+    // Fallback: If no boxes found via MusicSystem approach, use MeasureList
+    if (systemBBoxes.size === 0 && graphicSheet.MeasureList) {
+      console.warn('[Practice Range] No measures found via MusicSystem approach, falling back to MeasureList');
+      
+      const measureList = graphicSheet.MeasureList;
+      const startIdx = customStartMeasure - 1; // Convert to 0-based
+      const endIdx = customEndMeasure - 1;
+      
+      // Detect if MeasureList is [measure][staff] instead of [staff][measure]
+      const isStaffFirst = measureList.length <= 4; // Assume max 4 staves for most scores
+      let staffCount = measureList.length;
+      
+      if (!isStaffFirst && measureList[0]) {
+        // Transpose to get [staff][measure] format
+        staffCount = measureList[0].length;
+      }
+      
+      // Collect all bounding boxes for fallback
+      const fallbackBBoxes: any[] = [];
+      
+      for (let staffIdx = 0; staffIdx < staffCount; staffIdx++) {
+        for (let mIdx = startIdx; mIdx <= endIdx; mIdx++) {
+          let gMeasure;
+          if (isStaffFirst) {
+            gMeasure = measureList[staffIdx]?.[mIdx];
+          } else {
+            gMeasure = measureList[mIdx]?.[staffIdx];
+          }
+          
+          if (gMeasure?.PositionAndShape) {
+            fallbackBBoxes.push(gMeasure.PositionAndShape);
+          }
+        }
+      }
+      
+      if (fallbackBBoxes.length > 0) {
+        // Sort by X position
+        fallbackBBoxes.sort((a: any, b: any) => {
           const aX = a.AbsolutePosition?.x ?? a.absolutePosition?.x ?? 0;
           const bX = b.AbsolutePosition?.x ?? b.absolutePosition?.x ?? 0;
           return aX - bX;
         });
         
-        systemBBoxes.set(systemIndex, inRangeBBoxes);
+        // Use single system for fallback
+        systemBBoxes.set(0, fallbackBBoxes);
         
-        // Debug logging
         if (process.env.NODE_ENV === 'development') {
-          const firstX = inRangeBBoxes[0].AbsolutePosition?.x ?? inRangeBBoxes[0].absolutePosition?.x ?? 0;
-          const lastBBox = inRangeBBoxes[inRangeBBoxes.length - 1];
-          const lastX = lastBBox.AbsolutePosition?.x ?? lastBBox.absolutePosition?.x ?? 0;
-          const lastWidth = lastBBox.Size?.width ?? lastBBox.size?.width ?? 0;
-          
-          console.log(`[Practice Range] System ${systemIndex}: ${inRangeBBoxes.length} measures, X range: ${firstX.toFixed(2)} to ${(lastX + lastWidth).toFixed(2)}`);
+          console.log(`[Practice Range] Fallback: Found ${fallbackBBoxes.length} measures via MeasureList`);
         }
       }
-    })
+    }
 
     if (systemBBoxes.size === 0) return;
 
